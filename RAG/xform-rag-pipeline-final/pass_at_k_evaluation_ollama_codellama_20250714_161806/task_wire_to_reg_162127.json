@@ -1,0 +1,283 @@
+{
+  "task_name": "wire_to_reg",
+  "task_description": "Transform wire variables to reg variables",
+  "complexity": "simple",
+  "category": "signal_modification",
+  "requirements": [
+    "Find all wire declarations in the Verilog file",
+    "Replace 'wire' keyword with 'reg' keyword",
+    "Preserve bit widths and signal names",
+    "Handle both single and multiple wire declarations"
+  ],
+  "pass_at_k_scores": {
+    "1": 1.0,
+    "3": 1.0,
+    "5": 1.0,
+    "10": 1.0
+  },
+  "attempt_results": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "attempt_details": [
+    {
+      "attempt_number": 1,
+      "success": true,
+      "overall_score": 0.74175,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.5,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing error handling",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 5381,
+      "execution_time": 0.00041937828063964844
+    },
+    {
+      "attempt_number": 2,
+      "success": true,
+      "overall_score": 0.74175,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.5,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing error handling",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 5387,
+      "execution_time": 0.0002193450927734375
+    },
+    {
+      "attempt_number": 3,
+      "success": true,
+      "overall_score": 0.8230000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [],
+      "generated_code_length": 5667,
+      "execution_time": 0.00021719932556152344
+    },
+    {
+      "attempt_number": 4,
+      "success": true,
+      "overall_score": 0.74175,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.5,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing error handling",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 5371,
+      "execution_time": 0.00019502639770507812
+    },
+    {
+      "attempt_number": 5,
+      "success": true,
+      "overall_score": 0.74175,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.5,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing error handling",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 5371,
+      "execution_time": 0.00020885467529296875
+    },
+    {
+      "attempt_number": 6,
+      "success": true,
+      "overall_score": 0.74175,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.5,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing error handling",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 5387,
+      "execution_time": 0.00019216537475585938
+    },
+    {
+      "attempt_number": 7,
+      "success": true,
+      "overall_score": 0.8230000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [],
+      "generated_code_length": 5620,
+      "execution_time": 0.00020051002502441406
+    },
+    {
+      "attempt_number": 8,
+      "success": true,
+      "overall_score": 0.8230000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [],
+      "generated_code_length": 5634,
+      "execution_time": 0.00020575523376464844
+    },
+    {
+      "attempt_number": 9,
+      "success": true,
+      "overall_score": 0.74175,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.5,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing error handling",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 5371,
+      "execution_time": 0.00022101402282714844
+    },
+    {
+      "attempt_number": 10,
+      "success": true,
+      "overall_score": 0.74175,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.5,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9299999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing error handling",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 5371,
+      "execution_time": 0.00021409988403320312
+    }
+  ],
+  "scores": [
+    0.74175,
+    0.74175,
+    0.8230000000000001,
+    0.74175,
+    0.74175,
+    0.74175,
+    0.8230000000000001,
+    0.8230000000000001,
+    0.74175,
+    0.74175
+  ],
+  "best_score": 0.8230000000000001,
+  "worst_score": 0.74175,
+  "average_score": 0.7661250000000001,
+  "successful_attempts": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "total_attempts": 10,
+  "evaluation_time": 201.04165410995483,
+  "timestamp": "2025-07-14T16:21:27.992149"
+}

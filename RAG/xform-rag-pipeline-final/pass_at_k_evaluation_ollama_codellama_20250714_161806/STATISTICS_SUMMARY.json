@@ -1,0 +1,68 @@
+{
+  "model_info": {
+    "type": "ollama",
+    "name": "codellama",
+    "endpoint": "N/A"
+  },
+  "evaluation_scope": {
+    "total_tasks": 15,
+    "total_attempts": 150,
+    "k_values_tested": [
+      1,
+      3,
+      5,
+      10
+    ],
+    "categories_tested": [
+      "basic",
+      "intermediate",
+      "advanced"
+    ]
+  },
+  "key_metrics": {
+    "overall_pass_at_k": {
+      "1": 0.6,
+      "3": 0.7333333333333333,
+      "5": 0.9333333333333333,
+      "10": 0.9333333333333333
+    },
+    "overall_success_rate": 0.9333333333333333,
+    "average_score": 0.5553160317460318,
+    "average_best_score": 0.801715873015873
+  },
+  "performance_by_category": {
+    "basic": {
+      "pass_at_k": {
+        "1": 0.75,
+        "3": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "average_score": 0.7091875000000001,
+      "tasks_completed": 4,
+      "tasks_total": 4
+    },
+    "intermediate": {
+      "pass_at_k": {
+        "1": 0.75,
+        "3": 0.75,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "average_score": 0.5881833333333334,
+      "tasks_completed": 4,
+      "tasks_total": 4
+    },
+    "advanced": {
+      "pass_at_k": {
+        "1": 0.42857142857142855,
+        "3": 0.5714285714285714,
+        "5": 0.8571428571428571,
+        "10": 0.8571428571428571
+      },
+      "average_score": 0.44860816326530617,
+      "tasks_completed": 7,
+      "tasks_total": 7
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "user_request": "add debug signal",
+  "registry_entry": "",
+  "source_documents": [
+    "xform_inside_op_debug.py",
+    "xform_inside_op_debug.py",
+    "xform_inside_op_debug.py",
+    "xform_inside_op_debug.py",
+    "xform_registry.py"
+  ],
+  "filename": "xform_add_debug_signal.py"
+}

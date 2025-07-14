@@ -1,0 +1,103 @@
+2025-07-14 16:17:59,052 - pass_at_k_eval - INFO - 📝 Logging to: pass_at_k_evaluation_ollama_codellama_20250714_161759.log
+2025-07-14 16:17:59,052 - pass_at_k_eval - INFO - 🚀 Initializing Xform RAG Pipeline...
+2025-07-14 16:17:59,052 - pass_at_k_eval - INFO -    Model Config: {'type': 'ollama', 'name': 'codellama'}
+2025-07-14 16:18:04,827 - pass_at_k_eval - INFO - 🧪 Testing system connectivity...
+2025-07-14 16:18:06,949 - pass_at_k_eval - INFO - ✅ System connectivity confirmed
+2025-07-14 16:18:06,949 - pass_at_k_eval - INFO - 📁 Setting up test environment...
+2025-07-14 16:18:06,949 - pass_at_k_eval - INFO - ✅ Test files ready
+2025-07-14 16:18:06,949 - pass_at_k_eval - INFO - 📁 Results will be saved to: pass_at_k_evaluation_ollama_codellama_20250714_161806
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO - 🚀 Starting Comprehensive Pass@k Evaluation
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO -    K Values: [1, 3, 5, 10]
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO -    Max Attempts per Task: 10
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO - 📋 Loading and categorizing tasks...
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO -    Basic: 4 tasks
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO -    Intermediate: 4 tasks
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO -    Advanced: 7 tasks
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO - ✅ Categorized 15 total tasks
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO - 🎯 Starting BASIC category (4 tasks)
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO - 📝 Task 1/4 in basic: wire_to_reg
+2025-07-14 16:18:06,950 - pass_at_k_eval - INFO -    📊 Evaluating: wire_to_reg
+2025-07-14 16:21:27,992 - pass_at_k_eval - INFO -       Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.766
+2025-07-14 16:21:27,992 - pass_at_k_eval - INFO - 📝 Task 2/4 in basic: signal_rename
+2025-07-14 16:21:27,992 - pass_at_k_eval - INFO -    📊 Evaluating: signal_rename
+2025-07-14 16:43:28,662 - pass_at_k_eval - INFO -       Results: Pass@1: 0%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.575
+2025-07-14 16:43:28,662 - pass_at_k_eval - INFO -    Progress: 2/4 tasks completed in basic
+2025-07-14 16:43:28,662 - pass_at_k_eval - INFO - 📝 Task 3/4 in basic: module_name_change
+2025-07-14 16:43:28,662 - pass_at_k_eval - INFO -    📊 Evaluating: module_name_change
+2025-07-14 16:46:37,780 - pass_at_k_eval - INFO -       Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.812
+2025-07-14 16:46:37,780 - pass_at_k_eval - INFO - 📝 Task 4/4 in basic: signal_width_change
+2025-07-14 16:46:37,780 - pass_at_k_eval - INFO -    📊 Evaluating: signal_width_change
+2025-07-14 16:54:08,439 - pass_at_k_eval - INFO -       Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.684
+2025-07-14 16:54:08,439 - pass_at_k_eval - INFO -    Progress: 4/4 tasks completed in basic
+2025-07-14 16:54:08,439 - pass_at_k_eval - INFO - ✅ BASIC category complete!
+2025-07-14 16:54:08,439 - pass_at_k_eval - INFO -    Pass@1: 75.0%, Pass@3: 100.0%, Pass@5: 100.0%
+2025-07-14 16:54:08,439 - pass_at_k_eval - INFO -    Time: 2161.5s, Tasks: 4/4
+2025-07-14 16:54:08,439 - pass_at_k_eval - INFO - 🎯 Starting INTERMEDIATE category (4 tasks)
+2025-07-14 16:54:08,439 - pass_at_k_eval - INFO - 📝 Task 1/4 in intermediate: multi_signal_width
+2025-07-14 16:54:08,439 - pass_at_k_eval - INFO -    📊 Evaluating: multi_signal_width
+2025-07-14 17:18:55,231 - pass_at_k_eval - INFO -       Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.686
+2025-07-14 17:18:55,231 - pass_at_k_eval - INFO - 📝 Task 2/4 in intermediate: reset_condition_change
+2025-07-14 17:18:55,231 - pass_at_k_eval - INFO -    📊 Evaluating: reset_condition_change
+2025-07-14 17:22:58,320 - pass_at_k_eval - INFO -       Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.637
+2025-07-14 17:22:58,320 - pass_at_k_eval - INFO -    Progress: 2/4 tasks completed in intermediate
+2025-07-14 17:22:58,320 - pass_at_k_eval - INFO - 📝 Task 3/4 in intermediate: add_enable_signal
+2025-07-14 17:22:58,320 - pass_at_k_eval - INFO -    📊 Evaluating: add_enable_signal
+2025-07-14 18:06:18,906 - pass_at_k_eval - INFO -       Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.508
+2025-07-14 18:06:18,907 - pass_at_k_eval - INFO - 📝 Task 4/4 in intermediate: array_base_type_change
+2025-07-14 18:06:18,907 - pass_at_k_eval - INFO -    📊 Evaluating: array_base_type_change
+2025-07-14 18:29:32,785 - pass_at_k_eval - INFO -       Results: Pass@1: 0%, Pass@3: 0%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.522
+2025-07-14 18:29:32,785 - pass_at_k_eval - INFO -    Progress: 4/4 tasks completed in intermediate
+2025-07-14 18:29:32,786 - pass_at_k_eval - INFO - ✅ INTERMEDIATE category complete!
+2025-07-14 18:29:32,786 - pass_at_k_eval - INFO -    Pass@1: 75.0%, Pass@3: 75.0%, Pass@5: 100.0%
+2025-07-14 18:29:32,786 - pass_at_k_eval - INFO -    Time: 5724.3s, Tasks: 4/4
+2025-07-14 18:29:32,786 - pass_at_k_eval - INFO - 🎯 Starting ADVANCED category (7 tasks)
+2025-07-14 18:29:32,786 - pass_at_k_eval - INFO - 📝 Task 1/7 in advanced: fsm_state_rename
+2025-07-14 18:29:32,786 - pass_at_k_eval - INFO -    📊 Evaluating: fsm_state_rename
+2025-07-14 18:32:26,019 - pass_at_k_eval - INFO -       Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.738
+2025-07-14 18:32:26,019 - pass_at_k_eval - INFO - 📝 Task 2/7 in advanced: queue_mda_conversion
+2025-07-14 18:32:26,019 - pass_at_k_eval - INFO -    📊 Evaluating: queue_mda_conversion
+2025-07-14 18:34:13,377 - pass_at_k_eval - INFO -       Results: Pass@1: 0%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.281
+2025-07-14 18:34:13,377 - pass_at_k_eval - INFO -    Progress: 2/7 tasks completed in advanced
+2025-07-14 18:34:13,377 - pass_at_k_eval - INFO - 📝 Task 3/7 in advanced: dynamic_mda_conversion
+2025-07-14 18:34:13,377 - pass_at_k_eval - INFO -    📊 Evaluating: dynamic_mda_conversion
+2025-07-14 18:56:44,303 - pass_at_k_eval - INFO -       Results: Pass@1: 0%, Pass@3: 0%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.295
+2025-07-14 18:56:44,303 - pass_at_k_eval - INFO - 📝 Task 4/7 in advanced: associative_mda_conversion
+2025-07-14 18:56:44,303 - pass_at_k_eval - INFO -    📊 Evaluating: associative_mda_conversion
+2025-07-14 19:20:03,998 - pass_at_k_eval - INFO -       Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.636
+2025-07-14 19:20:03,998 - pass_at_k_eval - INFO -    Progress: 4/7 tasks completed in advanced
+2025-07-14 19:20:03,998 - pass_at_k_eval - INFO - 📝 Task 5/7 in advanced: inside_op_coverage
+2025-07-14 19:20:03,998 - pass_at_k_eval - INFO -    📊 Evaluating: inside_op_coverage
+2025-07-14 19:41:53,152 - pass_at_k_eval - INFO -       Results: Pass@1: 0%, Pass@3: 0%, Pass@5: 0%, Pass@10: 0%, Avg Score: 0.284
+2025-07-14 19:41:53,152 - pass_at_k_eval - INFO - 📝 Task 6/7 in advanced: advanced_debug_insertion
+2025-07-14 19:41:53,152 - pass_at_k_eval - INFO -    📊 Evaluating: advanced_debug_insertion
+2025-07-14 20:12:26,406 - pass_at_k_eval - INFO -       Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.566
+2025-07-14 20:12:26,406 - pass_at_k_eval - INFO -    Progress: 6/7 tasks completed in advanced
+2025-07-14 20:12:26,406 - pass_at_k_eval - INFO - 📝 Task 7/7 in advanced: performance_optimization
+2025-07-14 20:12:26,406 - pass_at_k_eval - INFO -    📊 Evaluating: performance_optimization
+2025-07-14 20:54:11,856 - pass_at_k_eval - INFO -       Results: Pass@1: 0%, Pass@3: 0%, Pass@5: 100%, Pass@10: 100%, Avg Score: 0.340
+2025-07-14 20:54:11,856 - pass_at_k_eval - INFO -    Progress: 7/7 tasks completed in advanced
+2025-07-14 20:54:11,856 - pass_at_k_eval - INFO - ✅ ADVANCED category complete!
+2025-07-14 20:54:11,856 - pass_at_k_eval - INFO -    Pass@1: 42.9%, Pass@3: 57.1%, Pass@5: 85.7%
+2025-07-14 20:54:11,856 - pass_at_k_eval - INFO -    Time: 8679.1s, Tasks: 7/7
+2025-07-14 20:54:11,856 - pass_at_k_eval - INFO - 📊 Calculating overall results...
+2025-07-14 20:54:11,856 - pass_at_k_eval - INFO - ✅ Overall results calculated
+2025-07-14 20:54:11,856 - pass_at_k_eval - INFO - 💾 Saving comprehensive results to pass_at_k_evaluation_ollama_codellama_20250714_161806
+2025-07-14 20:54:11,862 - pass_at_k_eval - INFO - ✅ Saved MAIN_RESULTS.json - Core pass@k scores and summary
+2025-07-14 20:54:11,867 - pass_at_k_eval - INFO - ✅ Saved DETAILED_TASK_RESULTS.json - All individual task details
+2025-07-14 20:54:11,867 - pass_at_k_eval - INFO - ✅ Saved PASS_AT_K_SUMMARY files - Clear pass@k tables
+2025-07-14 20:54:11,867 - pass_at_k_eval - INFO - ✅ Saved COMPREHENSIVE_REPORT.md - Detailed human-readable analysis
+2025-07-14 20:54:11,868 - pass_at_k_eval - INFO - ✅ Saved CSV files - RESULTS_SUMMARY.csv and PASS_AT_K_SUMMARY.csv
+2025-07-14 20:54:11,868 - pass_at_k_eval - INFO - ✅ Saved STATISTICS_SUMMARY.json - Key metrics and performance data
+2025-07-14 20:54:11,868 - pass_at_k_eval - INFO - ✅ Copied log file to results directory
+2025-07-14 20:54:11,868 - pass_at_k_eval - INFO - ✅ All results saved successfully!
+2025-07-14 20:54:11,868 - pass_at_k_eval - INFO - 📁 Results location: /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/pass_at_k_evaluation_ollama_codellama_20250714_161806
+2025-07-14 20:54:11,868 - pass_at_k_eval - INFO - 🎉 COMPREHENSIVE PASS@K EVALUATION COMPLETE!
+2025-07-14 20:54:11,869 - pass_at_k_eval - INFO - ⏱️ Total Time: 16564.9 seconds (276.1 minutes)
+2025-07-14 20:54:11,869 - pass_at_k_eval - INFO - 📊 FINAL RESULTS:
+2025-07-14 20:54:11,869 - pass_at_k_eval - INFO -    Overall Pass@1: 60.0%
+2025-07-14 20:54:11,869 - pass_at_k_eval - INFO -    Overall Pass@3: 73.3%
+2025-07-14 20:54:11,869 - pass_at_k_eval - INFO -    Overall Pass@5: 93.3%
+2025-07-14 20:54:11,869 - pass_at_k_eval - INFO -    Overall Pass@10: 93.3%
+2025-07-14 20:54:11,869 - pass_at_k_eval - INFO -    Average Score: 0.555
+2025-07-14 20:54:11,869 - pass_at_k_eval - INFO -    Success Rate: 93.3%
+2025-07-14 20:54:11,869 - pass_at_k_eval - INFO - 📁 Results Directory: pass_at_k_evaluation_ollama_codellama_20250714_161806

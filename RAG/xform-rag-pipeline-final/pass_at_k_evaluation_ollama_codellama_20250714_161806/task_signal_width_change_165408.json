@@ -1,0 +1,302 @@
+{
+  "task_name": "signal_width_change",
+  "task_description": "Change a signal's bit width specification",
+  "complexity": "simple",
+  "category": "signal_modification",
+  "requirements": [
+    "Find signal declaration with existing width",
+    "Replace width specification with new width",
+    "Handle input, output, reg, wire signal types",
+    "Preserve signal name and other attributes"
+  ],
+  "pass_at_k_scores": {
+    "1": 1.0,
+    "3": 1.0,
+    "5": 1.0,
+    "10": 1.0
+  },
+  "attempt_results": [
+    true,
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
+    true,
+    false
+  ],
+  "attempt_details": [
+    {
+      "attempt_number": 1,
+      "success": true,
+      "overall_score": 0.7025,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.75,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.6,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 4964,
+      "execution_time": 0.0002942085266113281
+    },
+    {
+      "attempt_number": 2,
+      "success": true,
+      "overall_score": 0.79,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8,
+        "functional_correctness": 0.8999999999999999
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 9022,
+      "execution_time": 0.0002529621124267578
+    },
+    {
+      "attempt_number": 3,
+      "success": true,
+      "overall_score": 0.8250000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9500000000000001
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent"
+      ],
+      "warnings": [],
+      "generated_code_length": 9550,
+      "execution_time": 0.0003135204315185547
+    },
+    {
+      "attempt_number": 4,
+      "success": true,
+      "overall_score": 0.75375,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9500000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing main transform function"
+      ],
+      "warnings": [],
+      "generated_code_length": 7225,
+      "execution_time": 0.00026798248291015625
+    },
+    {
+      "attempt_number": 5,
+      "success": false,
+      "overall_score": 0.17625000000000002,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.125,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.2,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "generated_code_length": 1660,
+      "execution_time": 0.0001404285430908203
+    },
+    {
+      "attempt_number": 6,
+      "success": true,
+      "overall_score": 0.6937500000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.6000000000000001,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 3683,
+      "execution_time": 0.00017499923706054688
+    },
+    {
+      "attempt_number": 7,
+      "success": true,
+      "overall_score": 0.8,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9999999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 5692,
+      "execution_time": 0.0001990795135498047
+    },
+    {
+      "attempt_number": 8,
+      "success": true,
+      "overall_score": 0.795,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9500000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 8695,
+      "execution_time": 0.00026917457580566406
+    },
+    {
+      "attempt_number": 9,
+      "success": true,
+      "overall_score": 0.785,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 5606,
+      "execution_time": 0.0002048015594482422
+    },
+    {
+      "attempt_number": 10,
+      "success": false,
+      "overall_score": 0.52,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 0.5,
+        "code_style": 1.0,
+        "robustness": 0.2,
+        "maintainability": 0.2,
+        "functional_correctness": 0.9500000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing error handling",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 53522,
+      "execution_time": 0.0016222000122070312
+    }
+  ],
+  "scores": [
+    0.7025,
+    0.79,
+    0.8250000000000001,
+    0.75375,
+    0.17625000000000002,
+    0.6937500000000001,
+    0.8,
+    0.795,
+    0.785,
+    0.52
+  ],
+  "best_score": 0.8250000000000001,
+  "worst_score": 0.17625000000000002,
+  "average_score": 0.6841250000000001,
+  "successful_attempts": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9
+  ],
+  "total_attempts": 10,
+  "evaluation_time": 450.65801668167114,
+  "timestamp": "2025-07-14T16:54:08.438630"
+}

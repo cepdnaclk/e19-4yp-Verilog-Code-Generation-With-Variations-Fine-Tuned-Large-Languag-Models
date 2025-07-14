@@ -1,0 +1,320 @@
+{
+  "task_name": "associative_mda_conversion",
+  "task_description": "Convert arrays to associative multi-dimensional arrays",
+  "complexity": "complex",
+  "category": "advanced_arrays",
+  "requirements": [
+    "Find array declarations to convert",
+    "Convert to associative array syntax [key_type]",
+    "Support various key types (string, int, wildcard, etc.)",
+    "Handle multiple associative dimensions",
+    "Preserve base signal type and width"
+  ],
+  "pass_at_k_scores": {
+    "1": 1.0,
+    "3": 1.0,
+    "5": 1.0,
+    "10": 1.0
+  },
+  "attempt_results": [
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true
+  ],
+  "attempt_details": [
+    {
+      "attempt_number": 1,
+      "success": true,
+      "overall_score": 0.753,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 1.0,
+        "code_style": 0.75,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.9799999999999999
+      },
+      "errors": [
+        "Syntax error at line 116: expected 'except' or 'finally' block"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 8443,
+      "execution_time": 0.0015828609466552734
+    },
+    {
+      "attempt_number": 2,
+      "success": true,
+      "overall_score": 0.65025,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.625,
+        "code_style": 1.0,
+        "robustness": 0.2,
+        "maintainability": 0.8,
+        "functional_correctness": 0.94
+      },
+      "errors": [
+        "Syntax error at line 8710: expected 'except' or 'finally' block"
+      ],
+      "warnings": [
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 327941,
+      "execution_time": 0.08200883865356445
+    },
+    {
+      "attempt_number": 3,
+      "success": true,
+      "overall_score": 0.78,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 1.0
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 4357,
+      "execution_time": 0.00024819374084472656
+    },
+    {
+      "attempt_number": 4,
+      "success": true,
+      "overall_score": 0.768,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8999999999999999,
+        "functional_correctness": 0.9799999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 5366,
+      "execution_time": 0.00024247169494628906
+    },
+    {
+      "attempt_number": 5,
+      "success": false,
+      "overall_score": 0.17925000000000002,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.125,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.2,
+        "functional_correctness": 0.8799999999999999
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "generated_code_length": 2070,
+      "execution_time": 0.00014448165893554688
+    },
+    {
+      "attempt_number": 6,
+      "success": false,
+      "overall_score": 0.17925000000000002,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.125,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.2,
+        "functional_correctness": 0.8799999999999999
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "generated_code_length": 1147,
+      "execution_time": 0.0001068115234375
+    },
+    {
+      "attempt_number": 7,
+      "success": true,
+      "overall_score": 0.798,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9799999999999999
+      },
+      "errors": [
+        "Syntax error at line 188: invalid syntax"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 10168,
+      "execution_time": 0.0022809505462646484
+    },
+    {
+      "attempt_number": 8,
+      "success": true,
+      "overall_score": 0.78,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 1.0
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 4410,
+      "execution_time": 0.00021004676818847656
+    },
+    {
+      "attempt_number": 9,
+      "success": true,
+      "overall_score": 0.768,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8999999999999999,
+        "functional_correctness": 0.9799999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 5477,
+      "execution_time": 0.000240325927734375
+    },
+    {
+      "attempt_number": 10,
+      "success": true,
+      "overall_score": 0.70475,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.7,
+        "functional_correctness": 0.86
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 4032,
+      "execution_time": 0.00021004676818847656
+    }
+  ],
+  "scores": [
+    0.753,
+    0.65025,
+    0.78,
+    0.768,
+    0.17925000000000002,
+    0.17925000000000002,
+    0.798,
+    0.78,
+    0.768,
+    0.70475
+  ],
+  "best_score": 0.798,
+  "worst_score": 0.17925000000000002,
+  "average_score": 0.63605,
+  "successful_attempts": [
+    1,
+    2,
+    3,
+    4,
+    7,
+    8,
+    9,
+    10
+  ],
+  "total_attempts": 10,
+  "evaluation_time": 1399.6941232681274,
+  "timestamp": "2025-07-14T19:20:03.998106"
+}

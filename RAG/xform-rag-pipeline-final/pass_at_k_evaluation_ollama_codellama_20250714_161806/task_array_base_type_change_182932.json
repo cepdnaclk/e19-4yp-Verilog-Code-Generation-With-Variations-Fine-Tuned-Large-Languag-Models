@@ -1,0 +1,345 @@
+{
+  "task_name": "array_base_type_change",
+  "task_description": "Change the base type of an array declaration",
+  "complexity": "medium",
+  "category": "type_modification",
+  "requirements": [
+    "Find array declaration with current base type",
+    "Replace base type (e.g., bit to logic, int to byte)",
+    "Handle width specifications appropriately for new type",
+    "Preserve array dimensions and signal name"
+  ],
+  "pass_at_k_scores": {
+    "1": 0.0,
+    "3": 0.0,
+    "5": 1.0,
+    "10": 1.0
+  },
+  "attempt_results": [
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    true,
+    false,
+    true,
+    false
+  ],
+  "attempt_details": [
+    {
+      "attempt_number": 1,
+      "success": false,
+      "overall_score": 0.42750000000000005,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.6,
+        "framework_compliance": 0.25,
+        "code_style": 1.0,
+        "robustness": 0.2,
+        "maintainability": 0.4,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 812,
+      "execution_time": 0.00013566017150878906
+    },
+    {
+      "attempt_number": 2,
+      "success": false,
+      "overall_score": 0.3425,
+      "metric_scores": {
+        "syntactic_correctness": 1.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.125,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.4,
+        "functional_correctness": 0.8125
+      },
+      "errors": [
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "generated_code_length": 991,
+      "execution_time": 0.00018095970153808594
+    },
+    {
+      "attempt_number": 3,
+      "success": false,
+      "overall_score": 0.18,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.125,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.2,
+        "functional_correctness": 0.8875
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "generated_code_length": 374854,
+      "execution_time": 0.014482259750366211
+    },
+    {
+      "attempt_number": 4,
+      "success": true,
+      "overall_score": 0.66625,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.75,
+        "code_style": 1.0,
+        "robustness": 0.0,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9874999999999999
+      },
+      "errors": [
+        "Syntax error at line 164: unindent does not match any outer indentation level"
+      ],
+      "warnings": [
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "generated_code_length": 6248,
+      "execution_time": 0.0007634162902832031
+    },
+    {
+      "attempt_number": 5,
+      "success": true,
+      "overall_score": 0.6937500000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.6000000000000001,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 3109,
+      "execution_time": 0.000148773193359375
+    },
+    {
+      "attempt_number": 6,
+      "success": false,
+      "overall_score": 0.5125000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.6,
+        "framework_compliance": 0.375,
+        "code_style": 1.0,
+        "robustness": 0.2,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9874999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent",
+        "Missing PyVerilog parser import"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 1877,
+      "execution_time": 0.00011444091796875
+    },
+    {
+      "attempt_number": 7,
+      "success": true,
+      "overall_score": 0.7175,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.2,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9874999999999999
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing error handling",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 5139,
+      "execution_time": 0.00020313262939453125
+    },
+    {
+      "attempt_number": 8,
+      "success": false,
+      "overall_score": 0.39625,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.6,
+        "framework_compliance": 0.25,
+        "code_style": 0.75,
+        "robustness": 0.0,
+        "maintainability": 0.5,
+        "functional_correctness": 0.8875
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "generated_code_length": 4798,
+      "execution_time": 0.0002486705780029297
+    },
+    {
+      "attempt_number": 9,
+      "success": true,
+      "overall_score": 0.7000000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.7,
+        "functional_correctness": 0.8125
+      },
+      "errors": [
+        "Syntax error at line 81: invalid syntax",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 5947,
+      "execution_time": 0.0007615089416503906
+    },
+    {
+      "attempt_number": 10,
+      "success": false,
+      "overall_score": 0.5850000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.8,
+        "framework_compliance": 0.625,
+        "code_style": 1.0,
+        "robustness": 0.2,
+        "maintainability": 0.6000000000000001,
+        "functional_correctness": 0.8875
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness"
+      ],
+      "generated_code_length": 2391,
+      "execution_time": 0.00012683868408203125
+    }
+  ],
+  "scores": [
+    0.42750000000000005,
+    0.3425,
+    0.18,
+    0.66625,
+    0.6937500000000001,
+    0.5125000000000001,
+    0.7175,
+    0.39625,
+    0.7000000000000001,
+    0.5850000000000001
+  ],
+  "best_score": 0.7175,
+  "worst_score": 0.18,
+  "average_score": 0.5221250000000001,
+  "successful_attempts": [
+    4,
+    5,
+    7,
+    9
+  ],
+  "total_attempts": 10,
+  "evaluation_time": 1393.8780477046967,
+  "timestamp": "2025-07-14T18:29:32.785297"
+}
