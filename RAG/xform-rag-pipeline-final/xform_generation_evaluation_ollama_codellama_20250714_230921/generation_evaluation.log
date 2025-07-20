@@ -1,0 +1,104 @@
+2025-07-14 23:09:21,431 - generate_and_store - INFO - 📁 Results directory: xform_generation_evaluation_ollama_codellama_20250714_230921
+2025-07-14 23:09:21,431 - generate_and_store - INFO - 📁 Xforms will be saved to: xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms
+2025-07-14 23:09:21,431 - generate_and_store - INFO - 📁 Evaluations will be saved to: xform_generation_evaluation_ollama_codellama_20250714_230921/evaluations
+2025-07-14 23:09:21,431 - generate_and_store - INFO - 🚀 Initializing pipeline...
+2025-07-14 23:09:29,691 - generate_and_store - INFO - ✅ System ready
+2025-07-14 23:09:29,692 - generate_and_store - INFO - 🎯 Starting Generate & Store Evaluation
+2025-07-14 23:09:29,692 - generate_and_store - INFO -    Model: ollama:codellama
+2025-07-14 23:09:29,692 - generate_and_store - INFO -    K Values: [1, 3, 5]
+2025-07-14 23:09:29,692 - generate_and_store - INFO - 📋 Selected 6 test cases:
+2025-07-14 23:09:29,692 - generate_and_store - INFO -    • wire_to_reg_basic (simple)
+2025-07-14 23:09:29,692 - generate_and_store - INFO -    • signal_rename_basic (simple)
+2025-07-14 23:09:29,692 - generate_and_store - INFO -    • add_enable_signal (medium)
+2025-07-14 23:09:29,692 - generate_and_store - INFO -    • reset_condition_change (medium)
+2025-07-14 23:09:29,692 - generate_and_store - INFO -    • fsm_state_rename (complex)
+2025-07-14 23:09:29,692 - generate_and_store - INFO -    • add_debug_ports (complex)
+2025-07-14 23:09:29,692 - generate_and_store - INFO - 📝 Task 1/6: wire_to_reg_basic
+2025-07-14 23:09:29,692 - generate_and_store - INFO - 🔧 Processing: wire_to_reg_basic
+2025-07-14 23:09:29,692 - generate_and_store - INFO -    Generating attempt 1/5
+2025-07-14 23:09:44,052 - generate_and_store - INFO -       ✅ Attempt 1: PASS (Score: 0.910)
+2025-07-14 23:09:44,552 - generate_and_store - INFO -    Generating attempt 2/5
+2025-07-14 23:13:56,160 - generate_and_store - INFO -       ✅ Attempt 2: FAIL (Score: 0.411)
+2025-07-14 23:13:56,660 - generate_and_store - INFO -    Generating attempt 3/5
+2025-07-14 23:14:11,162 - generate_and_store - INFO -       ✅ Attempt 3: PASS (Score: 0.743)
+2025-07-14 23:14:11,662 - generate_and_store - INFO -    Generating attempt 4/5
+2025-07-14 23:15:18,292 - generate_and_store - INFO -       ✅ Attempt 4: PASS (Score: 0.655)
+2025-07-14 23:15:18,792 - generate_and_store - INFO -    Generating attempt 5/5
+2025-07-14 23:35:14,021 - generate_and_store - INFO -       ✅ Attempt 5: FAIL (Score: 0.411)
+2025-07-14 23:35:14,522 - generate_and_store - INFO -    📊 Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%
+2025-07-14 23:35:14,522 - generate_and_store - INFO -    📁 Generated 5 xform files
+2025-07-14 23:35:14,522 - generate_and_store - INFO - 📝 Task 2/6: signal_rename_basic
+2025-07-14 23:35:14,522 - generate_and_store - INFO - 🔧 Processing: signal_rename_basic
+2025-07-14 23:35:14,522 - generate_and_store - INFO -    Generating attempt 1/5
+2025-07-14 23:55:12,510 - generate_and_store - INFO -       ✅ Attempt 1: FAIL (Score: 0.317)
+2025-07-14 23:55:13,010 - generate_and_store - INFO -    Generating attempt 2/5
+2025-07-15 00:15:09,345 - generate_and_store - INFO -       ✅ Attempt 2: PASS (Score: 0.775)
+2025-07-15 00:15:09,845 - generate_and_store - INFO -    Generating attempt 3/5
+2025-07-15 00:15:33,460 - generate_and_store - INFO -       ✅ Attempt 3: PASS (Score: 0.770)
+2025-07-15 00:15:33,961 - generate_and_store - INFO -    Generating attempt 4/5
+2025-07-15 00:15:42,554 - generate_and_store - INFO -       ✅ Attempt 4: FAIL (Score: 0.161)
+2025-07-15 00:15:43,054 - generate_and_store - INFO -    Generating attempt 5/5
+2025-07-15 00:15:47,914 - generate_and_store - INFO -       ✅ Attempt 5: FAIL (Score: 0.161)
+2025-07-15 00:15:48,415 - generate_and_store - INFO -    📊 Results: Pass@1: 0%, Pass@3: 100%, Pass@5: 100%
+2025-07-15 00:15:48,415 - generate_and_store - INFO -    📁 Generated 5 xform files
+2025-07-15 00:15:48,415 - generate_and_store - INFO - 📝 Task 3/6: add_enable_signal
+2025-07-15 00:15:48,415 - generate_and_store - INFO - 🔧 Processing: add_enable_signal
+2025-07-15 00:15:48,415 - generate_and_store - INFO -    Generating attempt 1/5
+2025-07-15 00:15:51,964 - generate_and_store - INFO -       ✅ Attempt 1: FAIL (Score: 0.176)
+2025-07-15 00:15:52,464 - generate_and_store - INFO -    Generating attempt 2/5
+2025-07-15 00:15:55,183 - generate_and_store - INFO -       ✅ Attempt 2: FAIL (Score: 0.176)
+2025-07-15 00:15:55,683 - generate_and_store - INFO -    Generating attempt 3/5
+2025-07-15 00:16:05,149 - generate_and_store - INFO -       ✅ Attempt 3: FAIL (Score: 0.359)
+2025-07-15 00:16:05,649 - generate_and_store - INFO -    Generating attempt 4/5
+2025-07-15 00:16:14,173 - generate_and_store - INFO -       ✅ Attempt 4: FAIL (Score: 0.256)
+2025-07-15 00:16:14,673 - generate_and_store - INFO -    Generating attempt 5/5
+2025-07-15 00:16:17,642 - generate_and_store - INFO -       ✅ Attempt 5: FAIL (Score: 0.176)
+2025-07-15 00:16:18,143 - generate_and_store - INFO -    📊 Results: Pass@1: 0%, Pass@3: 0%, Pass@5: 0%
+2025-07-15 00:16:18,143 - generate_and_store - INFO -    📁 Generated 5 xform files
+2025-07-15 00:16:18,143 - generate_and_store - INFO - 📝 Task 4/6: reset_condition_change
+2025-07-15 00:16:18,143 - generate_and_store - INFO - 🔧 Processing: reset_condition_change
+2025-07-15 00:16:18,143 - generate_and_store - INFO -    Generating attempt 1/5
+2025-07-15 00:16:49,991 - generate_and_store - INFO -       ✅ Attempt 1: PASS (Score: 0.850)
+2025-07-15 00:16:50,492 - generate_and_store - INFO -    Generating attempt 2/5
+2025-07-15 00:17:22,457 - generate_and_store - INFO -       ✅ Attempt 2: PASS (Score: 0.850)
+2025-07-15 00:17:22,958 - generate_and_store - INFO -    Generating attempt 3/5
+2025-07-15 00:17:54,758 - generate_and_store - INFO -       ✅ Attempt 3: PASS (Score: 0.850)
+2025-07-15 00:17:55,259 - generate_and_store - INFO -    Generating attempt 4/5
+2025-07-15 00:18:26,029 - generate_and_store - INFO -       ✅ Attempt 4: PASS (Score: 0.850)
+2025-07-15 00:18:26,529 - generate_and_store - INFO -    Generating attempt 5/5
+2025-07-15 00:18:56,514 - generate_and_store - INFO -       ✅ Attempt 5: PASS (Score: 0.850)
+2025-07-15 00:18:57,015 - generate_and_store - INFO -    📊 Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%
+2025-07-15 00:18:57,015 - generate_and_store - INFO -    📁 Generated 5 xform files
+2025-07-15 00:18:57,015 - generate_and_store - INFO - 📝 Task 5/6: fsm_state_rename
+2025-07-15 00:18:57,015 - generate_and_store - INFO - 🔧 Processing: fsm_state_rename
+2025-07-15 00:18:57,015 - generate_and_store - INFO -    Generating attempt 1/5
+2025-07-15 00:19:14,189 - generate_and_store - INFO -       ✅ Attempt 1: PASS (Score: 0.805)
+2025-07-15 00:19:14,689 - generate_and_store - INFO -    Generating attempt 2/5
+2025-07-15 00:19:28,507 - generate_and_store - INFO -       ✅ Attempt 2: PASS (Score: 0.782)
+2025-07-15 00:19:29,008 - generate_and_store - INFO -    Generating attempt 3/5
+2025-07-15 00:19:42,377 - generate_and_store - INFO -       ✅ Attempt 3: PASS (Score: 0.726)
+2025-07-15 00:19:42,877 - generate_and_store - INFO -    Generating attempt 4/5
+2025-07-15 00:19:59,098 - generate_and_store - INFO -       ✅ Attempt 4: PASS (Score: 0.814)
+2025-07-15 00:19:59,599 - generate_and_store - INFO -    Generating attempt 5/5
+2025-07-15 00:20:17,794 - generate_and_store - INFO -       ✅ Attempt 5: PASS (Score: 0.726)
+2025-07-15 00:20:18,295 - generate_and_store - INFO -    📊 Results: Pass@1: 100%, Pass@3: 100%, Pass@5: 100%
+2025-07-15 00:20:18,295 - generate_and_store - INFO -    📁 Generated 5 xform files
+2025-07-15 00:20:18,295 - generate_and_store - INFO - 📝 Task 6/6: add_debug_ports
+2025-07-15 00:20:18,295 - generate_and_store - INFO - 🔧 Processing: add_debug_ports
+2025-07-15 00:20:18,296 - generate_and_store - INFO -    Generating attempt 1/5
+2025-07-15 00:20:25,804 - generate_and_store - INFO -       ✅ Attempt 1: FAIL (Score: 0.528)
+2025-07-15 00:20:26,304 - generate_and_store - INFO -    Generating attempt 2/5
+2025-07-15 00:20:33,168 - generate_and_store - INFO -       ✅ Attempt 2: FAIL (Score: 0.528)
+2025-07-15 00:20:33,669 - generate_and_store - INFO -    Generating attempt 3/5
+2025-07-15 00:20:40,527 - generate_and_store - INFO -       ✅ Attempt 3: FAIL (Score: 0.528)
+2025-07-15 00:20:41,028 - generate_and_store - INFO -    Generating attempt 4/5
+2025-07-15 00:20:47,895 - generate_and_store - INFO -       ✅ Attempt 4: FAIL (Score: 0.528)
+2025-07-15 00:20:48,395 - generate_and_store - INFO -    Generating attempt 5/5
+2025-07-15 00:20:55,252 - generate_and_store - INFO -       ✅ Attempt 5: FAIL (Score: 0.528)
+2025-07-15 00:20:55,753 - generate_and_store - INFO -    📊 Results: Pass@1: 0%, Pass@3: 0%, Pass@5: 0%
+2025-07-15 00:20:55,753 - generate_and_store - INFO -    📁 Generated 5 xform files
+2025-07-15 00:20:55,757 - generate_and_store - INFO - ✅ Overall results calculated and saved
+2025-07-15 00:20:55,757 - generate_and_store - INFO - 🎉 EVALUATION COMPLETE!
+2025-07-15 00:20:55,757 - generate_and_store - INFO - ⏱️ Total Time: 4286.1 seconds (71.4 minutes)
+2025-07-15 00:20:55,757 - generate_and_store - INFO - 📁 Results saved to: xform_generation_evaluation_ollama_codellama_20250714_230921
+2025-07-15 00:20:55,757 - generate_and_store - INFO - 📁 Generated 30 xform files

@@ -1,0 +1,7 @@
+Command: D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\venv\Scripts\python.exe D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122724\fixed_transformations\port_addition_fixed.py D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122724\test_verilog_input\simple_adder.v D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122724\test_verilog_output\port_addition_simple_adder_output.v --port-name carry_in --port-type input wire
+Return Code: 0
+STDOUT:
+Template transformation for port_addition
+
+STDERR:
+

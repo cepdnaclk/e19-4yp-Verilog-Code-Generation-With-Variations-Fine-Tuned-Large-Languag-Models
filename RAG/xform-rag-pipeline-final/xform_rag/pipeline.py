@@ -14,6 +14,7 @@ from .document_processor import DocumentProcessor
 from .code_generator import CodeGenerator
 from .file_manager import FileManager
 from .evaluation_manager import EvaluationManager
+from .input_validator import InputValidator, ValidationError
 
 
 class XformRAGPipeline:
@@ -34,6 +35,7 @@ class XformRAGPipeline:
         self.logger.info("Initializing Xform RAG Pipeline...")
 
         # Initialize all components
+        self.validator = InputValidator()
         self.llm_manager = LLMManager(self.config)
         self.vector_store_manager = VectorStoreManager(self.config)
         self.document_processor = DocumentProcessor(self.config)
@@ -45,7 +47,7 @@ class XformRAGPipeline:
 
     def generate_xform(self, user_request: str) -> Dict[str, Any]:
         """
-        Generate a new transformation based on user request
+        Generate a new transformation based on user request with validation
 
         Args:
             user_request: Description of the desired transformation
@@ -53,7 +55,33 @@ class XformRAGPipeline:
         Returns:
             Dictionary containing generated code and metadata
         """
-        return self.code_generator.generate_xform(user_request)
+        # Validate user request
+        is_valid, issues = self.validator.validate_user_request(user_request)
+        if not is_valid:
+            error_msg = "Invalid user request: " + "; ".join(issues)
+            self.logger.error(error_msg)
+            return {"error": error_msg, "validation_issues": issues}
+
+        try:
+            result = self.code_generator.generate_xform(user_request)
+
+            # Validate generated code if present
+            if "code" in result:
+                code_valid, code_issues = self.validator.validate_transformation_code(
+                    result["code"]
+                )
+                if not code_valid:
+                    self.logger.warning(
+                        f"Generated code has validation issues: {code_issues}"
+                    )
+                    result["validation_warnings"] = code_issues
+
+            return result
+
+        except Exception as e:
+            error_msg = f"Error generating transformation: {e}"
+            self.logger.error(error_msg)
+            return {"error": error_msg}
 
     def save_generated_xform(self, result: Dict[str, Any]) -> bool:
         """

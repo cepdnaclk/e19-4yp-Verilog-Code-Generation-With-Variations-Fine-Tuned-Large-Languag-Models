@@ -1,0 +1,30 @@
+{
+  "step": "Step 2: Functional Validation",
+  "summary": {
+    "total_tests": 3,
+    "successful_executions": 0,
+    "applied_transformations": 0,
+    "valid_outputs": 0,
+    "average_quality": 0.0
+  },
+  "results": [
+    {
+      "test": "Module Renaming",
+      "generation_success": false,
+      "functional_test": false,
+      "error": "Ollama call failed with status code 500. Details: {\"error\":\"model requires more system memory (8.4 GiB) than is available (8.2 GiB)\"}"
+    },
+    {
+      "test": "Wire to Reg Conversion",
+      "generation_success": false,
+      "functional_test": false,
+      "error": "Ollama call failed with status code 500. Details: {\"error\":\"model requires more system memory (8.4 GiB) than is available (8.2 GiB)\"}"
+    },
+    {
+      "test": "Signal Width Change",
+      "generation_success": false,
+      "functional_test": false,
+      "error": "Ollama call failed with status code 500. Details: {\"error\":\"model requires more system memory (8.4 GiB) than is available (8.2 GiB)\"}"
+    }
+  ]
+}

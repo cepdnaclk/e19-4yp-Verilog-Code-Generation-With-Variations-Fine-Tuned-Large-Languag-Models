@@ -1,0 +1,4 @@
+Test: wire_to_reg_conversion
+Description: Transform wire declarations to reg declarations in a Verilog module
+Error: Collection expecting embedding with dimension of 384, got 768
+Timestamp: 2025-07-19T04:51:26.129558

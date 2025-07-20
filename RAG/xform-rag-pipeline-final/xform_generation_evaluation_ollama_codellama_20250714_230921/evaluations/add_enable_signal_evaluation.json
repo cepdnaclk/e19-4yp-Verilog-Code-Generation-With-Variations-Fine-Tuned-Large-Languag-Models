@@ -1,0 +1,253 @@
+{
+  "task_name": "add_enable_signal",
+  "task_description": "Add an enable signal to control a counter",
+  "complexity": "medium",
+  "category": "feature_addition",
+  "pass_at_k_scores": {
+    "1": 0.0,
+    "3": 0.0,
+    "5": 0.0
+  },
+  "attempts_data": [
+    {
+      "attempt_number": 1,
+      "success": false,
+      "overall_score": 0.17625000000000002,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.125,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.2,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "xform_file": "add_enable_signal_attempt_1.py",
+      "code_length": 921,
+      "generation_metadata": {
+        "filename": "xform_add_an_enable_signal.py",
+        "source_documents": [
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_registry.py",
+          "xform_inside_op_debug.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 2,
+      "success": false,
+      "overall_score": 0.17625000000000002,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.125,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.2,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "xform_file": "add_enable_signal_attempt_2.py",
+      "code_length": 922,
+      "generation_metadata": {
+        "filename": "xform_add_an_enable_signal.py",
+        "source_documents": [
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_registry.py",
+          "xform_inside_op_debug.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 3,
+      "success": false,
+      "overall_score": 0.35875000000000007,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.4,
+        "framework_compliance": 0.375,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.6000000000000001,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "xform_file": "add_enable_signal_attempt_3.py",
+      "code_length": 3064,
+      "generation_metadata": {
+        "filename": "xform_add_an_enable_signal.py",
+        "source_documents": [
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_registry.py",
+          "xform_inside_op_debug.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 4,
+      "success": false,
+      "overall_score": 0.25625000000000003,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.4,
+        "framework_compliance": 0.125,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.2,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "xform_file": "add_enable_signal_attempt_4.py",
+      "code_length": 2895,
+      "generation_metadata": {
+        "filename": "xform_add_an_enable_signal.py",
+        "source_documents": [
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_registry.py",
+          "xform_inside_op_debug.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 5,
+      "success": false,
+      "overall_score": 0.17625000000000002,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.125,
+        "code_style": 0.4,
+        "robustness": 0.0,
+        "maintainability": 0.2,
+        "functional_correctness": 0.8500000000000001
+      },
+      "errors": [
+        "Syntax error at line 3: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "xform_file": "add_enable_signal_attempt_5.py",
+      "code_length": 999,
+      "generation_metadata": {
+        "filename": "xform_add_an_enable_signal.py",
+        "source_documents": [
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_add_enable_signal.py",
+          "xform_registry.py",
+          "xform_inside_op_debug.py"
+        ]
+      }
+    }
+  ],
+  "generated_files": [
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_1.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_2.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_3.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_4.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_5.py"
+  ],
+  "statistics": {
+    "best_score": 0.35875000000000007,
+    "worst_score": 0.17625000000000002,
+    "average_score": 0.22875000000000006,
+    "successful_attempts": 0,
+    "total_attempts": 5
+  },
+  "evaluation_time": 29.727464199066162,
+  "timestamp": "2025-07-15T00:16:18.142846"
+}

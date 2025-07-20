@@ -1,0 +1,4 @@
+Test: add_enable_signal
+Description: Add an enable signal to control assignments in a Verilog module
+Error: Missing some input keys: {'e'}
+Timestamp: 2025-07-19T13:57:28.941897

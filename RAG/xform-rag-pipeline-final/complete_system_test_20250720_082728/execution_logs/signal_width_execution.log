@@ -1,0 +1,7 @@
+Command: /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/uvenv/bin/python /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/fixed_transformations/signal_width_fixed.py /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/test_verilog_input/signal_processor.v /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/test_verilog_output/signal_width_signal_processor_output.v --signal buffer_signal --width 16
+Return Code: 0
+STDOUT:
+Template transformation for signal_width
+
+STDERR:
+

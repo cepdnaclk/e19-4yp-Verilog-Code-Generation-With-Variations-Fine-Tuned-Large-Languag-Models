@@ -1,0 +1,194 @@
+{
+  "task_name": "fsm_state_rename",
+  "task_description": "Systematically rename FSM state names throughout a module",
+  "complexity": "complex",
+  "category": "fsm_modification",
+  "pass_at_k_scores": {
+    "1": 1.0,
+    "3": 1.0,
+    "5": 1.0
+  },
+  "attempts_data": [
+    {
+      "attempt_number": 1,
+      "success": true,
+      "overall_score": 0.805,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.85
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "fsm_state_rename_attempt_1.py",
+      "code_length": 4232,
+      "generation_metadata": {
+        "filename": "xform_systematically_rename_fsm_state.py",
+        "source_documents": [
+          "xform_module_name.py",
+          "xform_module_name.py",
+          "xform_rename_port.py",
+          "xform_registry.py",
+          "xform_rename_port.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 2,
+      "success": true,
+      "overall_score": 0.7825,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.9375
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing command line interface",
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "fsm_state_rename_attempt_2.py",
+      "code_length": 3341,
+      "generation_metadata": {
+        "filename": "xform_systematically_rename_fsm_state.py",
+        "source_documents": [
+          "xform_module_name.py",
+          "xform_module_name.py",
+          "xform_rename_port.py",
+          "xform_registry.py",
+          "xform_rename_port.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 3,
+      "success": true,
+      "overall_score": 0.7262500000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.75,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8,
+        "functional_correctness": 0.8875
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "fsm_state_rename_attempt_3.py",
+      "code_length": 3356,
+      "generation_metadata": {
+        "filename": "xform_systematically_rename_fsm_state.py",
+        "source_documents": [
+          "xform_module_name.py",
+          "xform_module_name.py",
+          "xform_rename_port.py",
+          "xform_registry.py",
+          "xform_rename_port.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 4,
+      "success": true,
+      "overall_score": 0.81375,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.9375
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "fsm_state_rename_attempt_4.py",
+      "code_length": 3956,
+      "generation_metadata": {
+        "filename": "xform_systematically_rename_fsm_state.py",
+        "source_documents": [
+          "xform_module_name.py",
+          "xform_module_name.py",
+          "xform_rename_port.py",
+          "xform_registry.py",
+          "xform_rename_port.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 5,
+      "success": true,
+      "overall_score": 0.7262500000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.75,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8,
+        "functional_correctness": 0.8875
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "fsm_state_rename_attempt_5.py",
+      "code_length": 3523,
+      "generation_metadata": {
+        "filename": "xform_systematically_rename_fsm_state.py",
+        "source_documents": [
+          "xform_module_name.py",
+          "xform_module_name.py",
+          "xform_rename_port.py",
+          "xform_registry.py",
+          "xform_rename_port.py"
+        ]
+      }
+    }
+  ],
+  "generated_files": [
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_1.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_2.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_3.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_4.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_5.py"
+  ],
+  "statistics": {
+    "best_score": 0.81375,
+    "worst_score": 0.7262500000000001,
+    "average_score": 0.77075,
+    "successful_attempts": 5,
+    "total_attempts": 5
+  },
+  "evaluation_time": 81.28010559082031,
+  "timestamp": "2025-07-15T00:20:18.295506"
+}

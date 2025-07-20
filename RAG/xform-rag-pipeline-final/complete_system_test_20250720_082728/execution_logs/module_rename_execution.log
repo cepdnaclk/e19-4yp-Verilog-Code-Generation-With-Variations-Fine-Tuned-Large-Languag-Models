@@ -1,0 +1,9 @@
+Command: /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/uvenv/bin/python /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/fixed_transformations/module_rename_fixed.py /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/test_verilog_input/simple_adder.v /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/test_verilog_output/module_rename_simple_adder_output.v --old-name adder --new-name arithmetic_unit
+Return Code: 1
+STDOUT:
+Error: [Errno 2] No such file or directory: 'iverilog'
+
+STDERR:
+Generating LALR tables
+WARNING: 183 shift/reduce conflicts
+

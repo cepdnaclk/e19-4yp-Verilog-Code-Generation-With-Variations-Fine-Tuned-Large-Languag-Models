@@ -1,0 +1,4 @@
+Test: signal_width_change
+Description: Change the width of a signal from 8 bits to 16 bits in Verilog
+Error: Missing some input keys: {'module_name', 'signal', 'signal_name', 'args.input_file', 'wire_name', 'len(visitor.wire_signals)', 'target_signal', 'e', 'old_name', 'new_name', 'new_width'}
+Timestamp: 2025-07-19T21:49:55.925659

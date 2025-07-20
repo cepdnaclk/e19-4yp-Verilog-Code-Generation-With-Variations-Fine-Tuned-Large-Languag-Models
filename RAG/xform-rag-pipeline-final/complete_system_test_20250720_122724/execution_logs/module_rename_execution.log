@@ -1,0 +1,9 @@
+Command: D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\venv\Scripts\python.exe D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122724\fixed_transformations\module_rename_fixed.py D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122724\test_verilog_input\simple_adder.v D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122724\test_verilog_output\module_rename_simple_adder_output.v --old-name adder --new-name arithmetic_unit
+Return Code: 0
+STDOUT:
+Renamed module 'adder' to 'arithmetic_unit'
+
+STDERR:
+Generating LALR tables
+WARNING: 183 shift/reduce conflicts
+

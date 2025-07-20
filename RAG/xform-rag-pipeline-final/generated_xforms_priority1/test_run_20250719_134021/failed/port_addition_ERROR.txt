@@ -1,0 +1,4 @@
+Test: port_addition
+Description: Add a new input port called debug_enable to a Verilog module
+Error: Collection expecting embedding with dimension of 384, got 768
+Timestamp: 2025-07-19T13:45:35.193932

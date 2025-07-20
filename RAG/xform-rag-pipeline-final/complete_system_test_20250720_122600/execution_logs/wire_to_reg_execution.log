@@ -1,0 +1,9 @@
+Command: D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\venv\Scripts\python.exe D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122600\fixed_transformations\wire_to_reg_fixed.py D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122600\test_verilog_input\basic_counter.v D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122600\test_verilog_output\wire_to_reg_basic_counter_output.v --signal internal_signal
+Return Code: 0
+STDOUT:
+Converted wire 'internal_signal' to reg
+
+STDERR:
+Generating LALR tables
+WARNING: 183 shift/reduce conflicts
+

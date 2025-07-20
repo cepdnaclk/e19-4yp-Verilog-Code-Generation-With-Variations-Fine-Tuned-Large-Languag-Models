@@ -20,6 +20,7 @@ from .document_processor import DocumentProcessor
 from .code_generator import CodeGenerator
 from .file_manager import FileManager
 from .cli import CLI
+from .input_validator import InputValidator, ValidationError
 
 # Evaluation system exports
 from .task_specs import TaskSpec, TaskSpecBuilder, TestFileGenerator

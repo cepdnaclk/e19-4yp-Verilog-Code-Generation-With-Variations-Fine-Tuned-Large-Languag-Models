@@ -1,0 +1,16 @@
+Priority 1 Enhanced RAG Pipeline - Test Summary
+==================================================
+Test Run: 2025-07-19T21:49:56.008574
+Embedding Model: microsoft/codebert-base
+
+Results:
+  Successful Tests: 0/5 (0.0%)
+  Average Quality Score: 0.00
+  Average Code Length: 0 characters
+  Total Warnings: 0
+
+File Organization:
+  Passed transformations: 0 files in generated_xforms_priority1\test_run_20250719_214928\passed
+  Failed attempts: 5 files in generated_xforms_priority1\test_run_20250719_214928\failed
+  Test logs: generated_xforms_priority1\test_run_20250719_214928\logs
+  This summary: generated_xforms_priority1\test_run_20250719_214928\analysis\test_summary.txt
