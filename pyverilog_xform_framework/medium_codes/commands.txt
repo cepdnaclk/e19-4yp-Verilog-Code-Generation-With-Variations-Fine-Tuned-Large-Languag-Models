@@ -1,0 +1,31 @@
+# Commands for 10 variations using transformations from xform_registry.py
+
+# 7. Fixed range multi-dimensional array (medium_fifo.v)
+python3 7_xform_range_mda.py medium_fifo.v medium_codes/1_medium_fifo_range.v --signal mem --ranges 7:0 0:3
+
+# 8. Dynamic multi-dimensional array (medium_fifo.v)
+python3 8_xform_dynamic_mda.py medium_fifo.v medium_codes/2_medium_fifo_dynamic.v --signal mem --dimensions 2
+
+# 9. Queue multi-dimensional array (medium_array_proc.v)
+python3 9_xform_queue_mda.py medium_array_proc.v medium_codes/3_medium_array_proc_queue.v --signal data_array --dimensions 1 --bounded --bound-size 8
+
+# 10. Associative multi-dimensional array (medium_array_proc.v)
+python3 11_xform_associative_mda.py medium_array_proc.v medium_codes/4_medium_array_proc_assoc.v --signal data_array --key-type int
+
+# 11. Mixed multi-dimensional array (medium_shift_matrix.v)
+python3 15_xform_mixed_mda.py medium_shift_matrix.v medium_codes/5_medium_shift_matrix_mixed.v --signal matrix --mda-spec fixed:3:0 assoc:integer queue
+
+# 12. Associative array key type (medium_shift_matrix.v)
+python3 16_xform_associative_mda_key_type.py medium_shift_matrix.v medium_codes/6_medium_shift_matrix_assoc_key.v --signal matrix --key-type integer
+
+# 13. Array base type (medium_counter_array.v)
+python3 17_xform_array_base_type.py medium_counter_array.v medium_codes/7_medium_counter_array_base.v --signal counters --base-type int
+
+# 14. Structure type (medium_counter_array.v)
+python3 18_xform_structure_type.py medium_counter_array.v medium_codes/8_medium_counter_array_struct.v --signal counters --struct-type packed
+
+# 15. Inside operator with array (medium_data_buffer.v)
+python3 19_xform_inside_op_array.py medium_data_buffer.v medium_codes/9_medium_data_buffer_inside_array.v --signal buffer --test-type array_slice
+
+# 16. Inside operator with context (medium_data_buffer.v)
+python3 20_xform_inside_op_context.py medium_data_buffer.v medium_codes/10_medium_data_buffer_inside_context.v --signal buffer --context if_statement

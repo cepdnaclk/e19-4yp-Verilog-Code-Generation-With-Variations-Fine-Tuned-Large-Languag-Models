@@ -1,0 +1,31 @@
+# Commands for 10 variations using transformations from xform_registry.py
+
+# 7. Fixed range multi-dimensional array (complex_fsm.v)
+python3 7_xform_range_mda.py complex_fsm.v complex_codes/1_complex_fsm_range.v --signal mem --ranges 7:0 0:7
+
+# 8. Queue multi-dimensional array (complex_fsm.v)
+python3 9_xform_queue_mda.py complex_fsm.v complex_codes/2_complex_fsm_queue.v --signal mem --dimensions 1 --bounded --bound-size 8
+
+# 9. Dynamic multi-dimensional array (complex_matrix_proc.v)
+python3 8_xform_dynamic_mda.py complex_matrix_proc.v complex_codes/3_complex_matrix_proc_dynamic.v --signal matrix --dimensions 2
+
+# 10. Associative multi-dimensional array (complex_matrix_proc.v)
+python3 11_xform_associative_mda.py complex_matrix_proc.v complex_codes/4_complex_matrix_proc_assoc.v --signal matrix --key-type int
+
+# 11. Mixed multi-dimensional array (complex_data_pipeline.v)
+python3 15_xform_mixed_mda.py complex_data_pipeline.v complex_codes/5_complex_data_pipeline_mixed.v --signal pipeline --mda-spec fixed:7:0 assoc:int queue
+
+# 12. Inside operator with array (complex_data_pipeline.v)
+python3 19_xform_inside_op_array.py complex_data_pipeline.v complex_codes/6_complex_data_pipeline_inside_array.v --signal pipeline --test-type array_slice
+
+# 13. Associative array key type (complex_array_sorter.v)
+python3 16_xform_associative_mda_key_type.py complex_array_sorter.v complex_codes/7_complex_array_sorter_assoc_key.v --signal array --key-type int
+
+# 14. Structure type (complex_array_sorter.v)
+python3 18_xform_structure_type.py complex_array_sorter.v complex_codes/8_complex_array_sorter_struct.v --signal array --struct-type packed
+
+# 15. Inside operator with context (complex_queue_controller.v)
+python3 20_xform_inside_op_context.py complex_queue_controller.v complex_codes/9_complex_queue_controller_inside_context.v --signal queue --context if_statement
+
+# 16. Inside operator with scope (complex_queue_controller.v)
+python3 21_xform_inside_op_scope.py complex_queue_controller.v complex_codes/10_complex_queue_controller_inside_scope.v --signal queue --scope module
