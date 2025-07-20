@@ -1,0 +1,8 @@
+{
+  "task_name": "inside_op_scope",
+  "generated_file": "21_inside_scope_output_f.v",
+  "ground_truth_file": "21_inside_scope_output.v",
+  "is_identical": true,
+  "pass_at_1": 1.0,
+  "errors": []
+}

@@ -1,0 +1,19 @@
+{
+  "task_name": "6_xform_add_enable_signal",
+  "complexity": "simple",
+  "xform_file": "codelama/6_xform_add_enable_signal.py",
+  "success": true,
+  "overall_score": 0.835,
+  "scores": {
+    "syntactic_correctness": 1.0,
+    "semantic_correctness": 1.0,
+    "framework_compliance": 0.9999999999999999,
+    "code_style": 1.0,
+    "robustness": 1.0,
+    "maintainability": 0.6,
+    "innovation": 0.5,
+    "functional_correctness": 0.5
+  },
+  "errors": [],
+  "execution_time": 0.0
+}

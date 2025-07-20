@@ -1,0 +1,8 @@
+{
+  "task_name": "inside_op_context",
+  "generated_file": "20_inside_context_output_f.v",
+  "ground_truth_file": "20_inside_context_output.v",
+  "is_identical": true,
+  "pass_at_1": 1.0,
+  "errors": []
+}

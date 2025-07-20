@@ -1,0 +1,19 @@
+{
+  "task_name": "4_xform_change_reset_condition",
+  "complexity": "simple",
+  "xform_file": "codelama/4_xform_change_reset_condition.py",
+  "success": true,
+  "overall_score": 0.8749999999999999,
+  "scores": {
+    "syntactic_correctness": 1.0,
+    "semantic_correctness": 1.0,
+    "framework_compliance": 0.9999999999999999,
+    "code_style": 1.0,
+    "robustness": 1.0,
+    "maintainability": 1.0,
+    "innovation": 0.5,
+    "functional_correctness": 0.5
+  },
+  "errors": [],
+  "execution_time": 0.0
+}

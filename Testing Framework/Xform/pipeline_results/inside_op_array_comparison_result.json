@@ -1,0 +1,8 @@
+{
+  "task_name": "inside_op_array",
+  "generated_file": "19_inside_array_output_f.v",
+  "ground_truth_file": "19_inside_array_output.v",
+  "is_identical": true,
+  "pass_at_1": 1.0,
+  "errors": []
+}
