@@ -1,0 +1,41 @@
+Priority 1 Enhanced RAG Pipeline Test Log
+==================================================
+Test Run: 2025-07-19T13:57:29.097880
+Embedding Model: microsoft/codebert-base
+Total Tests: 5
+
+Test 1: wire_to_reg_conversion
+  Description: Transform wire declarations to reg declarations in a Verilog module
+  Complexity: simple
+  Status: failed
+  Error: Missing some input keys: {'e'}
+  Output: generated_xforms_priority1\test_run_20250719_135545\failed\wire_to_reg_conversion_ERROR.txt
+
+Test 2: add_enable_signal
+  Description: Add an enable signal to control assignments in a Verilog module
+  Complexity: medium
+  Status: failed
+  Error: Missing some input keys: {'e'}
+  Output: generated_xforms_priority1\test_run_20250719_135545\failed\add_enable_signal_ERROR.txt
+
+Test 3: signal_width_change
+  Description: Change the width of a signal from 8 bits to 16 bits in Verilog
+  Complexity: medium
+  Status: failed
+  Error: Missing some input keys: {'e'}
+  Output: generated_xforms_priority1\test_run_20250719_135545\failed\signal_width_change_ERROR.txt
+
+Test 4: module_rename
+  Description: Rename a Verilog module from old_name to new_name
+  Complexity: simple
+  Status: failed
+  Error: Missing some input keys: {'e'}
+  Output: generated_xforms_priority1\test_run_20250719_135545\failed\module_rename_ERROR.txt
+
+Test 5: port_addition
+  Description: Add a new input port called debug_enable to a Verilog module
+  Complexity: complex
+  Status: failed
+  Error: Missing some input keys: {'e'}
+  Output: generated_xforms_priority1\test_run_20250719_135545\failed\port_addition_ERROR.txt
+

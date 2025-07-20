@@ -20,3 +20,70 @@ EXAMPLE:
 
 2. change register to wire
     'python reg_to_wire.py simple_counter.v simple_counter_wire.v --variable count'
+
+
+
+# Commands for all transformations in xform_registry.py
+
+# 1. Change reg variables to wire
+python3 1_xform_reg_to_wire.py simple_counter.v 1_simple_counter_wire.v --variable count
+
+# 2. Change module name
+python3 2_xform_module_name.py simple_counter.v 2_simple_counter_renamed.v --from simple_counter --to advanced_counter
+
+# 3. Rename ports in a module
+python3 3_xform_rename_port.py simple_counter.v 3_simple_counter_port_renamed.v --from count_out --to counter_output
+
+# 4. Transform reset condition
+python3 4_xform_change_reset_condition.py simple_counter.v 4_simple_counter_reset.v --signal rst --direction high_to_low
+
+# 5. Change a signal's width
+python3 5_xform_change_signal_width.py simple_counter.v 5_simple_counter_width.v --signal count --width 15:0
+
+# 6. Add an enable signal to a counter
+python3 6_xform_add_enable_signal.py counter_with_enable.v 6_counter_with_enable.v --enable new_enable --counter count
+
+# 7. Transform to fixed-range multi-dimensional arrays
+python3 7_xform_range_mda.py simple_array_example.v 7_range_output.v --signal mem_array --ranges 7:0 0:15
+
+# 8. Transform to dynamic multi-dimensional arrays
+python3 8_xform_dynamic_mda.py simple_array_example.v 8_dynamic_output.v --signal mem_array --dimensions 2
+
+# 9. Transform to queue-based multi-dimensional arrays (1D queue)
+python3 9_xform_queue_mda.py simple_array_example.v 9_queue_output.v --signal mem_array --dimensions 1
+
+# 10. Transform to bounded queue-based multi-dimensional arrays
+python3 10_xform_queue_mda.py simple_array_example.v 10_bounded_queue_output.v --signal mem_array --dimensions 1 --bounded --bound-size 10
+
+# 11. Transform to associative array with string key
+python3 11_xform_associative_mda.py simple_array_example.v 11_assoc_string_output.v --signal mem_array --key-type string
+
+# 12. Transform to associative array with wildcard key
+python3 12_xform_associative_mda.py simple_array_example.v 12_assoc_wildcard_output.v --signal mem_array --key-type wildcard
+
+# 13. Transform to associative array with vector key
+python3 13_xform_associative_mda.py simple_array_example.v 13_assoc_vector_output.v --signal mem_array --key-type vector
+
+# 14. Transform to associative array with class key
+python3 14_xform_associative_mda.py simple_array_example.v 14_assoc_class_output.v --signal mem_array --key-type class
+
+# 15. Transform to mixed multi-dimensional arrays
+python3 15_xform_mixed_mda.py simple_array_example.v 15_mixed_output.v --signal mem_array --mda-spec fixed:7:0 assoc:string queue
+
+# 16. Transform to associative array with specific key type (e.g., integer)
+python3 16_xform_associative_mda_key_type.py simple_array_example.v 16_assoc_int_output.v --signal mem_array --key-type integer
+
+# 17. Transform array base type
+python3 17_xform_array_base_type.py simple_array_example.v 17_array_base_output.v --signal mem_array --base-type int
+
+# 18. Transform to specific structure type
+python3 18_xform_structure_type.py simple_array_example.v 18_struct_output.v --signal mem_array --struct-type packed
+
+# 19. Add test case for arrays in inside operator
+python3 19_xform_inside_op_array.py simple_array_example.v 19_inside_array_output.v --signal mem_array --test-type array_as_whole
+
+# 20. Add test case for inside operator in different contexts
+python3 20_xform_inside_op_context.py simple_array_example.v 20_inside_context_output.v --signal mem_array --context if_statement
+
+# 21. Add test case for inside operator in different scopes
+python3 21_xform_inside_op_scope.py simple_array_example.v 21_inside_scope_output.v --signal mem_array --scope module

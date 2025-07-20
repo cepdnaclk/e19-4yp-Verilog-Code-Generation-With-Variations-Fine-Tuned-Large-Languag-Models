@@ -1,0 +1,16 @@
+Embedding Compatibility Test Results
+Test Run: 2025-07-19T07:17:48.783162
+==================================================
+
+❌ FAIL codebert_clean
+   Error: Missing some input keys: {'e'}
+
+❌ FAIL dimension_mismatch_handling
+   Error: Collection expecting embedding with dimension of 768, got 384
+
+✅ PASS fallback_mechanism
+
+❌ FAIL metadata_persistence
+   Error: Metadata file not found
+
+Summary: 1/4 tests passed

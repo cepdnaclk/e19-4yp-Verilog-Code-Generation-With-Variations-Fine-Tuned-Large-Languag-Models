@@ -1,0 +1,217 @@
+{
+  "task_name": "wire_to_reg_basic",
+  "task_description": "Transform wire declarations to reg declarations",
+  "complexity": "simple",
+  "category": "signal_modification",
+  "pass_at_k_scores": {
+    "1": 1.0,
+    "3": 1.0,
+    "5": 1.0
+  },
+  "attempts_data": [
+    {
+      "attempt_number": 1,
+      "success": true,
+      "overall_score": 0.9100833333333334,
+      "metric_scores": {
+        "syntactic_correctness": 1.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.8,
+        "functional_correctness": 0.9133333333333332
+      },
+      "errors": [],
+      "warnings": [
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "wire_to_reg_basic_attempt_1.py",
+      "code_length": 3113,
+      "generation_metadata": {
+        "filename": "xform_transform_wire_declarations_to.py",
+        "source_documents": [
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_registry.py",
+          "xform_registry.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 2,
+      "success": false,
+      "overall_score": 0.4111666666666667,
+      "metric_scores": {
+        "syntactic_correctness": 1.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.25,
+        "code_style": 0.9,
+        "robustness": 0.0,
+        "maintainability": 0.4,
+        "functional_correctness": 0.6866666666666666
+      },
+      "errors": [
+        "Missing PyVerilog parser import",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "xform_file": "wire_to_reg_basic_attempt_2.py",
+      "code_length": 450,
+      "generation_metadata": {
+        "filename": "xform_transform_wire_declarations_to.py",
+        "source_documents": [
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_registry.py",
+          "xform_registry.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 3,
+      "success": true,
+      "overall_score": 0.7425833333333334,
+      "metric_scores": {
+        "syntactic_correctness": 1.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.625,
+        "code_style": 0.65,
+        "robustness": 0.2,
+        "maintainability": 0.6,
+        "functional_correctness": 0.9133333333333332
+      },
+      "errors": [],
+      "warnings": [
+        "Missing error handling",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness"
+      ],
+      "xform_file": "wire_to_reg_basic_attempt_3.py",
+      "code_length": 1507,
+      "generation_metadata": {
+        "filename": "xform_transform_wire_declarations_to.py",
+        "source_documents": [
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_registry.py",
+          "xform_registry.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 4,
+      "success": true,
+      "overall_score": 0.6555,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.75,
+        "code_style": 1.0,
+        "robustness": 0.2,
+        "maintainability": 0.5,
+        "functional_correctness": 0.9799999999999999
+      },
+      "errors": [
+        "Syntax error at line 72: expected 'except' or 'finally' block"
+      ],
+      "warnings": [
+        "Missing error handling",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness"
+      ],
+      "xform_file": "wire_to_reg_basic_attempt_4.py",
+      "code_length": 17276,
+      "generation_metadata": {
+        "filename": "xform_transform_wire_declarations_to.py",
+        "source_documents": [
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_registry.py",
+          "xform_registry.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 5,
+      "success": false,
+      "overall_score": 0.4111666666666667,
+      "metric_scores": {
+        "syntactic_correctness": 1.0,
+        "semantic_correctness": 0.0,
+        "framework_compliance": 0.25,
+        "code_style": 0.9,
+        "robustness": 0.0,
+        "maintainability": 0.4,
+        "functional_correctness": 0.6866666666666666
+      },
+      "errors": [
+        "Missing PyVerilog parser import",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing PyVerilog AST imports",
+        "Missing AST visitor method",
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing proper boolean return values",
+        "Missing error handling",
+        "Missing proper file I/O",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing",
+        "Add exception handling for robustness",
+        "Consider input validation"
+      ],
+      "xform_file": "wire_to_reg_basic_attempt_5.py",
+      "code_length": 415,
+      "generation_metadata": {
+        "filename": "xform_transform_wire_declarations_to.py",
+        "source_documents": [
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_reg_to_wire.py",
+          "xform_registry.py",
+          "xform_registry.py"
+        ]
+      }
+    }
+  ],
+  "generated_files": [
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_1.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_2.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_3.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_4.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_5.py"
+  ],
+  "statistics": {
+    "best_score": 0.9100833333333334,
+    "worst_score": 0.4111666666666667,
+    "average_score": 0.6261,
+    "successful_attempts": 3,
+    "total_attempts": 5
+  },
+  "evaluation_time": 1544.8290174007416,
+  "timestamp": "2025-07-14T23:35:14.521978"
+}

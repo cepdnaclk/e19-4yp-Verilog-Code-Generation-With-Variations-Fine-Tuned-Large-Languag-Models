@@ -1,0 +1,179 @@
+{
+  "task_name": "reset_condition_change",
+  "task_description": "Change reset condition from active-high to active-low or vice versa",
+  "complexity": "medium",
+  "category": "control_logic",
+  "pass_at_k_scores": {
+    "1": 1.0,
+    "3": 1.0,
+    "5": 1.0
+  },
+  "attempts_data": [
+    {
+      "attempt_number": 1,
+      "success": true,
+      "overall_score": 0.8500000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 1.0,
+        "functional_correctness": 1.0
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [],
+      "xform_file": "reset_condition_change_attempt_1.py",
+      "code_length": 9119,
+      "generation_metadata": {
+        "filename": "xform_change_reset_condition_from.py",
+        "source_documents": [
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 2,
+      "success": true,
+      "overall_score": 0.8500000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 1.0,
+        "functional_correctness": 1.0
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [],
+      "xform_file": "reset_condition_change_attempt_2.py",
+      "code_length": 9048,
+      "generation_metadata": {
+        "filename": "xform_change_reset_condition_from.py",
+        "source_documents": [
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 3,
+      "success": true,
+      "overall_score": 0.8500000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 1.0,
+        "functional_correctness": 1.0
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [],
+      "xform_file": "reset_condition_change_attempt_3.py",
+      "code_length": 8707,
+      "generation_metadata": {
+        "filename": "xform_change_reset_condition_from.py",
+        "source_documents": [
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 4,
+      "success": true,
+      "overall_score": 0.8500000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 1.0,
+        "functional_correctness": 1.0
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [],
+      "xform_file": "reset_condition_change_attempt_4.py",
+      "code_length": 8734,
+      "generation_metadata": {
+        "filename": "xform_change_reset_condition_from.py",
+        "source_documents": [
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 5,
+      "success": true,
+      "overall_score": 0.8500000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 1.0,
+        "functional_correctness": 1.0
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [],
+      "xform_file": "reset_condition_change_attempt_5.py",
+      "code_length": 8318,
+      "generation_metadata": {
+        "filename": "xform_change_reset_condition_from.py",
+        "source_documents": [
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py",
+          "xform_change_reset_condition.py"
+        ]
+      }
+    }
+  ],
+  "generated_files": [
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_1.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_2.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_3.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_4.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_5.py"
+  ],
+  "statistics": {
+    "best_score": 0.8500000000000001,
+    "worst_score": 0.8500000000000001,
+    "average_score": 0.85,
+    "successful_attempts": 5,
+    "total_attempts": 5
+  },
+  "evaluation_time": 158.8713183403015,
+  "timestamp": "2025-07-15T00:18:57.014722"
+}

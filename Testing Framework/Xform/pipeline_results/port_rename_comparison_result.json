@@ -1,0 +1,8 @@
+{
+  "task_name": "port_rename",
+  "generated_file": "3_simple_counter_port_renamed_f.v",
+  "ground_truth_file": "3_simple_counter_port_renamed.v",
+  "is_identical": true,
+  "pass_at_1": 1.0,
+  "errors": []
+}

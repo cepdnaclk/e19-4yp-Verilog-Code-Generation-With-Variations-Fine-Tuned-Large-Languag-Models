@@ -1,0 +1,11 @@
+Test Name: add_enable_signal
+Description: Add an enable signal to control assignments in a Verilog module
+Complexity: medium
+Quality Score: 1.00
+Code Length: 3760 characters
+Success: True
+Generated: 2025-07-19T21:04:16.334520
+Has Shebang: True
+Has Main: True
+Has Argparse: True
+Has PyVerilog: True

@@ -23,7 +23,8 @@ class RAGConfig:
     ec2_endpoint: Optional[str] = None
 
     # Embedding settings
-    embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+    embedding_model: str = "microsoft/codebert-base"  # Code-specific embeddings
+    embedding_type: str = "huggingface"  # "huggingface" or "sentence-transformers"
 
     # Text splitting settings
     chunk_size: int = 2000
@@ -72,6 +73,7 @@ class RAGConfig:
             "model_name": self.model_name,
             "ec2_endpoint": self.ec2_endpoint,
             "embedding_model": self.embedding_model,
+            "embedding_type": self.embedding_type,
             "chunk_size": self.chunk_size,
             "chunk_overlap": self.chunk_overlap,
             "retrieval_k": self.retrieval_k,

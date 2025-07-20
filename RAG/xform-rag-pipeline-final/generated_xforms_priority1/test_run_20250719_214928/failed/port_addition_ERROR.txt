@@ -1,0 +1,4 @@
+Test: port_addition
+Description: Add a new input port called debug_enable to a Verilog module
+Error: Missing some input keys: {'module_name', 'signal', 'signal_name', 'args.input_file', 'wire_name', 'len(visitor.wire_signals)', 'target_signal', 'e', 'old_name', 'new_name', 'new_width'}
+Timestamp: 2025-07-19T21:49:56.005567

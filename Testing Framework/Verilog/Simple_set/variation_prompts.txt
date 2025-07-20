@@ -1,0 +1,41 @@
+Prompt 01: Transform all `reg` variables named `count` in the Verilog file `simple_counter.v` to `wire` variables. Ensure the transformation preserves the functionality of the module, updating declarations and usage appropriately. The output should be saved as `1_simple_counter_wire.v` and match the ground truth in `simple_counter_wire.v`.
+
+Prompt 02: Rename the module in the Verilog file `simple_counter.v` from `simple_counter` to `advanced_counter`. Update all references to the module name within the file. Save the transformed code as `2_simple_counter_renamed.v`, ensuring it aligns with the ground truth in `simple_counter_changed.v`.
+
+Prompt 03: Rename the port `count_out` to `counter_output` in the Verilog module in `simple_counter.v`. Update all instances of the port name in declarations and connections. Save the output as `3_simple_counter_port_renamed.v`, matching the ground truth in `simple_counter_changed.v`.
+
+Prompt 04: Modify the reset condition in the Verilog file `simple_counter.v` for the signal `rst` from active-high to active-low. Adjust the logic to ensure correct functionality with the new reset polarity. Save the result as `4_simple_counter_reset.v`, consistent with `simple_counter_changed.v`.
+
+Prompt 05: Change the width of the signal `count` in the Verilog file `simple_counter.v` to `[15:0]`. Update the signal declaration and any related logic to accommodate the new width. Save the output as `5_simple_counter_width.v`, aligning with `simple_counter_changed.v`.
+
+Prompt 06: Add an enable signal named `new_enable` to control the counter `count` in the Verilog file `counter_with_enable.v`. Modify the counter logic to only increment when `new_enable` is active. Save the transformed code as `6_counter_with_enable.v`, matching the ground truth in `counter_with_enable.v`.
+
+Prompt 07: Transform the signal `mem_array` in the Verilog file `simple_array_example.v` to use fixed-range multi-dimensional arrays with ranges `[7:0]` and `[0:15]`. Update the declaration and usage to support the new array structure. Save the output as `7_range_output.v`, consistent with `simple_array_example.v`.
+
+Prompt 08: Convert the signal `mem_array` in the Verilog file `simple_array_example.v` to a dynamic multi-dimensional array with 2 dimensions. Adjust the declaration and any related logic to use dynamic arrays. Save the result as `8_dynamic_output.v`, matching `simple_array_example.v`.
+
+Prompt 09: Transform the signal `mem_array` in the Verilog file `simple_array_example.v` to a queue-based multi-dimensional array with 1 dimension. Update the declaration and logic to use a queue structure. Save the output as `9_queue_output.v`, aligning with `simple_array_example.v`.
+
+Prompt 10: Convert the signal `mem_array` in the Verilog file `simple_array_example.v` to a bounded queue-based multi-dimensional array with 1 dimension and a bound size of 10. Modify the declaration and logic to support a bounded queue. Save the result as `10_bounded_queue_output.v`, consistent with `simple_array_example.v`.
+
+Prompt 11: Transform the signal `mem_array` in the Verilog file `simple_array_example.v` to an associative array with a `string` key type. Update the declaration and usage to support associative array indexing. Save the output as `11_assoc_string_output.v`, matching `simple_array_example.v`.
+
+Prompt 12: Convert the signal `mem_array` in the Verilog file `simple_array_example.v` to an associative array with a `wildcard` key type. Adjust the declaration and logic to use wildcard indexing. Save the result as `12_assoc_wildcard_output.v`, aligning with `simple_array_example.v`.
+
+Prompt 13: Transform the signal `mem_array` in the Verilog file `simple_array_example.v` to an associative array with a `vector` key type. Update the declaration and usage to support vector-based indexing. Save the output as `13_assoc_vector_output.v`, consistent with `simple_array_example.v`.
+
+Prompt 14: Convert the signal `mem_array` in the Verilog file `simple_array_example.v` to an associative array with a `class` key type. Modify the declaration and logic to use class-based indexing. Save the result as `14_assoc_class_output.v`, matching `simple_array_example.v`.
+
+Prompt 15: Transform the signal `mem_array` in the Verilog file `simple_array_example.v` to a mixed multi-dimensional array with specifications `fixed:7:0`, `assoc:string`, and `queue`. Update the declaration and logic to support the mixed array structure. Save the output as `15_mixed_output.v`, aligning with `simple_array_example.v`.
+
+Prompt 16: Convert the signal `mem_array` in the Verilog file `simple_array_example.v` to an associative array with an `integer` key type. Adjust the declaration and usage to support integer-based indexing. Save the result as `16_assoc_int_output.v`, consistent with `simple_array_example.v`.
+
+Prompt 17: Transform the signal `mem_array` in the Verilog file `simple_array_example.v` to use an array with a base type of `int`. Update the declaration and any related logic to use the specified base type. Save the output as `17_array_base_output.v`, matching `simple_array_example.v`.
+
+Prompt 18: Convert the signal `mem_array` in the Verilog file `simple_array_example.v` to a `packed` structure type. Modify the declaration and logic to use a packed structure. Save the result as `18_struct_output.v`, aligning with `simple_array_example.v`.
+
+Prompt 19: Add a test case to the Verilog file `simple_array_example.v` that uses the signal `mem_array` in an `inside` operator with the `array_as_whole` test type. Ensure the test case correctly demonstrates the use of the array in the `inside` operator. Save the output as `19_inside_array_output.v`, consistent with `simple_array_example.v`.
+
+Prompt 20: Add a test case to the Verilog file `simple_array_example.v` that uses the signal `mem_array` in an `inside` operator within an `if_statement` context. Ensure the test case correctly integrates the `inside` operator in the specified context. Save the result as `20_inside_context_output.v`, matching `simple_array_example.v`.
+
+Prompt 21: Add a test case to the Verilog file `simple_array_example.v` that uses the signal `mem_array` in an `inside` operator within a `module` scope. Ensure the test case correctly demonstrates the use of the `inside` operator in the module scope. Save the output as `21_inside_scope_output.v`, aligning with `simple_array_example.v`.

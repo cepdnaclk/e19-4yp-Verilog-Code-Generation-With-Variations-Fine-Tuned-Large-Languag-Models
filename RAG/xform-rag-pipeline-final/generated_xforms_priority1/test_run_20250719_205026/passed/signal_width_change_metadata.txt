@@ -1,0 +1,11 @@
+Test Name: signal_width_change
+Description: Change the width of a signal from 8 bits to 16 bits in Verilog
+Complexity: medium
+Quality Score: 1.00
+Code Length: 2239 characters
+Success: True
+Generated: 2025-07-19T21:11:44.291529
+Has Shebang: True
+Has Main: True
+Has Argparse: True
+Has PyVerilog: True

@@ -1,0 +1,8 @@
+{
+  "task_name": "reset_condition",
+  "generated_file": "4_simple_counter_reset_f.v",
+  "ground_truth_file": "4_simple_counter_reset.v",
+  "is_identical": true,
+  "pass_at_1": 1.0,
+  "errors": []
+}

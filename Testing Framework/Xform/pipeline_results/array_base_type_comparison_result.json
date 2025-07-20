@@ -1,0 +1,8 @@
+{
+  "task_name": "array_base_type",
+  "generated_file": "17_array_base_output_f.v",
+  "ground_truth_file": "17_array_base_output.v",
+  "is_identical": true,
+  "pass_at_1": 1.0,
+  "errors": []
+}

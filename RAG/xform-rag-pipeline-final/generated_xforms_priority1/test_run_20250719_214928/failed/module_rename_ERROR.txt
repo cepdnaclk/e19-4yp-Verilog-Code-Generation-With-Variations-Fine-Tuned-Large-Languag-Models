@@ -1,0 +1,4 @@
+Test: module_rename
+Description: Rename a Verilog module from old_name to new_name
+Error: Missing some input keys: {'module_name', 'signal', 'signal_name', 'args.input_file', 'wire_name', 'len(visitor.wire_signals)', 'target_signal', 'e', 'old_name', 'new_name', 'new_width'}
+Timestamp: 2025-07-19T21:49:55.966659

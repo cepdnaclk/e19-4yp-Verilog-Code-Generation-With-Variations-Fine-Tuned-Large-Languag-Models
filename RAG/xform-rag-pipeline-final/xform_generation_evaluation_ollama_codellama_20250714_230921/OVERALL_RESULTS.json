@@ -1,0 +1,1326 @@
+{
+  "evaluation_metadata": {
+    "timestamp": "2025-07-15T00:20:55.753662",
+    "model_config": {
+      "type": "ollama",
+      "name": "codellama"
+    },
+    "k_values": [
+      1,
+      3,
+      5
+    ],
+    "total_tasks": 6,
+    "total_attempts": 30,
+    "results_directory": "xform_generation_evaluation_ollama_codellama_20250714_230921",
+    "xforms_directory": "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms",
+    "evaluations_directory": "xform_generation_evaluation_ollama_codellama_20250714_230921/evaluations"
+  },
+  "overall_pass_at_k": {
+    "1": 0.5,
+    "3": 0.6666666666666666,
+    "5": 0.6666666666666666
+  },
+  "overall_statistics": {
+    "average_score": 0.5733182539682541,
+    "best_score": 0.9100833333333334,
+    "worst_score": 0.16077380952380954,
+    "successful_attempts": 15,
+    "total_attempts": 30,
+    "success_rate": 0.5
+  },
+  "task_results": [
+    {
+      "task_name": "wire_to_reg_basic",
+      "task_description": "Transform wire declarations to reg declarations",
+      "complexity": "simple",
+      "category": "signal_modification",
+      "pass_at_k_scores": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "attempts_data": [
+        {
+          "attempt_number": 1,
+          "success": true,
+          "overall_score": 0.9100833333333334,
+          "metric_scores": {
+            "syntactic_correctness": 1.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 0.875,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 0.8,
+            "functional_correctness": 0.9133333333333332
+          },
+          "errors": [],
+          "warnings": [
+            "Missing main guard",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "wire_to_reg_basic_attempt_1.py",
+          "code_length": 3113,
+          "generation_metadata": {
+            "filename": "xform_transform_wire_declarations_to.py",
+            "source_documents": [
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_registry.py",
+              "xform_registry.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 2,
+          "success": false,
+          "overall_score": 0.4111666666666667,
+          "metric_scores": {
+            "syntactic_correctness": 1.0,
+            "semantic_correctness": 0.0,
+            "framework_compliance": 0.25,
+            "code_style": 0.9,
+            "robustness": 0.0,
+            "maintainability": 0.4,
+            "functional_correctness": 0.6866666666666666
+          },
+          "errors": [
+            "Missing PyVerilog parser import",
+            "Missing visitor class"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing AST visitor method",
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "wire_to_reg_basic_attempt_2.py",
+          "code_length": 450,
+          "generation_metadata": {
+            "filename": "xform_transform_wire_declarations_to.py",
+            "source_documents": [
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_registry.py",
+              "xform_registry.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 3,
+          "success": true,
+          "overall_score": 0.7425833333333334,
+          "metric_scores": {
+            "syntactic_correctness": 1.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 0.625,
+            "code_style": 0.65,
+            "robustness": 0.2,
+            "maintainability": 0.6,
+            "functional_correctness": 0.9133333333333332
+          },
+          "errors": [],
+          "warnings": [
+            "Missing error handling",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness"
+          ],
+          "xform_file": "wire_to_reg_basic_attempt_3.py",
+          "code_length": 1507,
+          "generation_metadata": {
+            "filename": "xform_transform_wire_declarations_to.py",
+            "source_documents": [
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_registry.py",
+              "xform_registry.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 4,
+          "success": true,
+          "overall_score": 0.6555,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 0.75,
+            "code_style": 1.0,
+            "robustness": 0.2,
+            "maintainability": 0.5,
+            "functional_correctness": 0.9799999999999999
+          },
+          "errors": [
+            "Syntax error at line 72: expected 'except' or 'finally' block"
+          ],
+          "warnings": [
+            "Missing error handling",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness"
+          ],
+          "xform_file": "wire_to_reg_basic_attempt_4.py",
+          "code_length": 17276,
+          "generation_metadata": {
+            "filename": "xform_transform_wire_declarations_to.py",
+            "source_documents": [
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_registry.py",
+              "xform_registry.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 5,
+          "success": false,
+          "overall_score": 0.4111666666666667,
+          "metric_scores": {
+            "syntactic_correctness": 1.0,
+            "semantic_correctness": 0.0,
+            "framework_compliance": 0.25,
+            "code_style": 0.9,
+            "robustness": 0.0,
+            "maintainability": 0.4,
+            "functional_correctness": 0.6866666666666666
+          },
+          "errors": [
+            "Missing PyVerilog parser import",
+            "Missing visitor class"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing AST visitor method",
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "wire_to_reg_basic_attempt_5.py",
+          "code_length": 415,
+          "generation_metadata": {
+            "filename": "xform_transform_wire_declarations_to.py",
+            "source_documents": [
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_reg_to_wire.py",
+              "xform_registry.py",
+              "xform_registry.py"
+            ]
+          }
+        }
+      ],
+      "generated_files": [
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_1.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_2.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_3.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_4.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/wire_to_reg_basic_attempt_5.py"
+      ],
+      "statistics": {
+        "best_score": 0.9100833333333334,
+        "worst_score": 0.4111666666666667,
+        "average_score": 0.6261,
+        "successful_attempts": 3,
+        "total_attempts": 5
+      },
+      "evaluation_time": 1544.8290174007416,
+      "timestamp": "2025-07-14T23:35:14.521978"
+    },
+    {
+      "task_name": "signal_rename_basic",
+      "task_description": "Rename any signal throughout a Verilog module",
+      "complexity": "simple",
+      "category": "signal_modification",
+      "pass_at_k_scores": {
+        "1": 0.0,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "attempts_data": [
+        {
+          "attempt_number": 1,
+          "success": false,
+          "overall_score": 0.3172619047619048,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.4,
+            "framework_compliance": 0.25,
+            "code_style": 0.4,
+            "robustness": 0.0,
+            "maintainability": 0.5,
+            "functional_correctness": 0.8476190476190476
+          },
+          "errors": [
+            "Syntax error at line 3: unexpected indent",
+            "Missing PyVerilog parser import",
+            "Missing main transform function"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing proper node type checking",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "signal_rename_basic_attempt_1.py",
+          "code_length": 382792,
+          "generation_metadata": {
+            "filename": "xform_rename_any_signal_throughout.py",
+            "source_documents": [
+              "xform_rename_port.py",
+              "xform_change_signal_width.py",
+              "xform_add_enable_signal.py",
+              "xform_rename_port.py",
+              "xform_registry.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 2,
+          "success": true,
+          "overall_score": 0.7747619047619048,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.8,
+            "framework_compliance": 1.0,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 1.0,
+            "functional_correctness": 0.9476190476190476
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [
+            "Missing proper node type checking",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "signal_rename_basic_attempt_2.py",
+          "code_length": 3849,
+          "generation_metadata": {
+            "filename": "xform_rename_any_signal_throughout.py",
+            "source_documents": [
+              "xform_rename_port.py",
+              "xform_change_signal_width.py",
+              "xform_add_enable_signal.py",
+              "xform_rename_port.py",
+              "xform_registry.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 3,
+          "success": true,
+          "overall_score": 0.7704761904761905,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.8,
+            "framework_compliance": 1.0,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 1.0,
+            "functional_correctness": 0.9047619047619047
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [
+            "Missing proper node type checking",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "signal_rename_basic_attempt_3.py",
+          "code_length": 3600,
+          "generation_metadata": {
+            "filename": "xform_rename_any_signal_throughout.py",
+            "source_documents": [
+              "xform_rename_port.py",
+              "xform_change_signal_width.py",
+              "xform_add_enable_signal.py",
+              "xform_rename_port.py",
+              "xform_registry.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 4,
+          "success": false,
+          "overall_score": 0.16077380952380954,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.0,
+            "framework_compliance": 0.125,
+            "code_style": 0.4,
+            "robustness": 0.0,
+            "maintainability": 0.2,
+            "functional_correctness": 0.6952380952380952
+          },
+          "errors": [
+            "Syntax error at line 3: unexpected indent",
+            "Missing PyVerilog parser import",
+            "Missing visitor class",
+            "Missing main transform function"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing AST visitor method",
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "signal_rename_basic_attempt_4.py",
+          "code_length": 2804,
+          "generation_metadata": {
+            "filename": "xform_rename_any_signal_throughout.py",
+            "source_documents": [
+              "xform_rename_port.py",
+              "xform_change_signal_width.py",
+              "xform_add_enable_signal.py",
+              "xform_rename_port.py",
+              "xform_registry.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 5,
+          "success": false,
+          "overall_score": 0.16077380952380954,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.0,
+            "framework_compliance": 0.125,
+            "code_style": 0.4,
+            "robustness": 0.0,
+            "maintainability": 0.2,
+            "functional_correctness": 0.6952380952380952
+          },
+          "errors": [
+            "Syntax error at line 3: unexpected indent",
+            "Missing PyVerilog parser import",
+            "Missing visitor class",
+            "Missing main transform function"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing AST visitor method",
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "signal_rename_basic_attempt_5.py",
+          "code_length": 1595,
+          "generation_metadata": {
+            "filename": "xform_rename_any_signal_throughout.py",
+            "source_documents": [
+              "xform_rename_port.py",
+              "xform_change_signal_width.py",
+              "xform_add_enable_signal.py",
+              "xform_rename_port.py",
+              "xform_registry.py"
+            ]
+          }
+        }
+      ],
+      "generated_files": [
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/signal_rename_basic_attempt_1.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/signal_rename_basic_attempt_2.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/signal_rename_basic_attempt_3.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/signal_rename_basic_attempt_4.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/signal_rename_basic_attempt_5.py"
+      ],
+      "statistics": {
+        "best_score": 0.7747619047619048,
+        "worst_score": 0.16077380952380954,
+        "average_score": 0.4368095238095238,
+        "successful_attempts": 2,
+        "total_attempts": 5
+      },
+      "evaluation_time": 2433.8921518325806,
+      "timestamp": "2025-07-15T00:15:48.414713"
+    },
+    {
+      "task_name": "add_enable_signal",
+      "task_description": "Add an enable signal to control a counter",
+      "complexity": "medium",
+      "category": "feature_addition",
+      "pass_at_k_scores": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0
+      },
+      "attempts_data": [
+        {
+          "attempt_number": 1,
+          "success": false,
+          "overall_score": 0.17625000000000002,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.0,
+            "framework_compliance": 0.125,
+            "code_style": 0.4,
+            "robustness": 0.0,
+            "maintainability": 0.2,
+            "functional_correctness": 0.8500000000000001
+          },
+          "errors": [
+            "Syntax error at line 3: unexpected indent",
+            "Missing PyVerilog parser import",
+            "Missing visitor class",
+            "Missing main transform function"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing AST visitor method",
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "add_enable_signal_attempt_1.py",
+          "code_length": 921,
+          "generation_metadata": {
+            "filename": "xform_add_an_enable_signal.py",
+            "source_documents": [
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_registry.py",
+              "xform_inside_op_debug.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 2,
+          "success": false,
+          "overall_score": 0.17625000000000002,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.0,
+            "framework_compliance": 0.125,
+            "code_style": 0.4,
+            "robustness": 0.0,
+            "maintainability": 0.2,
+            "functional_correctness": 0.8500000000000001
+          },
+          "errors": [
+            "Syntax error at line 3: unexpected indent",
+            "Missing PyVerilog parser import",
+            "Missing visitor class",
+            "Missing main transform function"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing AST visitor method",
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "add_enable_signal_attempt_2.py",
+          "code_length": 922,
+          "generation_metadata": {
+            "filename": "xform_add_an_enable_signal.py",
+            "source_documents": [
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_registry.py",
+              "xform_inside_op_debug.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 3,
+          "success": false,
+          "overall_score": 0.35875000000000007,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.4,
+            "framework_compliance": 0.375,
+            "code_style": 0.4,
+            "robustness": 0.0,
+            "maintainability": 0.6000000000000001,
+            "functional_correctness": 0.8500000000000001
+          },
+          "errors": [
+            "Syntax error at line 3: unexpected indent",
+            "Missing visitor class"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing AST visitor method",
+            "Missing proper node type checking",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "add_enable_signal_attempt_3.py",
+          "code_length": 3064,
+          "generation_metadata": {
+            "filename": "xform_add_an_enable_signal.py",
+            "source_documents": [
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_registry.py",
+              "xform_inside_op_debug.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 4,
+          "success": false,
+          "overall_score": 0.25625000000000003,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.4,
+            "framework_compliance": 0.125,
+            "code_style": 0.4,
+            "robustness": 0.0,
+            "maintainability": 0.2,
+            "functional_correctness": 0.8500000000000001
+          },
+          "errors": [
+            "Syntax error at line 3: unexpected indent",
+            "Missing visitor class",
+            "Missing main transform function"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing AST visitor method",
+            "Missing proper node type checking",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "add_enable_signal_attempt_4.py",
+          "code_length": 2895,
+          "generation_metadata": {
+            "filename": "xform_add_an_enable_signal.py",
+            "source_documents": [
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_registry.py",
+              "xform_inside_op_debug.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 5,
+          "success": false,
+          "overall_score": 0.17625000000000002,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.0,
+            "framework_compliance": 0.125,
+            "code_style": 0.4,
+            "robustness": 0.0,
+            "maintainability": 0.2,
+            "functional_correctness": 0.8500000000000001
+          },
+          "errors": [
+            "Syntax error at line 3: unexpected indent",
+            "Missing PyVerilog parser import",
+            "Missing visitor class",
+            "Missing main transform function"
+          ],
+          "warnings": [
+            "Missing PyVerilog AST imports",
+            "Missing AST visitor method",
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing proper boolean return values",
+            "Missing error handling",
+            "Missing proper file I/O",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing",
+            "Add exception handling for robustness",
+            "Consider input validation"
+          ],
+          "xform_file": "add_enable_signal_attempt_5.py",
+          "code_length": 999,
+          "generation_metadata": {
+            "filename": "xform_add_an_enable_signal.py",
+            "source_documents": [
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_add_enable_signal.py",
+              "xform_registry.py",
+              "xform_inside_op_debug.py"
+            ]
+          }
+        }
+      ],
+      "generated_files": [
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_1.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_2.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_3.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_4.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_enable_signal_attempt_5.py"
+      ],
+      "statistics": {
+        "best_score": 0.35875000000000007,
+        "worst_score": 0.17625000000000002,
+        "average_score": 0.22875000000000006,
+        "successful_attempts": 0,
+        "total_attempts": 5
+      },
+      "evaluation_time": 29.727464199066162,
+      "timestamp": "2025-07-15T00:16:18.142846"
+    },
+    {
+      "task_name": "reset_condition_change",
+      "task_description": "Change reset condition from active-high to active-low or vice versa",
+      "complexity": "medium",
+      "category": "control_logic",
+      "pass_at_k_scores": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "attempts_data": [
+        {
+          "attempt_number": 1,
+          "success": true,
+          "overall_score": 0.8500000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 1.0,
+            "code_style": 1.0,
+            "robustness": 1.0,
+            "maintainability": 1.0,
+            "functional_correctness": 1.0
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [],
+          "xform_file": "reset_condition_change_attempt_1.py",
+          "code_length": 9119,
+          "generation_metadata": {
+            "filename": "xform_change_reset_condition_from.py",
+            "source_documents": [
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 2,
+          "success": true,
+          "overall_score": 0.8500000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 1.0,
+            "code_style": 1.0,
+            "robustness": 1.0,
+            "maintainability": 1.0,
+            "functional_correctness": 1.0
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [],
+          "xform_file": "reset_condition_change_attempt_2.py",
+          "code_length": 9048,
+          "generation_metadata": {
+            "filename": "xform_change_reset_condition_from.py",
+            "source_documents": [
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 3,
+          "success": true,
+          "overall_score": 0.8500000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 1.0,
+            "code_style": 1.0,
+            "robustness": 1.0,
+            "maintainability": 1.0,
+            "functional_correctness": 1.0
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [],
+          "xform_file": "reset_condition_change_attempt_3.py",
+          "code_length": 8707,
+          "generation_metadata": {
+            "filename": "xform_change_reset_condition_from.py",
+            "source_documents": [
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 4,
+          "success": true,
+          "overall_score": 0.8500000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 1.0,
+            "code_style": 1.0,
+            "robustness": 1.0,
+            "maintainability": 1.0,
+            "functional_correctness": 1.0
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [],
+          "xform_file": "reset_condition_change_attempt_4.py",
+          "code_length": 8734,
+          "generation_metadata": {
+            "filename": "xform_change_reset_condition_from.py",
+            "source_documents": [
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 5,
+          "success": true,
+          "overall_score": 0.8500000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 1.0,
+            "code_style": 1.0,
+            "robustness": 1.0,
+            "maintainability": 1.0,
+            "functional_correctness": 1.0
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [],
+          "xform_file": "reset_condition_change_attempt_5.py",
+          "code_length": 8318,
+          "generation_metadata": {
+            "filename": "xform_change_reset_condition_from.py",
+            "source_documents": [
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py",
+              "xform_change_reset_condition.py"
+            ]
+          }
+        }
+      ],
+      "generated_files": [
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_1.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_2.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_3.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_4.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/reset_condition_change_attempt_5.py"
+      ],
+      "statistics": {
+        "best_score": 0.8500000000000001,
+        "worst_score": 0.8500000000000001,
+        "average_score": 0.85,
+        "successful_attempts": 5,
+        "total_attempts": 5
+      },
+      "evaluation_time": 158.8713183403015,
+      "timestamp": "2025-07-15T00:18:57.014722"
+    },
+    {
+      "task_name": "fsm_state_rename",
+      "task_description": "Systematically rename FSM state names throughout a module",
+      "complexity": "complex",
+      "category": "fsm_modification",
+      "pass_at_k_scores": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "attempts_data": [
+        {
+          "attempt_number": 1,
+          "success": true,
+          "overall_score": 0.805,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 1.0,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 1.0,
+            "functional_correctness": 0.85
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "fsm_state_rename_attempt_1.py",
+          "code_length": 4232,
+          "generation_metadata": {
+            "filename": "xform_systematically_rename_fsm_state.py",
+            "source_documents": [
+              "xform_module_name.py",
+              "xform_module_name.py",
+              "xform_rename_port.py",
+              "xform_registry.py",
+              "xform_rename_port.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 2,
+          "success": true,
+          "overall_score": 0.7825,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 0.875,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 1.0,
+            "functional_correctness": 0.9375
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [
+            "Missing command line interface",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "fsm_state_rename_attempt_2.py",
+          "code_length": 3341,
+          "generation_metadata": {
+            "filename": "xform_systematically_rename_fsm_state.py",
+            "source_documents": [
+              "xform_module_name.py",
+              "xform_module_name.py",
+              "xform_rename_port.py",
+              "xform_registry.py",
+              "xform_rename_port.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 3,
+          "success": true,
+          "overall_score": 0.7262500000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 0.75,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 0.8,
+            "functional_correctness": 0.8875
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "fsm_state_rename_attempt_3.py",
+          "code_length": 3356,
+          "generation_metadata": {
+            "filename": "xform_systematically_rename_fsm_state.py",
+            "source_documents": [
+              "xform_module_name.py",
+              "xform_module_name.py",
+              "xform_rename_port.py",
+              "xform_registry.py",
+              "xform_rename_port.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 4,
+          "success": true,
+          "overall_score": 0.81375,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 1.0,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 1.0,
+            "functional_correctness": 0.9375
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "fsm_state_rename_attempt_4.py",
+          "code_length": 3956,
+          "generation_metadata": {
+            "filename": "xform_systematically_rename_fsm_state.py",
+            "source_documents": [
+              "xform_module_name.py",
+              "xform_module_name.py",
+              "xform_rename_port.py",
+              "xform_registry.py",
+              "xform_rename_port.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 5,
+          "success": true,
+          "overall_score": 0.7262500000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 1.0,
+            "framework_compliance": 0.75,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 0.8,
+            "functional_correctness": 0.8875
+          },
+          "errors": [
+            "Syntax error at line 2: unexpected indent"
+          ],
+          "warnings": [
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "fsm_state_rename_attempt_5.py",
+          "code_length": 3523,
+          "generation_metadata": {
+            "filename": "xform_systematically_rename_fsm_state.py",
+            "source_documents": [
+              "xform_module_name.py",
+              "xform_module_name.py",
+              "xform_rename_port.py",
+              "xform_registry.py",
+              "xform_rename_port.py"
+            ]
+          }
+        }
+      ],
+      "generated_files": [
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_1.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_2.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_3.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_4.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/fsm_state_rename_attempt_5.py"
+      ],
+      "statistics": {
+        "best_score": 0.81375,
+        "worst_score": 0.7262500000000001,
+        "average_score": 0.77075,
+        "successful_attempts": 5,
+        "total_attempts": 5
+      },
+      "evaluation_time": 81.28010559082031,
+      "timestamp": "2025-07-15T00:20:18.295506"
+    },
+    {
+      "task_name": "add_debug_ports",
+      "task_description": "Add comprehensive debug output ports to a module",
+      "complexity": "complex",
+      "category": "debug_enhancement",
+      "pass_at_k_scores": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0
+      },
+      "attempts_data": [
+        {
+          "attempt_number": 1,
+          "success": false,
+          "overall_score": 0.5275000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.4,
+            "framework_compliance": 0.625,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 0.4,
+            "functional_correctness": 0.8125
+          },
+          "errors": [
+            "Syntax error at line 61: invalid syntax",
+            "Missing PyVerilog parser import",
+            "Missing visitor class"
+          ],
+          "warnings": [
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "add_debug_ports_attempt_1.py",
+          "code_length": 1933,
+          "generation_metadata": {
+            "filename": "xform_add_comprehensive_debug_output.py",
+            "source_documents": [
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_registry.py",
+              "xform_inside_op_array.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 2,
+          "success": false,
+          "overall_score": 0.5275000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.4,
+            "framework_compliance": 0.625,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 0.4,
+            "functional_correctness": 0.8125
+          },
+          "errors": [
+            "Syntax error at line 61: invalid syntax",
+            "Missing PyVerilog parser import",
+            "Missing visitor class"
+          ],
+          "warnings": [
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "add_debug_ports_attempt_2.py",
+          "code_length": 1933,
+          "generation_metadata": {
+            "filename": "xform_add_comprehensive_debug_output.py",
+            "source_documents": [
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_registry.py",
+              "xform_inside_op_array.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 3,
+          "success": false,
+          "overall_score": 0.5275000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.4,
+            "framework_compliance": 0.625,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 0.4,
+            "functional_correctness": 0.8125
+          },
+          "errors": [
+            "Syntax error at line 61: invalid syntax",
+            "Missing PyVerilog parser import",
+            "Missing visitor class"
+          ],
+          "warnings": [
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "add_debug_ports_attempt_3.py",
+          "code_length": 1933,
+          "generation_metadata": {
+            "filename": "xform_add_comprehensive_debug_output.py",
+            "source_documents": [
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_registry.py",
+              "xform_inside_op_array.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 4,
+          "success": false,
+          "overall_score": 0.5275000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.4,
+            "framework_compliance": 0.625,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 0.4,
+            "functional_correctness": 0.8125
+          },
+          "errors": [
+            "Syntax error at line 61: invalid syntax",
+            "Missing PyVerilog parser import",
+            "Missing visitor class"
+          ],
+          "warnings": [
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "add_debug_ports_attempt_4.py",
+          "code_length": 1933,
+          "generation_metadata": {
+            "filename": "xform_add_comprehensive_debug_output.py",
+            "source_documents": [
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_registry.py",
+              "xform_inside_op_array.py"
+            ]
+          }
+        },
+        {
+          "attempt_number": 5,
+          "success": false,
+          "overall_score": 0.5275000000000001,
+          "metric_scores": {
+            "syntactic_correctness": 0.0,
+            "semantic_correctness": 0.4,
+            "framework_compliance": 0.625,
+            "code_style": 1.0,
+            "robustness": 0.7,
+            "maintainability": 0.4,
+            "functional_correctness": 0.8125
+          },
+          "errors": [
+            "Syntax error at line 61: invalid syntax",
+            "Missing PyVerilog parser import",
+            "Missing visitor class"
+          ],
+          "warnings": [
+            "Missing proper node type checking",
+            "Missing regex transformations",
+            "Missing command line interface",
+            "Missing main guard",
+            "Consider checking file existence before processing"
+          ],
+          "xform_file": "add_debug_ports_attempt_5.py",
+          "code_length": 1933,
+          "generation_metadata": {
+            "filename": "xform_add_comprehensive_debug_output.py",
+            "source_documents": [
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_inside_op_debug.py",
+              "xform_registry.py",
+              "xform_inside_op_array.py"
+            ]
+          }
+        }
+      ],
+      "generated_files": [
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_1.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_2.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_3.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_4.py",
+        "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_5.py"
+      ],
+      "statistics": {
+        "best_score": 0.5275000000000001,
+        "worst_score": 0.5275000000000001,
+        "average_score": 0.5275000000000001,
+        "successful_attempts": 0,
+        "total_attempts": 5
+      },
+      "evaluation_time": 37.45686411857605,
+      "timestamp": "2025-07-15T00:20:55.752868"
+    }
+  ]
+}

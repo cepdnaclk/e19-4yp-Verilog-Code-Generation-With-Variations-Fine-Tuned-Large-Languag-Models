@@ -1,0 +1,8 @@
+{
+  "task_name": "mixed_mda",
+  "generated_file": "15_mixed_output_f.v",
+  "ground_truth_file": "15_mixed_output.v",
+  "is_identical": true,
+  "pass_at_1": 1.0,
+  "errors": []
+}

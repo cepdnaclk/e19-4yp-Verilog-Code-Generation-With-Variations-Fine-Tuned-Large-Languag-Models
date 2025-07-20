@@ -1,0 +1,11 @@
+Test Name: port_addition
+Description: Add a new input port called debug_enable to a Verilog module
+Complexity: complex
+Quality Score: 1.00
+Code Length: 2239 characters
+Success: True
+Generated: 2025-07-19T08:59:27.649716
+Has Shebang: True
+Has Main: True
+Has Argparse: True
+Has PyVerilog: True
