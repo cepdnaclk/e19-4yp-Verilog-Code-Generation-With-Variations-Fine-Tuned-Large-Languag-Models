@@ -1,0 +1,726 @@
+- code: |
+    module or_gate (
+    output wire b,
+    input  wire [3:0] a,
+    input  wire en
+    );
+        assign b = en ? |a : 1'b0;
+    endmodule
+
+    module tst_or_gate();
+        reg [3:0] a;
+        reg en;
+        wire b;
+        logic [3:0] slice_arr;
+
+        or_gate gg(b, a, en);
+
+        initial begin
+            a = 4'h0;
+            en = 1'b0;
+            slice_arr = 4'h6;
+
+            // Replace unsupported 'inside' with equivalent comparison
+            if ((a == 4'h0) || (a == slice_arr))
+                $display("a matches either 4'h0 or slice_arr = %h", slice_arr);
+        end
+
+        initial $monitor("t=%0d, en=%b, a=%h, b=%b", $time, en, a, b);
+        initial #30 $stop;
+    endmodule
+
+- code: |
+    module nor3NMOS(input in1, in2, in3, output b);
+    assign b = ~(in1 | in2 | in3);
+    endmodule
+
+    module tst_nor3NMOS();
+        reg in1, in2, in3;
+        wire b;
+        logic [2:0] consts = 3'b010;
+
+        nor3NMOS nn(in1, in2, in3, b);
+
+        initial begin
+            in1 = 0; in2 = 0; in3 = 0;
+
+            // Get bit 1 from concatenation and check if inside the 1-bit set
+            if ({in1, in2, in3}[1] inside {1'b0, 1'b1})
+                $display("Bit 1 is inside the set {0, 1}");
+        end
+
+        always #2 in1 = ~in1;
+        always #3 in2 = ~in2;
+        always #5 in3 = ~in3;
+
+        initial $monitor($time, " in1=%b, in2=%b, in3=%b, b=%b", in1, in2, in3, b);
+        initial #24 $stop;
+    endmodule
+
+- code: |
+    module Multiplier (
+    input wire clk,
+    input wire start,
+    output wire [7:0] databus,
+    output wire lsb_out,
+    output wire msb_out,
+    output wire done
+    );
+        // Dummy implementation for compilation
+        assign databus = 8'h00;
+        assign lsb_out = 0;
+        assign msb_out = 0;
+        assign done = 0;
+    endmodule
+
+    module test_multiplier;
+        reg clk = 0, start, error;
+        wire [7:0] databus;
+        wire lsb_out, msb_out, done;
+        reg [7:0] mem1[0:2], mem2[0:2];
+        logic [7:0] fullmem_arr[0:2];
+
+        Multiplier uut (
+            .clk(clk),
+            .start(start),
+            .databus(databus),
+            .lsb_out(lsb_out),
+            .msb_out(msb_out),
+            .done(done)
+        );
+
+        // Populate fullmem_arr with sample values
+        initial begin
+            fullmem_arr[0] = 8'hAA;
+            fullmem_arr[1] = 8'hBB;
+            fullmem_arr[2] = 8'hCC;
+
+            // Compare each entry with all others (basic membership check)
+            for (int i = 0; i < 3; i++) begin
+                for (int j = 0; j < 3; j++) begin
+                    if (i != j && fullmem_arr[i] == fullmem_arr[j]) begin
+                        $display("mem match at i=%0d and j=%0d", i, j);
+                    end
+                end
+            end
+        end
+
+        always #50 clk = ~clk;
+
+        assign databus = mem1[0];
+    endmodule
+
+- code: |
+    // === Package definition ===
+    package pkg_states;
+      // Define a constant array with valid detection states
+      localparam logic [3:0] detect_states[0:2] = '{4, 8, 12};
+    endpackage
+
+    // === Moore FSM module ===
+    module Prob_6_7_Moore (
+      input  logic clk,
+      input  logic rst,
+      input  logic D_in,
+      output logic Detect_Moore
+    );
+      // Import package contents
+      import pkg_states::*;
+
+      // FSM state registers
+      logic [3:0] state_Moore, next_state;
+
+      // Combinational logic for next state and detection
+      always_comb begin
+        if (state_Moore inside {detect_states[0], detect_states[1], detect_states[2]})
+          $display("state in detect list");
+
+        // Example FSM logic
+        case (state_Moore)
+          4'd0: next_state = D_in ? 4'd1 : 4'd0;
+          4'd1: next_state = D_in ? 4'd2 : 4'd0;
+          4'd2: next_state = D_in ? 4'd3 : 4'd0;
+          4'd3: next_state = 4'd4;
+          4'd4: next_state = 4'd0;
+          default: next_state = 4'd0;
+        endcase
+      end
+
+      // Sequential logic to update state
+      always_ff @(posedge clk or posedge rst) begin
+        if (rst)
+          state_Moore <= 4'd0;
+        else
+          state_Moore <= next_state;
+      end
+
+      // Output based on current state (Moore)
+      assign Detect_Moore = (state_Moore inside {detect_states[0], detect_states[1], detect_states[2]});
+    endmodule
+
+- code: |
+    module ctr_wt (
+    output reg [3:0] a,
+    input wire clk,
+    input wire [3:0] N,
+    input wire En
+    );
+        always @(posedge clk) begin
+            if (En)
+                a <= N;
+            else
+                a <= 4'd0;
+        end
+    endmodule
+
+
+    module tst_ctr_wt;
+        reg clk, En;
+        reg [3:0] N;
+        wire [3:0] a;
+
+        ctr_wt c1(a, clk, N, En);
+
+        initial begin
+            clk = 0;
+            N = 4'b1111;
+            En = 0;
+        end
+
+        always #5 clk = ~clk;
+
+        always @(posedge clk) begin
+            if (N inside {4'd1, 4'd2, 4'd3, 4'd4})
+                $display($time, ": N inside predefined constants");
+        end
+
+        initial $monitor($time, " clk=%b En=%b N=%b a=%b", clk, En, N, a);
+
+        initial #35 $stop;
+    endmodule
+
+- code: |
+    module mealy (
+    input Clock,
+    input Resetn,
+    input w,
+    output logic z
+    );
+        typedef enum logic [1:0] {A = 2'b00, B = 2'b01, C = 2'b10} state_t;
+        state_t y, next_state;
+
+        // Example list of states using enum values
+        logic [1:0] wlist [1:0] = '{A, B};
+
+        // Combinational logic
+        always @(*) begin
+            if (w inside {wlist[0], wlist[1]})
+                $display("w in enum list");
+
+            case (y)
+                A: begin
+                    z = 1'b0;
+                    next_state = B;
+                end
+                B: begin
+                    z = 1'b1;
+                    next_state = C;
+                end
+                C: begin
+                    z = 1'b0;
+                    next_state = A;
+                end
+                default: begin
+                    z = 1'b0;
+                    next_state = A;
+                end
+            endcase
+        end
+
+        // Sequential logic
+        always @(posedge Clock or negedge Resetn) begin
+            if (!Resetn)
+                y <= A;
+            else
+                y <= next_state;
+        end
+    endmodule
+
+- code: |
+    module mux4to1 (
+    input  logic w0, w1, w2, w3,
+    input  logic [1:0] S,
+    output logic f
+    );
+        always_comb begin
+            if (S inside {2'b01, 2'b10})
+                f = w1; // For S = 01 or 10, select w1 (example logic)
+            else begin
+                case (S)
+                    2'b00: f = w0;
+                    2'b11: f = w3;
+                    default: f = 1'bx;
+                endcase
+            end
+        end
+    endmodule
+
+- code: |
+    module alu (
+    input  logic [2:0] s,
+    input  logic [3:0] A, B,
+    output logic [3:0] F
+    );
+        logic [3:0] Aslice;
+
+        always_comb begin
+            Aslice = A; // You must assign Aslice a value
+
+            if (Aslice[2:1] inside {2'b10, 2'b11})
+                F = A;
+            else
+                F = B; // Default or alternate operation
+        end
+    endmodule
+
+- code: |
+    module Johnson_Counter (
+    output logic [3:0] count,
+    input logic enable,
+    input logic clock,
+    input logic reset
+    );
+        always_ff @(posedge clock or posedge reset) begin
+            if (reset)
+                count <= 4'b0000;
+            else if (enable)
+                count <= {count[2:0], ~count[3]}; // Johnson counter logic
+
+            if (count == 4'b0000 || count == 4'b1111)
+                $display("count in list");
+        end
+    endmodule
+
+- code: |
+    module mltp_a;
+    // Example definition for mand (assumed 4-entry vector)
+    logic [3:0] mand [0:3];
+    logic [3:0] plaidx;
+
+    // Function returning index
+    function int idxf(); 
+        return 1; 
+    endfunction
+
+    initial begin
+        // Initialize example values
+        mand[0] = 4'd2;
+        mand[1] = 4'd5;
+        mand[2] = 4'd9;
+        mand[3] = 4'd15;
+        plaidx = 4'd5;
+
+        // Instead of inside with variable array, use manual comparison
+        if (mand[idxf()] == plaidx)
+            $display("mand[%0d] = %0d is inside plaidx = %0d", idxf(), mand[idxf()], plaidx);
+        else
+            $display("No match");
+    end
+    endmodule
+
+- code: |
+    module d_ff (
+    input logic clk,
+    input logic [1:0] s,
+    output logic q
+    );
+        // Define acceptable values directly inside the module
+        logic [1:0] si_arr_0 = 2'b00;
+        logic [1:0] si_arr_1 = 2'b01;
+
+        always @(posedge clk) begin
+            if (s == si_arr_0 || s == si_arr_1) begin
+                q <= 0;  // or appropriate deassign/reset behavior
+                $display("s matched one of predefined states: %b", s);
+            end
+        end
+    endmodule
+
+- code: |
+    module ttst_ttrimux2_1();
+    reg e;
+    reg s;
+    reg [1:0] i;
+    wire out;
+
+    generate
+        if (1) begin : gen_mux
+            initial begin
+                if (s inside {1'b0, 1'b1})  // ✅ fixed syntax
+                    $display("s inside gen");
+            end
+        end
+    endgenerate
+
+    initial begin
+        e = 0;
+        i = 0;
+        s = 0;
+    end
+
+    always #5 s = ~s;
+    always #6 i = i + 1;
+
+    initial #48 $stop;
+    endmodule
+
+- code: |
+    package pkg_async;
+      // This is kept, but not used for 'inside'
+      logic [1:0] dine_arr = '{1'b0,1'b1};
+      endpackage
+
+      module dffalter_tst();
+        import pkg_async::*;
+        reg di, pr;
+
+        initial begin
+          di = 0;
+          pr = 0;
+        end
+
+        always @(posedge pr) begin
+          if (di inside {1'b0, 1'b1})  // ✅ constant RHS
+            $display("async di inside");
+        end
+
+        always #5 pr = ~pr;
+        always #7 di = ~di;
+
+        initial #30 $stop;
+      endmodule
+
+- code: |
+    module Universal_Shift_Reg(
+    input logic s1, s0,
+    input logic [3:0] Data_In,
+    output logic [3:0] Data_Out
+    );
+        logic [1:0][1:0] ctrlvals = '{'{1'b0,1'b1}, '{1'b1,1'b0}};
+
+        always_comb begin : gen_ctrl
+            if ({s1, s0} inside ctrlvals[0]) begin
+                Data_Out = Data_In;
+            end else begin
+                Data_Out = 4'b0000;  // Default assignment to avoid latch
+            end
+        end
+    endmodule
+
+- code: |
+    // Package defining detect_states
+    package pkg_states;
+        localparam logic [3:0] detect_states [0:2] = '{4'd4, 4'd8, 4'd12};
+    endpackage
+
+    // Test module using that package
+    module t_Universal_Shift_Reg;
+        import pkg_states::*;
+        logic [3:0] rst;
+
+        initial begin
+            rst = 4'd8;
+            if (rst inside {detect_states[0], detect_states[1], detect_states[2]})
+                $display("reset inside");
+        end
+    endmodule
+
+- code: |
+    module rst_check;
+    logic [3:0] RST_X;
+    localparam logic [3:0] rstlist [0:1] = '{4'd0, 4'd1};
+
+    always_comb begin
+        // Verilator-compatible manual check
+        if (RST_X == rstlist[0] || RST_X == rstlist[1])
+            $display("RST_X is in reset list");
+    end
+    endmodule
+
+- code: |
+    module tb_TOP1();
+    reg CLK, RST_X;
+
+    // Match width with RST_X (1-bit)
+    localparam logic rstlist [0:1] = '{1'b0, 1'b1};
+
+    always @(posedge CLK) begin
+        if (RST_X == rstlist[0] || RST_X == rstlist[1])
+            $display("RESET asserted");
+    end
+
+    initial begin
+        CLK = 0;
+        RST_X = 0;
+    end
+
+    always #5 CLK = ~CLK;
+
+    initial #20 $finish;
+    endmodule
+
+- code: |
+    module comp #(parameter N = 4) (
+    input  logic [N-1:0] x,
+    output logic         gt
+    );
+        // Initialize array with all zeros
+        localparam logic [N-1:0] arrx [0:0] = '{default: '0};
+
+        always @(*) begin
+            // Manual comparison instead of 'inside' for Verilator compatibility
+            if (x == arrx[0])
+                gt = 1'b1;
+            else
+                gt = 1'b0;
+        end
+    endmodule
+
+- code: |
+    module dff_aa (
+    input  logic clk,
+    input  logic clr,
+    input  logic di,
+    output logic q
+    );
+        // Define pick values as 1-bit
+        localparam logic pick [0:1] = '{1'b0, 1'b1};
+
+        always_ff @(posedge clk) begin
+            if (clr && (q == pick[0] || q == pick[1]))
+                q <= di;
+        end
+    endmodule
+
+- code: |
+    module addern (
+    input  logic [15:0] C,
+    input  logic [15:0] X, Y,
+    output logic [15:0] S
+    );
+
+        // Define a constant list of values as a packed array of 2 elements
+        localparam logic [15:0] consts [0:1] = '{16'd0, 16'd65535};
+
+        always_comb begin
+            if (C == consts[0] || C == consts[1])
+                S[0] = 1'b0;
+            else
+                S[0] = 1'b1;
+        end
+
+    endmodule
+
+- code: |
+    module mixed_sim;
+    logic [31:0] bus, x, y;
+    localparam logic [31:0] busArr [0:3] = '{32'd0, 32'd1, 32'd2, 32'd3};
+
+    always @(*) begin
+        if (bus == busArr[0] || bus == busArr[1] || bus == busArr[2] || bus == busArr[3])
+            y = 32'd0;
+        else
+            y = 32'd1;
+    end
+    endmodule
+
+- code: |
+    package pkg_states;
+    localparam logic [3:0] detect_states [0:2] = '{4'd4, 4'd8, 4'd12};
+    endpackage
+
+    module Prob_6_7_Mealy (
+        input  logic clk,
+        input  logic rst,
+        input  logic D_in,
+        output logic Detect_Mealy
+        );
+        import pkg_states::*;
+
+        logic [3:0] state_Mealy;
+
+        always_ff @(posedge clk or posedge rst) begin
+            if (rst)
+                state_Mealy <= 4'd0;
+            else begin
+                // Example transition logic (you can customize this FSM behavior)
+                state_Mealy <= state_Mealy + 1;
+            end
+        end
+
+        always_ff @(posedge clk) begin
+            if (state_Mealy == detect_states[0] ||
+                state_Mealy == detect_states[1] ||
+                state_Mealy == detect_states[2])
+                Detect_Mealy <= 1'b1;
+            else
+                Detect_Mealy <= 1'b0;
+        end
+
+    endmodule
+
+- code: |
+    module tst_dffbehen; // test-bench
+    logic di;
+    localparam logic [1:0] di_arr = '{1'b0, 1'b1}; // valid descending bit range
+
+    always #4 di = ~di;
+
+    initial begin
+        #1; // allow di to toggle at least once
+        if (di == di_arr[0] || di == di_arr[1])
+            $display("di toggle matches");
+    end
+    endmodule
+
+- code: |
+    module shift_reg;
+    logic [1:0] s_cnt;
+    logic [3:0] d_in, q;
+
+    initial begin
+        s_cnt = 2'd2;
+        d_in = 4'hA;
+    end
+
+    generate
+        genvar i;
+        for (i = 0; i < 1; i++) begin : gen_com
+            initial begin
+                if (s_cnt == 2 || s_cnt == 3)
+                    q = d_in;
+            end
+        end
+    endgenerate
+    endmodule
+
+- code: |
+    module tst_mup;
+    logic [7:0] ir;
+    localparam logic [7:0] ir_arr [0:1] = '{8'd0, 8'd255};
+
+    initial $monitor("ir = %0d", ir);
+
+    initial begin
+        ir = 8'd255;  // Example value for testing
+
+        if (ir == ir_arr[0] || ir == ir_arr[1])
+            $display("ir in range");
+        else
+            $display("ir NOT in range");
+    end
+    endmodule
+
+- code: |
+    module encoder;
+
+    // Define input and valid BCD table
+    logic [3:0] BCD_in;
+    localparam logic [3:0] table [0:3] = '{4'd1, 4'd3, 4'd7, 4'd15};
+
+    initial begin
+      BCD_in = 4'd3; // Example value to test
+
+      // Manual comparison instead of 'inside'
+      if (BCD_in == table[0] ||
+          BCD_in == table[1] ||
+          BCD_in == table[2] ||
+          BCD_in == table[3]) begin
+        $display("BCD valid: %0d", BCD_in);
+      end else begin
+        $display("BCD invalid: %0d", BCD_in);
+      end
+    end
+
+    endmodule
+
+- code: |
+    module JerkyComparator;
+
+    // Inputs
+    logic ClockIn;
+    logic [1:0] HiCount;
+
+    // Output
+    logic [1:0] AdjustFreq;
+
+    // Define valid adjustment values
+    localparam logic [1:0] adj [0:1] = '{2'd0, 2'd2};
+
+    // Clocking process
+    always @(ClockIn) begin
+      // Manual comparison instead of 'inside'
+      if (HiCount == adj[0] || HiCount == adj[1])
+        AdjustFreq = HiCount;
+    end
+
+    endmodule
+
+- code: |
+    module test_carry;
+
+      // Define valid index set manually
+      localparam logic [2:0] idxs [0:2] = '{3'd1, 3'd2, 3'd3};
+
+      logic a, b, c;
+      logic [2:0] combo;
+
+      initial begin
+        // Example values (can be replaced with actual logic if needed)
+        a = 0; b = 1; c = 1;
+        combo = {a, b, c};
+
+        for (int i = 0; i < 9; i++) begin
+          if (combo == idxs[0] || combo == idxs[1] || combo == idxs[2])
+            $display("combo in idxs: %0d", combo);
+          combo++;  // Simulate changing combinations
+        end
+      end
+
+    endmodule
+
+- code: |
+    module tstdlatch;
+
+      logic d;
+
+      // Local constant list (instead of inline set)
+      localparam logic [0:0] valid_vals [0:1] = '{1'b0, 1'b1};
+
+      initial begin
+        d = 1'b0; // example value
+        if (d == valid_vals[0] || d == valid_vals[1])
+          $display("d valid");
+        else
+          $display("d INVALID");
+      end
+
+    endmodule
+
+- code: |
+    module tstdlatch;
+
+      logic d;
+
+      // Local constant list (instead of inline set)
+      localparam logic [0:0] valid_vals [0:1] = '{1'b0, 1'b1};
+
+      initial begin
+        d = 1'b0; // example value
+        if (d == valid_vals[0] || d == valid_vals[1])
+          $display("d valid");
+        else
+          $display("d INVALID");
+      end
+
+    endmodule

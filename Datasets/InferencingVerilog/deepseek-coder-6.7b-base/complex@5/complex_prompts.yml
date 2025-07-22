@@ -1,0 +1,30 @@
+- prompt: Add an `inside` check for `a` within a predefined array slice in a module scope to test array slices in range lists.
+- prompt: Insert a `generate` block with an escaped name (e.g., \gen_block1 ) and use `inside` operator with constant index in a behavioral NOR gate.
+- prompt: Modify `Apply_Data` to use an `inside` operator over a full memory array inside a generate block to test MDA array selections.
+- prompt: Add `inside` operator in the sequence detector to check current state `inside` a constant set, placed in package scope.
+- prompt: Use a nested generate block with escaped names and apply an `inside` operator with variable index for range selection.
+- prompt: Rewrite FSM state transition using `inside` with an array slice for `w`, placed inside an SV class.
+- prompt: In the multiplexer, use `inside` to compare `S` with a constant-packed array declared at module scope.
+- prompt: Insert `inside` with indexed part select on operand A and check if it lies in a defined constant range array.
+- prompt: Use a generate block to wrap the Johnson counter logic, and use `inside` to check `count` inside a static array with constant index.
+- prompt: Replace direct PLA output logic with a function call in array index used within `inside` range list.
+- prompt: Use `inside` operator in `force_a_1` block to check if `s` is inside a constant declared in interface scope.
+- prompt: Wrap the tristate multiplexer testbench inside a generate block and use `inside` operator on `s` with escaped generate name.
+- prompt: Insert `inside` operator using `di` and a packed array slice declared in a package to validate async preset behavior.
+- prompt: Use `inside` on the `s1`, `s0` control signals and check them against a packed array declared inside the dollar unit scope.
+- prompt: Add `inside` check for `x` using an indexed part select, placed in a generate block with escaped name.
+- prompt: Wrap clock generation in a generate block, add `inside` check for `RST_X` in array range from external package.
+- prompt: Modify the comparator logic to use `inside` operator to compare `x` against a constant array defined in a package.
+- prompt: Use a function call result in the array index within the `inside` operator and wrap the conditional specify block inside a generate block.
+- prompt: Declare `X` and `Y` in a module scope array and use `inside` to check if a result lies in a packed slice.
+- prompt: Apply `inside` operator to signal `data` using constant index and use an array defined in interface scope.
+- prompt: Use `inside` on `state_Mealy` to compare against a constant array slice declared in a package.
+- prompt: In the behavioral D-latch, use `inside` operator on `di` to check against a fixed array slice from a dollar unit constant.
+- prompt: Add `inside` operator to check `s_cnt` inside a constant array and wrap combinational block in escaped generate block.
+- prompt: Add `inside` check on internal MUP register `rr.ir` using a constant array and wrap the instantiation in a generate block.
+- prompt: Check `BCD_in` using `inside` operator with array select using XMR in index (e.g., `pkg::consts[BCD_in]`) to test XMR usage.
+- prompt: Use a package-scope array and `inside` operator on `HiCount` in the comparator logic and move Adjr assignment to a generate block.
+- prompt: Use `inside` on `i` and compare with fixed array range declared in interface scope inside the carry testbench.
+- prompt: Wrap the latch testbench in a generate block and use `inside` operator to check `d` against a constant array.
+- prompt: Replace `flush_P0_P1` transition with an `inside` check of `state` against a packed range defined in package scope.
+- prompt: For the hex-to-7seg decoder, use `inside` to compare `x` against a constant array declared in dollar unit scope.
