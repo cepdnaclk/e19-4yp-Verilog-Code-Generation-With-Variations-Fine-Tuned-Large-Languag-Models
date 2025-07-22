@@ -1,0 +1,38 @@
+{
+  "overall_success_rate": 0.05,
+  "total_tasks": 40,
+  "successful_tasks": 2,
+  "average_scores": {
+    "syntactic_correctness": 0.55,
+    "semantic_correctness": 0.23000000000000004,
+    "functional_correctness": 0.5,
+    "framework_compliance": 0.4833333333333333,
+    "code_style": 0.6575,
+    "robustness": 0.10500000000000001,
+    "maintainability": 0.8175000000000001,
+    "innovation": 0.5475
+  },
+  "complexity_analysis": {
+    "simple": {
+      "total": 4,
+      "successful": 0
+    },
+    "unknown": {
+      "total": 30,
+      "successful": 2
+    },
+    "medium": {
+      "total": 2,
+      "successful": 0
+    },
+    "complex": {
+      "total": 2,
+      "successful": 0
+    },
+    "novel": {
+      "total": 2,
+      "successful": 0
+    }
+  },
+  "average_execution_time": 15.108425295352935
+}

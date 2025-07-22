@@ -1,0 +1,46 @@
+Priority 1 Enhanced RAG Pipeline Test Log
+==================================================
+Test Run: 2025-07-19T08:59:27.649843
+Embedding Model: microsoft/codebert-base
+Total Tests: 5
+
+Test 1: wire_to_reg_conversion
+  Description: Transform wire declarations to reg declarations in a Verilog module
+  Complexity: simple
+  Status: passed
+  Quality Score: 1.00
+  Code Length: 2239
+  Output: generated_xforms_priority1/test_run_20250719_083716/passed/wire_to_reg_conversion.py
+
+Test 2: add_enable_signal
+  Description: Add an enable signal to control assignments in a Verilog module
+  Complexity: medium
+  Status: passed
+  Quality Score: 1.00
+  Code Length: 2239
+  Output: generated_xforms_priority1/test_run_20250719_083716/passed/add_enable_signal.py
+
+Test 3: signal_width_change
+  Description: Change the width of a signal from 8 bits to 16 bits in Verilog
+  Complexity: medium
+  Status: passed
+  Quality Score: 1.00
+  Code Length: 3004
+  Output: generated_xforms_priority1/test_run_20250719_083716/passed/signal_width_change.py
+
+Test 4: module_rename
+  Description: Rename a Verilog module from old_name to new_name
+  Complexity: simple
+  Status: passed
+  Quality Score: 1.00
+  Code Length: 2239
+  Output: generated_xforms_priority1/test_run_20250719_083716/passed/module_rename.py
+
+Test 5: port_addition
+  Description: Add a new input port called debug_enable to a Verilog module
+  Complexity: complex
+  Status: passed
+  Quality Score: 1.00
+  Code Length: 2239
+  Output: generated_xforms_priority1/test_run_20250719_083716/passed/port_addition.py
+

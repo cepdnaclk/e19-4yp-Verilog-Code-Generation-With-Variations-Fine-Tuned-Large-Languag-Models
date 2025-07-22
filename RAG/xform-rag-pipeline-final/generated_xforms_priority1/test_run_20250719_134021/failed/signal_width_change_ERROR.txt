@@ -1,0 +1,4 @@
+Test: signal_width_change
+Description: Change the width of a signal from 8 bits to 16 bits in Verilog
+Error: Collection expecting embedding with dimension of 384, got 768
+Timestamp: 2025-07-19T13:45:35.088365

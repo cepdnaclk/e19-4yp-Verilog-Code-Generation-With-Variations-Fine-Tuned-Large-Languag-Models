@@ -1,0 +1,662 @@
+- code: |
+    module tst_or_gate();
+    reg[3:0]a;
+    reg en;
+    wire b;
+    or_gate gg(b,a,en);
+    initial
+    begin
+    a = 4'h0; // Initialize input
+    en = 1'b0; // Initialize enable
+    end
+    initial begin // Stimulus generation
+    end
+    initial $monitor("t=%0d, en = %b, a = %h, b = %b",$time,en,a,b); // Use %h for hex 'a'
+    initial #30 $stop; // Stop simulation
+    endmodule
+- code: |
+    module tst_nor3NMOS();
+      reg in1,in2,in3; wire b;
+      nor3NMOS nn(in1,in2,in3,b); // Instantiate NMOS NOR
+      initial begin // Initialize inputs
+        in1=1'b0; in2=1'b0; in3=1'b0; // Corrected: was 1'b1
+      end
+      // Toggle inputs at different rates
+      always #2 in1=~in1;
+      always #3 in2=~in2;
+      always #5 in3=~in3;
+      initial $monitor($time , "in1 = %b , in2 = %b , in3 = %b , output = %b ",in1,in2,in3,b); // Removed newline
+      initial #24 $stop; // Stop simulation
+    endmodule
+- code: |
+    module test_multiplier;
+    reg clk=0, start, error; // Added clk initialization
+    wire [7:0] databus;
+    wire lsb_out, msb_out, done;
+    reg [7:0] mem1[0:2], mem2[0:2]; // Memory for operands
+    reg [7:0] im_data; // Data to drive onto bus
+    reg [7:0] opnd1, opnd2; // Operands
+    reg [15:0] expected_result, multiplier_result; // Results
+    integer indx; // Loop index
+    // Instantiate the Multiplier Unit Under Test
+    Multiplier uut ( clk, start, databus, lsb_out, msb_out, done );
+    // --- Placeholder blocks referenced by Figure numbers ---
+    initial begin: Apply_Data /* ... Figure 8.11 ... */ end
+    initial begin: Apply_Start /* ... Figure 8.12 ... */ end
+    initial begin: Expected_Result /* ... Figure 8.13 ... */ end
+    always @(posedge clk)
+    begin: Actual_Result /* ... Figure 8.14 ... */ end
+    always @(posedge clk)
+    begin: Compare_Results /* ... Figure 8.15 ... */ end
+    // --- Clock generation ---
+    always #50 clk = ~clk;
+    // --- Data bus driving ---
+    assign databus = im_data; // Drive internal data onto bus
+    endmodule
+- code: |
+    module Prob_6_7_Moore (Detect_Moore, D_in, clk, rst);
+    // Moore nonresetting sequence detector
+    output Detect_Moore;
+    input D_in, clk, rst;
+    parameter S_0 = 0, S_1 = 1, S_2 = 2, S_3 = 3, S_4 = 4;
+    parameter S_5 = 5, S_6 = 6, S_7 = 7, S_8 = 8;
+    reg [3: 0] state_Moore, next_state;
+    wire Detect_Moore = ((state_Moore == S_4) || (state_Moore == S_8));
+    always @ (posedge clk) if (rst) state_Moore <= S_0; else state_Moore <= next_state;
+    always @ (state_Moore, D_in) begin
+    next_state = S_0;
+    case (state_Moore)
+    S_0: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_5;
+    S_1: if (D_in) next_state = S_2; else if (D_in == 0) next_state = S_5;
+    S_2: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_5;
+    S_3: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_4;
+    S_4: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_6;
+    S_5: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_6;
+    S_6: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_7;
+    S_7: if (D_in) next_state = S_8; else if (D_in == 0) next_state = S_7;
+    S_8: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_6;
+    default: next_state = S_0;
+    endcase
+    end
+    endmodule
+- code: |
+    module tst_ctr_wt;
+    reg clk,En;
+    reg[3:0]N;
+    wire[3:0]a;
+    ctr_wt c1(a,clk,N,En);
+    initial
+    begin
+    clk=0; N=4'b1111; // Set limit to 15
+    En=1'b0; // Start disabled
+    end
+    always
+    initial #35 $stop; // Stop simulation
+    initial $monitor($time,"clk=%b, En=%b, N=%d, a=%d",clk,En,N,a); // Corrected format specifiers
+    endmodule
+- code: |
+    module mealy(Clock, Resetn, w, z);
+    input Clock, Resetn, w;
+    output z;
+    reg y, Y, z;
+    parameter A = 0, B = 1;
+    always @(w or y)
+        case (y)
+            A: if (w)
+                begin
+                    z = 0;
+                    Y = B;
+                end
+            else
+                begin
+                    z = 0;
+                    Y = A;
+                end
+            B: if (w)
+                begin
+                    z = 1;
+                    Y = B;
+                end
+            else
+                begin
+                    z = 0;
+                    Y = A;
+                end
+        endcase
+    always @(negedge Resetn or posedge Clock)
+        if (Resetn == 0) y <= A;
+        else y <= Y;
+    endmodule
+- code: |
+    module mux4to1(w0, w1, w2, w3, S, f);
+    input w0, w1, w2, w3;
+    input [1:0] S;
+    output f;
+    reg f;
+    always @(w0 or w1 or w2 or w3 or S)
+        if (S == 2'b00)
+            f = w0;
+        else if (S == 2'b01)
+            f = w1;
+        else if (S == 2'b10)
+            f = w2;
+        else if (S == 2'b11)
+            f = w3;
+    endmodule
+- code: |
+    module alu(s, A, B, F);
+    input [2:0] s;
+    input [3:0] A, B;
+    output [3:0] F;
+    reg [3:0] F;
+    always @(s or A or B)
+        case (s)
+            0: F = 4'b0000;
+            1: F = B - A;
+            2: F = A - B;
+            3: F = A + B;
+            4: F = A ^ B;
+            5: F = A | B;
+            6: F = A & B;
+            7: F = 4'b1111;
+        endcase
+    endmodule
+- code: |
+    module Johnson_Counter (count, enable, clock, reset);
+    output [3: 0] count;
+    input enable;
+    input clock, reset;
+    reg [3: 0] count;
+    always @ (posedge clock, posedge reset)
+    if (reset == 1) count <= 0;
+    else if (enable)
+    case (count)
+    4'b0000,
+    4'b0001,
+    4'b0011,
+    4'b0111: count <= {count[2: 0], 1'b1};
+    4'b1111,
+    4'b1110,
+    4'b1100,
+    4'b1000: count <= {count[2: 0], 1'b0};
+    default: count <= 0;
+    endcase
+    endmodule
+
+    module t_Johnson_Counter ();
+    wire [3: 0] count;
+    reg enable;
+    reg clock, reset;
+    Johnson_Counter M0 (count, enable, clock, reset);
+    initial #500 $finish;
+    initial begin clock = 0; forever #5 clock = ~clock; end
+    initial fork
+    join
+    endmodule
+- code: |
+    module mltp_a(a1,a0,b1,b0,c1,c2,c3,c4); // PLA based 2x2 multiplier
+      input a1,a0,b1,b0; output c1,c2,c3,c4;
+      // Declare storage for AND plane and OR plane
+      reg[1:4] mand[1:9]; // AND plane inputs (4 bits wide, 9 product terms)
+      reg[1:9] mor[1:4]; // OR plane inputs (9 bits wide, 4 outputs)
+      reg p1,p2,p3,p4,p5,p6,p7,p8,p9; // Product terms
+      reg c1,c2,c3,c4; // Outputs must be reg for procedural assignment
+      initial begin
+        // Define AND plane connections (input -> product term)
+        mand[1]=4'b1010; mand[2]=4'b0110; mand[3]=4'b1110; mand[4]=4'b1001;
+        mand[5]=4'b0101; mand[6]=4'b1101; mand[7]=4'b1011; mand[8]=4'b0111;
+        mand[9]=4'b1111;
+        // Define OR plane connections (product term -> output)
+        // Format: 9 bits for p1-p9 connections for each output c1-c4
+        mor[1]=9'b101000101; // Connections for c1
+        mor[2]=9'b011101110; // Connections for c2
+        mor[3]=9'b000011010; // Connections for c3
+        mor[4]=9'b000000001; // Connections for c4
+        // Instantiate PLA using system tasks
+        $async$and$array(mand, {b1,b0,a1,a0}, {p1,p2,p3,p4,p5,p6,p7,p8,p9}); // Corrected input order?
+        $async$or$array(mor, {p1,p2,p3,p4,p5,p6,p7,p8,p9}, {c4,c3,c2,c1}); // Corrected output order?
+      end
+    endmodule
+- code: |
+    module d_ff (input d, clk, s, r, output reg q, q_b );
+    always @( s ) begin : force_a_1
+    if ( s )
+    begin
+    end else begin
+    deassign q;
+    deassign q_b;
+    end
+    end
+    always @( r ) begin : force_a_0
+    if( r )
+    begin
+    end else begin
+    deassign q;
+    deassign q_b;
+    end
+    end
+    always @( posedge clk ) begin : clocked
+    end
+    endmodule
+- code: |
+    module ttst_ttrimux2_1(); // Assuming this tests a tristate 2-to-1 mux called ttrimux2_1
+    reg e;
+    reg [1:0]i; // Should be reg i0, i1; or reg [0:0] i0, i1; or just input wires if MUX takes separate inputs
+    reg s;
+    wire out; // Added wire declaration
+    // ttrimux2_1 mm(out,e,i,s); // Instantiation requires correct MUX definition
+    initial
+    begin
+    e =0; i = 2'b00; s = 1'b0; // Added initial 's' value
+    end
+    always
+    begin
+    end
+    initial $monitor($time ," enable e = %b , s= %b , input i = %b ,output out = %b ",e ,s,i,out);
+    initial #48 $stop;
+    endmodule
+- code: |
+    module dffalter_tst(); // Testbench, likely for a DFF named dffalter
+    reg di,clk,clr,pr;
+    wire q, qb; // Added qb
+    // dffalter dff(q,qb,di,clk,clr,pr); // Assumed instantiation of DUT
+    initial
+    begin
+    clr=1'b1;pr=1'b0;clk=1'b0;di=1'b0; // Start with clear asserted
+    end
+    always
+    begin
+    clr=1'b0; // Deassert clear
+    end
+    always # 4 di =~di; // Toggle data
+    always #16 pr=1'b1; // Assert preset
+    always #20 pr =1'b0; // Deassert preset
+    initial $monitor("t=%0d, clk=%b, clr=%b, pr=%b, di=%b, q=%b ", $time,clk,clr,pr,di,q);
+    initial #46 $stop; // Stop simulation
+    endmodule
+- code: |
+    module Universal_Shift_Reg (Data_Out, MSB_Out, LSB_Out, Data_In,
+    MSB_In, LSB_In, s1, s0, clk, rst);
+    output [3: 0] Data_Out;
+    output MSB_Out, LSB_Out;
+    input [3: 0] Data_In;
+    input MSB_In, LSB_In;
+    reg [3: 0] Data_Out; // 10-12-2004
+    input s1, s0, clk, rst;
+    assign MSB_Out = Data_Out[3];
+    assign LSB_Out = Data_Out[0];
+    always @ (posedge clk) begin
+    if (rst) Data_Out <= 0;
+    else case ({s1, s0})
+    0: Data_Out <= Data_Out; // Idle
+    1: Data_Out <= {MSB_In, Data_Out[3:1]}; // Shift right
+    2: Data_Out <= {Data_Out[2:0], LSB_In}; // Shift Left
+    3: Data_Out <= Data_In; // Parallel Load
+    endcase
+    end
+    endmodule
+    /*
+    Test Plan
+    Verify initial reset
+    Verify idle
+    Verify shift right
+    Verify shift left
+    Verify parallel load
+    Verify reset-on-the-fly
+    */
+    module t_Universal_Shift_Reg();
+    wire [3: 0] Data_Out;
+    reg [3: 0] Data_In;
+    wire MSB_Out, LSB_Out;
+    reg MSB_In, LSB_In;
+    reg s1, s0, rst;
+    defparam M2.half_cycle = 5;
+
+    Universal_Shift_Reg M1 (Data_Out, MSB_Out, LSB_Out, Data_In, MSB_In, LSB_In, s1,
+    s0, clk, rst);
+    Clock_Gen M2(clk);
+
+    initial #1000 $finish;
+    initial fork
+    begin #5 rst = 1; #20 rst = 0;end
+    begin #120 rst = 1; #20 rst = 0;end
+    begin #260 rst = 1; #20 rst = 0;end
+    begin #380 rst = 1; #20 rst = 0;end
+    join
+    initial fork
+    join
+    begin // Verify left shift
+    join
+    begin // Verify load
+    join
+    begin // reset
+    join
+
+    join
+    endmodule
+- code: |
+    module hex7seg_le (
+    input wire [3:0] x ,
+    output wire [6:0] a_to_g // Outputs for segments a,b,c,d,e,f,g
+    );
+    // Logic equations for each segment (active high assumed)
+    assign a_to_g[6] = ~x[3] & ~x[2] & ~x[1] & x[0] // a (segment index 6)
+    | ~x[3] & x[2] & ~x[1] & ~x[0]
+    | x[3] & x[2] & ~x[1] & x[0]
+    | x[3] & ~x[2] & x[1] & x[0];
+    assign a_to_g[5] = x[2] & x[1] & ~x[0] // b (segment index 5)
+    | x[3] & x[1] & x[0]
+    | ~x[3] & x[2] & ~x[1] & x[0]
+    | x[3] & x[2] & ~x[1] & ~x[0];
+    assign a_to_g[4] = ~x[3] & ~x[2] & x[1] & ~x[0] // c (segment index 4)
+    | x[3] & x[2] & x[1]
+    | x[3] & x[2] & ~x[0];
+    assign a_to_g[3] = ~x[3] & ~x[2] & ~x[1] & x[0] // d (segment index 3)
+    | ~x[3] & x[2] & ~x[1] & ~x[0]
+    | x[3] & ~x[2] & x[1] & ~x[0]
+    | x[2] & x[1] & x[0];
+    assign a_to_g[2] = ~x[3] & x[0] // e (segment index 2)
+    | ~x[3] & x[2] & ~x[1]
+    | ~x[2] & ~x[1] & x[0];
+    assign a_to_g[1] = ~x[3] & ~x[2] & x[0] // f (segment index 1)
+    | ~x[3] & ~x[2] & x[1]
+    | ~x[3] & x[1] & x[0]
+    | x[3] & x[2] & ~x[1] & x[0];
+    assign a_to_g[0] = ~x[3] & ~x[2] & ~x[1] // g (segment index 0)
+    | x[3] & x[2] & ~x[1] & ~x[0]
+    | ~x[3] & x[2] & x[1] & x[0];
+    endmodule
+- code: |
+    module tst_updcounter();//TEST_BENCH
+    reg clk,u_d;
+    reg[3:0]N;
+    wire[3:0]a;
+    updcounter c2(a,clk,N,u_d);
+    initial
+    begin
+    N = 4'b0111; // Set limit N=7
+    u_d = 1'b1; // Start counting up (Corrected: was 1'b0)
+    clk = 0;
+    end
+    always #2 clk=~clk; // Generate clock
+    always #34 u_d=~u_d; // Change direction every 34 time units
+    initial $monitor
+    ($time,"clk=%b, N=%d, u_d=%b, a=%d",clk,N,u_d,a); // Display values
+    initial #64 $stop; // Stop simulation
+    endmodule
+- code: |
+    module tb_TOP1;
+      reg CLK, RST_X;
+      TOP1 uut(.CLK(CLK), .RST_X(RST_X));
+
+      initial begin
+        CLK = 0;
+        forever #5 CLK = ~CLK;
+      end
+
+      initial begin
+        RST_X = 0; #10;
+        RST_X = 1;
+      end
+    endmodule
+- code: |
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt, // Greater than
+    output reg eq, // Equal
+    output reg lt // Less than
+    );
+    always @(*) // Combinational logic
+    begin
+    // Default outputs to 0
+    gt = 1'b0;
+    eq = 1'b0;
+    lt = 1'b0;
+    // Set flags based on comparison results
+    if(x > y)
+    gt = 1'b1;
+    if(x == y)
+    eq = 1'b1;
+    if(x < y)
+    lt = 1'b1;
+    end
+    endmodule
+- code: |
+    module dff_aa(q,qb,di,clk,clr,pr); // Behavioral DFF with async controls and conditional path delay
+      output q,qb; input di,clk,clr,pr;
+      reg q;
+      assign qb=~q;
+      specify
+        // Conditional path delay: clk->q edge-sensitive path active only if clr and pr are low
+        if (!clr && !pr) (posedge clk *> (q:di)) = 1;
+      endspecify
+      // Behavioral description with async reset/preset priority
+      always @(posedge clk or posedge clr or posedge pr) // Added async sensitivity
+        if(clr) q <= 1'b0; // Use non-blocking <=
+        else if(pr) q <= 1'b1;
+        else q <= di;
+    endmodule
+- code: |
+    module addern(carryin, X, Y, S, carryout);
+    parameter n = 16;
+    input carryin;
+    input [n-1:0] X, Y;
+    output [n-1:0] S;
+    output carryout;
+    reg [n-1:0] S;
+    reg [n:0] C;
+    reg carryout;
+    integer k;
+    always @(X or Y or carryin)
+    begin
+        C[0] = carryin;
+        for (k = 0; k <= n-1; k = k + 1)
+        begin
+            S[k] = X[k] ^ Y[k] ^ C[k];
+            C[k+1] = (X[k] & Y[k]) | (C[k] & X[k]) | (C[k] & Y[k]);
+        end
+        carryout = C[n];
+    end
+    endmodule
+- code: |
+    module mixed_sim;
+    reg dcontrol, x, y;
+    reg [31:0] data;
+    wire [31:0] bus;
+    assign bus = dcontrol ? data : 'bz;
+    always @x
+    y = ~x;
+    initial
+    begin
+    $monitor("time=%d dcontrol=%d data=%d x=%d y=%d bus=%d",
+             $time, dcontrol, data, x, y, bus);
+    dcontrol = 0;
+    end
+    endmodule
+- code: |
+    module Prob_6_7_Mealy (Detect_Mealy, D_in, clk, rst);
+    // Mealy nonresetting sequence detector
+    output Detect_Mealy;
+    input D_in, clk, rst;
+    parameter S_0 = 0, S_1 = 1, S_2 = 2, S_3 = 3;
+    parameter S_5 = 5, S_6 = 6, S_7 = 7;
+    reg [2: 0] state_Mealy, next_state;
+    wire Detect_Mealy = (((state_Mealy == S_3)&&(D_in == 0))
+    || ((state_Mealy == S_7)&&(D_in ==1)));
+    always @ (posedge clk) if (rst) state_Mealy <= S_0; else state_Mealy <= next_state;
+    always @ (state_Mealy, D_in) begin
+    next_state = S_0;
+    case (state_Mealy)
+    S_0: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_5;
+    S_1: if (D_in) next_state = S_2; else if (D_in == 0) next_state = S_5;
+    S_2: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_5;
+    S_3: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_5;
+    S_5: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_6;
+    S_6: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_7;
+    S_7: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_7;
+    default: next_state = S_0;
+    endcase
+    end
+    endmodule
+- code: |
+    module tst_dffbehen;//test-bench
+    reg di,en;
+    wire do;
+    dffen d1(do,di,en); // Instantiate the D latch
+    initial
+    begin
+    en=0; // Latch initially disabled (opaque)
+    di=1'b0; // Initial data
+    end
+    always #7 en =~en; // Toggle enable every 7 time units
+    always #4 di=~di; // Toggle data every 4 time units
+    initial
+    $monitor($time,"en=%b, di=%b, do=%b",en,di,do);
+    initial #50 $stop; // Stop simulation
+    endmodule
+- code: |
+    module shift_reg( input [3:0] d_in, input clk, sr, sl, ld, rst,
+    input [1:0] s_cnt, output reg [3:0] q);
+    reg [3:0] int_q;
+    always @( d_in, q, s_cnt, sr, sl, ld ) begin: combinational
+    if( ld )
+    int_q = d_in;
+    else if( sr )
+    int_q = q >> s_cnt;
+    else if( sl )
+    int_q = q << s_cnt;
+    else int_q = q;
+    end
+    always @( posedge clk ) begin: register
+    if (rst) q <= 0;
+    else q <= int_q;
+    end
+    endmodule
+- code: |
+    module tst_mup; // Testbench for Microprocessor
+    reg clk,en,int; // Clock, Enable, Interrupt inputs
+    // Assuming mup_opr is the microprocessor module instance
+    // mup_opr rr(clk,int,en); // Instantiation needed
+    initial
+    begin
+    int=1'b0;clk=1'b0;en=1'b0; // Initialize
+    end
+    always #2 clk=~clk; // Generate clock
+    // Monitor clock, time, inputs, and internal MUP registers (pc, ir, dcop)
+    initial $monitor("clk=%b, t=%0d, en=%b, int=%b, rr.pc=%0d, rr.ir=%0h, rr.dcop=%0d", clk,$time,en,int,rr.pc,rr.ir,rr.dcop); // Corrected format specifiers
+    // mup_opr rr(clk,int,en); // Instantiate DUT
+    initial #40 $stop; // Stop simulation
+    endmodule
+- code: |
+    module encoder (BCD_in, Excess_3_out);
+    input [3:0] BCD_in;
+    output [3:0] Excess_3_out;
+    assign Excess_3_out = BCD_in + 3;
+    endmodule
+
+    module t_encoder();
+    reg [3:0] BCD_in;
+    wire [3:0] Excess_3_out;
+    encoder M0(BCD_in, Excess_3_out);
+    initial
+    $monitor($time,,"BCD = %b, Excess-3 Code = %b", BCD_in, Excess_3_out);
+
+    initial begin
+    end
+    initial begin //Simulation Test Pattern
+    end
+    endmodule
+- code: |
+    module JerkyComparator (output[1:0] AdjustFreq, input ClockIn, PLLClock, Reset);
+    reg[1:0] Adjr;
+    assign AdjustFreq = Adjr;
+    reg[1:0] HiCount;
+    always @(ClockIn, Reset)
+    if (Reset==1'b1)
+    begin
+        Adjr = 2'b01;
+        HiCount = 2'b0;
+    end
+    else if (PLLClock==1'b1)
+        HiCount = HiCount + 2'b01;
+    else begin
+        case (HiCount)
+            2'b00: Adjr = 2'b11;
+            2'b01: Adjr = 2'b01;
+            default: Adjr = 2'b00;
+        endcase
+        HiCount = 2'b0;
+    end
+    endmodule
+- code: |
+    module test_carry;
+    reg a, b, c;
+    integer i;
+    wire cout;
+    carry c1(cout, c, a, b);
+    initial
+    begin
+    $monitor("time=%d a=%b b=%b c=%b---------cout=%b", $time, a, b, c, cout);
+    for (i = 0; i < 9; i = i + 1)
+    begin
+    {a, b, c} = i;
+    end
+    a = 'bx;
+    b = 'bx;
+    end
+    endmodule
+- code: |
+    module tstdlatch; //test-bench
+    reg d,en;
+    wire q,qb;
+    // dlatch ff(en,d,q,qb); // Assuming instantiation of a D latch module
+    initial
+    begin
+    d = 1'b0;
+    en = 1'b0; // Latch disabled
+    end
+    always #4 en =~en; // Enable toggles every 4 time units
+    always #8 d=~d; // Data toggles every 8 time units
+    initial $monitor($time," en = %b , d = %b , q = %b , qb = %b " , en,d,q,qb);
+    initial #40 $stop;
+    endmodule
+- code: |
+    module control_unit (flush_P0_P1, Ld_P1, Ld_P0, Ld_R0, Ld, En, clock, rst);
+    output reg flush_P0_P1, Ld_P1, Ld_P0, Ld_R0;
+    input Ld, En, clock, rst;
+    reg [1: 0] state, next_state;
+    parameter S_idle = 0, S_1 = 1, S_full = 2, S_wait = 3;
+    always @ (posedge clock) if (rst) state <= S_idle;
+    else state <= next_state;
+    always @ (state, Ld, En) begin
+    flush_P0_P1 = 0;
+    Ld_P1 = 0;
+    Ld_P0 = 0;
+    Ld_R0 = 0;
+    next_state = S_idle;
+    case (state)
+    S_idle: if (En)
+    begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    else flush_P0_P1 = 1;
+
+    S_1: begin next_state = S_full; Ld_P1 = 1; Ld_P0 = 1; end
+    S_full: if (Ld == 1) begin
+    Ld_R0 = 1;
+    case (En)
+    0: begin next_state = S_idle; flush_P0_P1 = 1; end
+    1: begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    endcase
+    end
+    else next_state = S_wait;
+    S_wait: if (Ld == 1) begin
+    Ld_R0 = 1;
+    case (En)
+    0: begin next_state = S_idle; flush_P0_P1 = 1; end
+    1: begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    endcase
+    end
+    else next_state = S_wait;
+    endcase
+    end
+    endmodule

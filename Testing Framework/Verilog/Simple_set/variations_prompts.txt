@@ -1,0 +1,39 @@
+Prompt 1: Change `count` to wire in `simple_counter.v`
+Command: python3 1_xform_reg_to_wire.py simple_counter.v base_codes/1_simple_counter_wire.v --variable count
+Description: Converts the `count` register to a wire, modifying its declaration to `wire [7:0] count`.
+
+Prompt 2: Rename module in `simple_counter.v`
+Command: python3 2_xform_module_name.py simple_counter.v base_codes/2_simple_counter_renamed.v --from simple_counter --to advanced_counter
+Description: Renames the module from `simple_counter` to `advanced_counter`.
+
+Prompt 3: Rename port in `simple_shift_reg.v`
+Command: python3 3_xform_rename_port.py simple_shift_reg.v base_codes/3_simple_shift_reg_port_renamed.v --from shift_out --to data_shifted
+Description: Renames the output port `shift_out` to `data_shifted` in the port list and assignments.
+
+Prompt 4: Change reset condition in `simple_shift_reg.v`
+Command: python3 4_xform_change_reset_condition.py simple_shift_reg.v base_codes/4_simple_shift_reg_reset.v --signal rst --direction high_to_low
+Description: Changes the reset from active-high (`posedge rst`) to active-low (`negedge rst`).
+
+Prompt 5: Change `count` width in `simple_updown_counter.v`
+Command: python3 5_xform_change_signal_width.py simple_updown_counter.v base_codes/5_simple_updown_counter_width.v --signal count --width 15:0
+Description: Expands the `count` signal width from `[7:0]` to `[15:0]`.
+
+Prompt 6: Rename module in `simple_updown_counter.v`
+Command: python3 2_xform_module_name.py simple_updown_counter.v base_codes/6_simple_updown_counter_renamed.v --from simple_updown_counter --to advanced_updown_counter
+Description: Renames the module from `simple_updown_counter` to `advanced_updown_counter`.
+
+Prompt 7: Change `toggle_reg` to wire in `simple_toggle_ff.v`
+Command: python3 1_xform_reg_to_wire.py simple_toggle_ff.v base_codes/7_simple_toggle_ff_wire.v --variable toggle_reg
+Description: Converts the `toggle_reg` register to a wire, changing its declaration to `wire`.
+
+Prompt 8: Rename port in `simple_toggle_ff.v`
+Command: python3 3_xform_rename_port.py simple_toggle_ff.v base_codes/8_simple_toggle_ff_port_renamed.v --from toggle_out --to flip_out
+Description: Renames the output port `toggle_out` to `flip_out` in the port list and assignments.
+
+Prompt 9: Change reset condition in `simple_pulse_gen.v`
+Command: python3 4_xform_change_reset_condition.py simple_pulse_gen.v base_codes/9_simple_pulse_gen_reset.v --signal rst --direction high_to_low
+Description: Changes the reset from active-high (`posedge rst`) to active-low (`negedge rst`).
+
+Prompt 10: Rename module in `simple_pulse_gen.v`
+Command: python3 2_xform_module_name.py simple_pulse_gen.v base_codes/10_simple_pulse_gen_renamed.v --from simple_pulse_gen --to advanced_pulse_gen
+Description: Renames the module from `simple_pulse_gen` to `advanced_pulse_gen`.

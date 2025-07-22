@@ -1,3 +1,84 @@
+- base code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        datawid = vast.Parameter('DATAWID', vast.Rvalue(vast.IntConst('32')))
+        params = vast.Paramlist([datawid])
+
+        clk = vast.Ioport(vast.Input('CLK'))
+        rst = vast.Ioport(vast.Input('RST'))
+        width = vast.Width(vast.IntConst('7'), vast.IntConst('0'))
+        led = vast.Ioport(vast.Output('led', width=width))
+        ports = vast.Portlist([clk, rst, led])
+
+        width = vast.Width(
+            vast.Minus(vast.Identifier('DATAWID'), vast.IntConst('1')),
+            vast.IntConst('0')
+        )
+        count = vast.Reg('count', width=width)
+
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('led')),
+            vast.Rvalue(
+                vast.Partselect(
+                    vast.Identifier('count'),
+                    vast.Minus(vast.Identifier('DATAWID'), vast.IntConst('1')),
+                    vast.Minus(vast.Identifier('DATAWID'), vast.IntConst('8'))
+                )
+            )
+        )
+
+        sens = vast.Sens(vast.Identifier('CLK'), type='posedge')
+        senslist = vast.SensList([sens])
+
+        assign_count_true = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('count')),
+            vast.Rvalue(vast.IntConst('0'))
+        )
+        if0_true = vast.Block([assign_count_true])
+
+        count_plus_1 = vast.Plus(vast.Identifier('count'), vast.IntConst('1'))
+        assign_count_false = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('count')),
+            vast.Rvalue(count_plus_1)
+        )
+        if0_false = vast.Block([assign_count_false])
+
+        if0 = vast.IfStatement(vast.Identifier('RST'), if0_true, if0_false)
+        statement = vast.Block([if0])
+
+        always = vast.Always(senslist, statement)
+
+        items = [count, assign, always]
+        ast = vast.ModuleDef("top", params, ports, items)
+
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        print(rslt)
+
+    if __name__ == '__main__':
+        main()
+- base verilog code: |
+    module top #(parameter DATAWID = 32) (
+        input CLK,
+        input RST,
+        output [7:0] led
+    );
+        reg [DATAWID-1:0] count;
+
+        assign led = count[DATAWID-1:DATAWID-8];
+
+        always @(posedge CLK) begin
+            if (RST) begin
+                count <= 0;
+            end else begin
+                count <= count + 1;
+            end
+        end
+    endmodule
 - prompt: |
     Modify the variable type of `count` from `reg` to `wire` in the Verilog module.
   code: |
@@ -1060,3 +1141,1499 @@
     fixed_width = vast.Width(vast.IntConst('7'), vast.IntConst('0'))
     count = vast.Reg('count', width=fixed_width)
     ...
+
+
+
+- base code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, b, y])
+
+        # Define continuous assignment: Y = A ^ B
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Xor(vast.Identifier('A'), vast.Identifier('B')))
+        )
+
+        # Module items
+        items = [assign]
+
+        # Module definition
+        ast = vast.ModuleDef("xor_gate", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("xor_gate.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == "__main__":
+        main()
+
+- base verilog code: |
+    module xor_gate (
+        input A,
+        input B,
+        output Y
+    );
+        assign Y = A ^ B;
+    endmodule
+
+- prompt: |
+    Generate a Python script using Pyverilog to create a Verilog module for an XOR gate that uses XMR by instantiating a sub-module. Modify the base xor_gate.py to:
+    Create a sub_xor module with ports A, B, and Z, and logic Z = A ^ B using vast.Assign and vast.Xor.
+    In the main module:
+    Define ports A, B, and Y.
+    Instantiate sub_xor using vast.Instance with connections .A(A), .B(B), .Z(Z).
+    Declare Z as a wire using vast.Wire.
+    Assign Y = Z using vast.Assign.
+    Combine modules using vast.Description and vast.Source.
+    Name the main module xor_gate_xmr and write to xor_gate_xmr.v.
+    Align with the test plan’s “module XMR” and “continuous assign” themes.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports for sub_xor module
+        a_sub = vast.Ioport(vast.Input('A'))
+        b_sub = vast.Ioport(vast.Input('B'))
+        z_sub = vast.Ioport(vast.Output('Z'))
+        ports_sub = vast.Portlist([a_sub, b_sub, z_sub])
+
+        # Define sub_xor module (Z = A ^ B)
+        assign_z = vast.Assign(
+            vast.Lvalue(vast.Identifier('Z')),
+            vast.Rvalue(vast.Xor(vast.Identifier('A'), vast.Identifier('B')))
+        )
+        items_sub = [assign_z]
+        sub_xor = vast.ModuleDef("sub_xor", None, ports_sub, items_sub)
+
+        # Define ports for main module
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, b, y])
+
+        # Instantiate sub_xor module
+        inst = vast.Instance(
+            module='sub_xor',
+            name='inst',
+            parameterlist=[],
+            portlist=[
+                vast.PortArg('A', vast.Identifier('A')),
+                vast.PortArg('B', vast.Identifier('B')),
+                vast.PortArg('Z', vast.Identifier('Z'))
+            ]
+        )
+        inst_list = vast.InstanceList('sub_xor', [], [inst])
+
+        # Define continuous assignment: Y = Z
+        assign_y = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Identifier('Z'))
+        )
+
+        # Define Z as wire
+        z_wire = vast.Wire('Z')
+
+        # Module items for main module
+        items = [z_wire, inst_list, assign_y]
+
+        # Main module definition
+        main_module = vast.ModuleDef("xor_gate_xmr", None, ports, items)
+
+        # Combine modules using Description
+        description = vast.Description([sub_xor, main_module])
+        source = vast.Source('xor_gate_xmr', description)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(source)  # Fixed: Changed 'ast' to 'source'
+        with open("xor_gate_xmr.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script using Pyverilog to create a Verilog module for an XOR gate with sequential logic triggered by a clock. Modify the base xor_gate.py to:
+
+    Add a CLK input port using vast.Ioport.
+    Declare Y as a reg using vast.Reg.
+    Use an always block sensitive to posedge CLK with vast.Always, vast.Sens, and vast.SensList.
+    Assign Y = A ^ B using non-blocking assignment (vast.NonblockingSubstitution) with vast.Xor.
+    Name the module xor_gate_reg_sequential and write to xor_gate_reg_sequential.v.
+    Align with the test plan’s “always” context for sequential logic.
+    
+    code: |
+        
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        clk = vast.Ioport(vast.Input('CLK'))
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([clk, a, b, y])
+
+        # Define Y as reg
+        y_reg = vast.Reg('Y')
+
+        # Define sequential logic in always block
+        sens = vast.Sens(vast.Identifier('CLK'), type='posedge')
+        senslist = vast.SensList([sens])
+
+        assign_y = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Xor(vast.Identifier('A'), vast.Identifier('B')))
+        )
+        statement = vast.Block([assign_y])
+
+        always = vast.Always(senslist, statement)
+
+        # Module items
+        items = [y_reg, always]
+
+        # Module definition
+        ast = vast.ModuleDef("xor_gate_reg_sequential", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("xor_gate_reg_sequential.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script using Pyverilog to create a Verilog module for an XOR gate with a reg output and combinational logic in an always block. Modify the base xor_gate.py to:
+    Declare Y as a reg using vast.Reg.
+    Replace the continuous assignment with an always block sensitive to A and B using vast.Always and vast.SensList.
+    Use non-blocking assignment (vast.NonblockingSubstitution) for Y = A ^ B with vast.Xor.
+    Name the module xor_gate_reg and write to xor_gate_reg.v.
+    Ensure the script aligns with the test plan’s “always” context and “reg” data type.
+
+    code: |
+        from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, b, y])
+
+        # Define Y as reg
+        y_reg = vast.Reg('Y')
+
+        # Define combinational logic in always block
+        sens_a = vast.Sens(vast.Identifier('A'), type='level')
+        sens_b = vast.Sens(vast.Identifier('B'), type='level')
+        senslist = vast.SensList([sens_a, sens_b])
+
+        assign_y = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Xor(vast.Identifier('A'), vast.Identifier('B')))
+        )
+        statement = vast.Block([assign_y])
+
+        always = vast.Always(senslist, statement)
+
+        # Module items
+        items = [y_reg, always]
+
+        # Module definition
+        ast = vast.ModuleDef("xor_gate_reg", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("xor_gate_reg.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    # Generate a Python script using Pyverilog to create a Verilog module for an XOR gate with parameterized input/output widths. Modify the base xor_gate.py to:
+    # Add a WIDTH parameter set to 8 using vast.Parameter and vast.Paramlist.
+    # Define ports A, B, and Y as [WIDTH-1:0] using vast.Width with vast.Minus.
+    # Retain the continuous assignment Y = A ^ B with vast.Xor for bit-wise XOR.
+    # Name the module xor_gate_param and write to xor_gate_param.v.
+    # Align with the test plan’s “array as a whole” and “continuous assign” themes.
+
+    code: |
+        from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define parameter
+        width_param = vast.Parameter('WIDTH', vast.Rvalue(vast.IntConst('8')))
+        params = vast.Paramlist([width_param])
+
+        # Define ports with parameterized width
+        width = vast.Width(vast.Minus(vast.Identifier('WIDTH'), vast.IntConst('1')), vast.IntConst('0'))
+        a = vast.Ioport(vast.Input('A', width=width))
+        b = vast.Ioport(vast.Input('B', width=width))
+        y = vast.Ioport(vast.Output('Y', width=width))
+        ports = vast.Portlist([a, b, y])
+
+        # Define continuous assignment: Y = A ^ B
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Xor(vast.Identifier('A'), vast.Identifier('B')))
+        )
+
+        # Module items
+        items = [assign]
+
+        # Module definition
+        ast = vast.ModuleDef("xor_gate_param", params, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("xor_gate_param.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script using Pyverilog to create a Verilog module that simulates an inside operator for an XOR gate by comparing input A to array values. Modify the base xor_gate.py to:
+
+    Define port A as [7:0] and Y as a single-bit output.
+    Declare a reg array values of size [3:0][7:0] and Y as reg using vast.Reg.
+    In an initial block using vast.Initial:
+    Initialize values[0] to 100, values[1] to 110, values[2] to 120, and values[3] to 130 using vast.BlockingSubstitution.
+    Assign Y = (A == values[0]) || (A == values[1]) || (A == values[2]) || (A == values[3]) using vast.Lor and vast.Eq.
+    Name the module xor_gate_compare and write to xor_gate_compare.v.
+    Align with the test plan’s “range list”, “initial block”, and “variable initialization” themes.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A', width=vast.Width(vast.IntConst('7'), vast.IntConst('0'))))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, y])
+
+        # Define internal array and Y as reg
+        values = vast.Reg('values', width=vast.Width(vast.IntConst('7'), vast.IntConst('0')), 
+                        dimensions=vast.Dimensions([vast.Length(vast.IntConst('3'), vast.IntConst('0'))]))
+        y_reg = vast.Reg('Y')
+
+        # Initial block to initialize array and compare
+        init_values = [
+            vast.BlockingSubstitution(
+                vast.Lvalue(vast.Pointer(vast.Identifier('values'), vast.IntConst(str(i)))),
+                vast.Rvalue(vast.IntConst(str(100 + i * 10)))
+            ) for i in range(4)
+        ]
+        compare = vast.Eq(vast.Identifier('A'), vast.Pointer(vast.Identifier('values'), vast.IntConst('0')))
+        for i in range(1, 4):
+            compare = vast.Lor(compare, vast.Eq(vast.Identifier('A'), vast.Pointer(vast.Identifier('values'), vast.IntConst(str(i)))))
+        assign_y = vast.BlockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(compare)
+        )
+        statement = vast.Block(init_values + [assign_y])
+        initial = vast.Initial(statement)
+
+        # Module items
+        items = [values, y_reg, initial]
+
+        # Module definition
+        ast = vast.ModuleDef("xor_gate_compare", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("xor_gate_compare.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script using Pyverilog to create a Verilog module that checks if input A is in the range [100:130] for an XOR gate. Modify the base xor_gate.py to:
+
+    Define port A as [7:0] and Y as a single-bit output.
+    Declare a reg array values of size [3:0][7:0] and Y as reg using vast.Reg.
+    In an initial block using vast.Initial:
+    Initialize values[0] to 100, values[1] to 110, values[2] to 120, and values[3] to 130 using vast.BlockingSubstitution.
+    Assign Y = (A >= 100) && (A <= 130) using vast.Land, vast.GreaterEq, and vast.LessEq.
+    Name the module xor_gate_compare_range and write to xor_gate_compare_range.v.
+    Align with the test plan’s “range list” and “initial block” themes.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A', width=vast.Width(vast.IntConst('7'), vast.IntConst('0'))))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, y])
+
+        # Define internal array and Y as reg
+        values = vast.Reg('values', width=vast.Width(vast.IntConst('7'), vast.IntConst('0')), 
+                        dimensions=vast.Dimensions([vast.Length(vast.IntConst('3'), vast.IntConst('0'))]))
+        y_reg = vast.Reg('Y')
+
+        # Initial block to initialize array and perform range check
+        init_values = [
+            vast.BlockingSubstitution(
+                vast.Lvalue(vast.Pointer(vast.Identifier('values'), vast.IntConst(str(i)))),
+                vast.Rvalue(vast.IntConst(str(100 + i * 10)))
+            ) for i in range(4)
+        ]
+        range_check = vast.Land(
+            vast.GreaterEq(vast.Identifier('A'), vast.IntConst('100')),
+            vast.LessEq(vast.Identifier('A'), vast.IntConst('130'))
+        )
+        assign_y = vast.BlockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(range_check)
+        )
+        statement = vast.Block(init_values + [assign_y])
+        initial = vast.Initial(statement)
+
+        # Module items
+        items = [values, y_reg, initial]
+
+        # Module definition
+        ast = vast.ModuleDef("xor_gate_compare_range", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("xor_gate_compare_range.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script using Pyverilog to create a Verilog module for an XOR gate with 4-bit array inputs/outputs. Modify the base xor_gate.py to:
+
+    Define ports A, B, and Y as [3:0] using vast.Width.
+    Retain the continuous assignment Y = A ^ B with vast.Xor for bit-wise XOR.
+    Name the module xor_gate_array and write to xor_gate_array.v.
+    Align with the test plan’s “fixed arrays” and “continuous assign” themes.
+
+    code: |
+        from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports with 4-bit arrays
+        width = vast.Width(vast.IntConst('3'), vast.IntConst('0'))
+        a = vast.Ioport(vast.Input('A', width=width))
+        b = vast.Ioport(vast.Input('B', width=width))
+        y = vast.Ioport(vast.Output('Y', width=width))
+        ports = vast.Portlist([a, b, y])
+
+        # Define continuous assignment: Y = A ^ B
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Xor(vast.Identifier('A'), vast.Identifier('B')))
+        )
+
+        # Module items
+        items = [assign]
+
+        # Module definition
+        ast = vast.ModuleDef("xor_gate_array", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("xor_gate_array.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script using Pyverilog to create a Verilog module for an XOR gate with 4x4 2D array inputs/outputs in an always_comb block. Modify the base xor_gate.py to:
+
+    Define ports A, B, and Y as [3:0][3:0] using vast.Width and vast.Dimensions.
+    Declare Y as a reg with matching dimensions using vast.Reg.
+    Use an always_comb block with vast.AlwaysComb and non-blocking assignment (vast.NonblockingSubstitution) for Y = A ^ B with vast.Xor.
+    Name the module xor_gate_2d_array and write to xor_gate_2d_array.v.
+    Align with the test plan’s “MDAs” and “always_comb” themes.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define 2D array ports (4x4)
+        width = vast.Width(vast.IntConst('3'), vast.IntConst('0'))
+        dim = vast.Dimensions([vast.Length(vast.IntConst('3'), vast.IntConst('0'))])
+        a = vast.Ioport(vast.Input('A', width=width, dimensions=dim))
+        b = vast.Ioport(vast.Input('B', width=width, dimensions=dim))
+        y = vast.Ioport(vast.Output('Y', width=width, dimensions=dim))
+        ports = vast.Portlist([a, b, y])
+
+        # Define Y as reg
+        y_reg = vast.Reg('Y', width=width, dimensions=dim)
+
+        # Define always_comb block
+        assign_y = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Xor(vast.Identifier('A'), vast.Identifier('B')))
+        )
+        statement = vast.Block([assign_y])
+        always = vast.AlwaysComb(None, statement)
+
+        # Module items
+        items = [y_reg, always]
+
+        # Module definition
+        ast = vast.ModuleDef("xor_gate_2d_array", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("xor_gate_2d_array.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+
+
+- base code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, b, y])
+
+        # Define continuous assignment: Y = A | B
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Or(vast.Identifier('A'), vast.Identifier('B')))
+        )
+
+        # Module items
+        items = [assign]
+
+        # Module definition
+        ast = vast.ModuleDef("or_gate", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("or_gate.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- base verilog code: |
+    module or_gate (
+        input A,
+        input B,
+        output Y
+    );
+        assign Y = A | B;
+    endmodule
+
+- prompt: |
+    Generate a Python script as a variation of or_gate.py using Pyverilog to produce a Verilog module. The original module (or_gate) performs Y = A | B with a continuous assignment. The new script should:
+
+    Define a sub_or module that performs Z = A | B with a continuous assignment, and instantiate it in the main module.
+    Use the instantiated module’s output Z in a continuous assignment Y = Z | A using vast.Or to simulate XMR.
+    Define both modules in the same script, wrapping them in a vast.Description and vast.Source.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to or_gate_xmr.v with main module name or_gate_xmr.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “module XMR” and “continuous assign” themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+        
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports for sub_or module
+        a_sub = vast.Ioport(vast.Input('A'))
+        b_sub = vast.Ioport(vast.Input('B'))
+        z_sub = vast.Ioport(vast.Output('Z'))
+        ports_sub = vast.Portlist([a_sub, b_sub, z_sub])
+
+        # Define sub_or module (Z = A | B)
+        assign_z = vast.Assign(
+            vast.Lvalue(vast.Identifier('Z')),
+            vast.Rvalue(vast.Or(vast.Identifier('A'), vast.Identifier('B')))
+        )
+        items_sub = [assign_z]
+        sub_or = vast.ModuleDef("sub_or", None, ports_sub, items_sub)
+
+        # Define ports for main module
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, b, y])
+
+        # Instantiate sub_or module
+        inst = vast.Instance(
+            module='sub_or',
+            name='inst',
+            parameterlist=[],
+            portlist=[
+                vast.PortArg('A', vast.Identifier('A')),
+                vast.PortArg('B', vast.Identifier('B')),
+                vast.PortArg('Z', vast.Identifier('Z'))
+            ]
+        )
+        inst_list = vast.InstanceList('sub_or', [], [inst])
+
+        # Define continuous assignment: Y = Z | A
+        assign_y = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Or(vast.Identifier('Z'), vast.Identifier('A')))
+        )
+
+        # Define Z as wire
+        z_wire = vast.Wire('Z')
+
+        # Module items for main module
+        items = [z_wire, inst_list, assign_y]
+
+        # Main module definition
+        main_module = vast.ModuleDef("or_gate_xmr", None, ports, items)
+
+        # Combine modules using Description
+        description = vast.Description([sub_or, main_module])
+        source = vast.Source('or_gate_xmr', description)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(source)
+        with open("or_gate_xmr.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of or_gate.py using Pyverilog to produce a Verilog module. The original module (or_gate) performs Y = A | B with a continuous assignment. The new script should:
+
+    Add a clock input CLK and use an always block sensitive to posedge CLK with vast.Sens(type='posedge') to perform Y <= A | B using vast.Or.
+    Retain 1-bit inputs A, B, and output Y, declaring Y as reg with vast.Reg.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to or_gate_reg_sequential.v with module name or_gate_reg_sequential.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “always” and “reg” base type themes for sequential logic.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        clk = vast.Ioport(vast.Input('CLK'))
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([clk, a, b, y])
+
+        # Define Y as reg
+        y_reg = vast.Reg('Y')
+
+        # Define sequential logic in always block
+        sens = vast.Sens(vast.Identifier('CLK'), type='posedge')
+        senslist = vast.SensList([sens])
+
+        assign_y = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Or(vast.Identifier('A'), vast.Identifier('B')))
+        )
+        statement = vast.Block([assign_y])
+
+        always = vast.Always(senslist, statement)
+
+        # Module items
+        items = [y_reg, always]
+
+        # Module definition
+        ast = vast.ModuleDef("or_gate_reg_sequential", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("or_gate_reg_sequential.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of or_gate.py using Pyverilog to produce a Verilog module. The original module (or_gate) performs Y = A | B with a continuous assignment. The new script should:
+
+    Use an always block sensitive to inputs A and B to perform Y <= A | B using vast.Or, with output Y declared as a reg using vast.Reg.
+    Retain 1-bit inputs A, B, and output Y.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to or_gate_reg.v with module name or_gate_reg.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “always” and “reg” base type themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, b, y])
+
+        # Define Y as reg
+        y_reg = vast.Reg('Y')
+
+        # Define combinational logic in always block
+        sens_a = vast.Sens(vast.Identifier('A'), type='level')
+        sens_b = vast.Sens(vast.Identifier('B'), type='level')
+        senslist = vast.SensList([sens_a, sens_b])
+
+        assign_y = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Or(vast.Identifier('A'), vast.Identifier('B')))
+        )
+        statement = vast.Block([assign_y])
+
+        always = vast.Always(senslist, statement)
+
+        # Module items
+        items = [y_reg, always]
+
+        # Module definition
+        ast = vast.ModuleDef("or_gate_reg", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("or_gate_reg.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of or_gate.py using Pyverilog to produce a Verilog module. The original module (or_gate) performs Y = A | B with a continuous assignment. The new script should:
+
+    Add a WIDTH parameter (default 8) using vast.Parameter and apply it to inputs A, B, and output Y using vast.Width, performing bit-wise OR with vast.Or.
+    Retain the continuous assignment structure.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to or_gate_param.v with module name or_gate_param.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “array as a whole” and “logic-vector” base type themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define parameter
+        width_param = vast.Parameter('WIDTH', vast.Rvalue(vast.IntConst('8')))
+        params = vast.Paramlist([width_param])
+
+        # Define ports with parameterized width
+        width = vast.Width(vast.Minus(vast.Identifier('WIDTH'), vast.IntConst('1')), vast.IntConst('0'))
+        a = vast.Ioport(vast.Input('A', width=width))
+        b = vast.Ioport(vast.Input('B', width=width))
+        y = vast.Ioport(vast.Output('Y', width=width))
+        ports = vast.Portlist([a, b, y])
+
+        # Define continuous assignment: Y = A | B
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Or(vast.Identifier('A'), vast.Identifier('B')))
+        )
+
+        # Module items
+        items = [assign]
+
+        # Module definition
+        ast = vast.ModuleDef("or_gate_param", params, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("or_gate_param.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of or_gate.py using Pyverilog to produce a Verilog module. The original module (or_gate) performs Y = A | B with a continuous assignment. The new script should:
+
+    Use an 8-bit input A and 1-bit output Y, with an internal 4-element 8-bit array (values) initialized in an initial block to [100, 110, 120, 130] using vast.BlockingSubstitution.
+    Set Y to 1 if A equals any values[i] using vast.Eq and vast.Lor for comparisons, simulating an inside-like operation.
+    Declare Y and values as reg with vast.Reg.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to or_gate_compare.v with module name or_gate_compare.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “range list”, “Initial and final blocks”, and “variable initialization” themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A', width=vast.Width(vast.IntConst('7'), vast.IntConst('0'))))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, y])
+
+        # Define internal array and Y as reg
+        values = vast.Reg('values', width=vast.Width(vast.IntConst('7'), vast.IntConst('0')), 
+                        dimensions=vast.Dimensions([vast.Length(vast.IntConst('3'), vast.IntConst('0'))]))
+        y_reg = vast.Reg('Y')
+
+        # Initial block to initialize array and compare
+        init_values = [
+            vast.BlockingSubstitution(
+                vast.Lvalue(vast.Pointer(vast.Identifier('values'), vast.IntConst(str(i)))),
+                vast.Rvalue(vast.IntConst(str(100 + i * 10)))
+            ) for i in range(4)
+        ]
+        compare = vast.Eq(vast.Identifier('A'), vast.Pointer(vast.Identifier('values'), vast.IntConst('0')))
+        for i in range(1, 4):
+            compare = vast.Lor(compare, vast.Eq(vast.Identifier('A'), vast.Pointer(vast.Identifier('values'), vast.IntConst(str(i)))))
+        assign_y = vast.BlockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(compare)
+        )
+        statement = vast.Block(init_values + [assign_y])
+        initial = vast.Initial(statement)
+
+        # Module items
+        items = [values, y_reg, initial]
+
+        # Module definition
+        ast = vast.ModuleDef("or_gate_compare", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("or_gate_compare.v", "w") as f:
+            f.write(rslt)
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of or_gate.py using Pyverilog to produce a Verilog module. The original module (or_gate) performs Y = A | B with a continuous assignment. The new script should:
+
+    Use an 8-bit input A and 1-bit output Y, with an internal 4-element 8-bit array (values) initialized in an initial block to [100, 110, 120, 130].
+    Set Y to 1 if A is in the range [100:130] using vast.GreaterEq, vast.LessEq, and vast.Land in the initial block, simulating an inside-like range check.
+    Declare Y and values as reg with vast.Reg.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to or_gate_compare_range.v with module name or_gate_compare_range.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “range list” and “Initial and final blocks” themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A', width=vast.Width(vast.IntConst('7'), vast.IntConst('0'))))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, y])
+
+        # Define internal array and Y as reg
+        values = vast.Reg('values', width=vast.Width(vast.IntConst('7'), vast.IntConst('0')), 
+                        dimensions=vast.Dimensions([vast.Length(vast.IntConst('3'), vast.IntConst('0'))]))
+        y_reg = vast.Reg('Y')
+
+        # Initial block to initialize array and perform range check
+        init_values = [
+            vast.BlockingSubstitution(
+                vast.Lvalue(vast.Pointer(vast.Identifier('values'), vast.IntConst(str(i)))),
+                vast.Rvalue(vast.IntConst(str(100 + i * 10)))
+            ) for i in range(4)
+        ]
+        range_check = vast.Land(
+            vast.GreaterEq(vast.Identifier('A'), vast.IntConst('100')),
+            vast.LessEq(vast.Identifier('A'), vast.IntConst('130'))
+        )
+        assign_y = vast.BlockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(range_check)
+        )
+        statement = vast.Block(init_values + [assign_y])
+        initial = vast.Initial(statement)
+
+        # Module items
+        items = [values, y_reg, initial]
+
+        # Module definition
+        ast = vast.ModuleDef("or_gate_compare_range", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("or_gate_compare_range.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of or_gate.py using Pyverilog to produce a Verilog module. The original module (or_gate) performs Y = A | B with a continuous assignment. The new script should:
+
+    Use 4-bit array inputs A, B, and output Y (width [3:0]) using vast.Width, performing bit-wise OR with vast.Or in a continuous assignment.
+    Retain the continuous assignment structure.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to or_gate_array.v with module name or_gate_array.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “Fixed” arrays and “logic-vector” base type themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports with 4-bit arrays
+        width = vast.Width(vast.IntConst('3'), vast.IntConst('0'))
+        a = vast.Ioport(vast.Input('A', width=width))
+        b = vast.Ioport(vast.Input('B', width=width))
+        y = vast.Ioport(vast.Output('Y', width=width))
+        ports = vast.Portlist([a, b, y])
+
+        # Define continuous assignment: Y = A | B
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Or(vast.Identifier('A'), vast.Identifier('B')))
+        )
+
+        # Module items
+        items = [assign]
+
+        # Module definition
+        ast = vast.ModuleDef("or_gate_array", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("or_gate_array.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of or_gate.py using Pyverilog to produce a Verilog module. The original module (or_gate) performs Y = A | B with a continuous assignment. The new script should:
+
+    Use 4x4 2D array inputs A, B, and output Y ([3:0][3:0]) using vast.Width and vast.Dimensions, performing bit-wise OR with vast.Or in an always_comb block using vast.AlwaysComb.
+    Declare Y as a reg inside the module with vast.Reg.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to or_gate_2d_array.v with module name or_gate_2d_array.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “Different types of MDAs” and “always_comb” themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define 2D array ports (4x4)
+        width = vast.Width(vast.IntConst('3'), vast.IntConst('0'))
+        dim = vast.Dimensions([vast.Length(vast.IntConst('3'), vast.IntConst('0'))])
+        a = vast.Ioport(vast.Input('A', width=width, dimensions=dim))
+        b = vast.Ioport(vast.Input('B', width=width, dimensions=dim))
+        y = vast.Ioport(vast.Output('Y', width=width, dimensions=dim))
+        ports = vast.Portlist([a, b, y])
+
+        # Define Y as reg
+        y_reg = vast.Reg('Y', width=width, dimensions=dim)
+
+        # Define always_comb block
+        assign_y = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Or(vast.Identifier('A'), vast.Identifier('B')))
+        )
+        statement = vast.Block([assign_y])
+        always = vast.AlwaysComb(None, statement)
+
+        # Module items
+        items = [y_reg, always]
+
+        # Module definition
+        ast = vast.ModuleDef("or_gate_2d_array", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("or_gate_2d_array.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+
+
+- base code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, b, y])
+
+        # Define continuous assignment: Y = ~(A & B)
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Unot(vast.And(vast.Identifier('A'), vast.Identifier('B'))))
+        )
+
+        # Module items
+        items = [assign]
+
+        # Module definition
+        ast = vast.ModuleDef("nand_gate", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("nand_gate.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == "__main__":
+        main()
+
+- base verilog code: |
+    
+    module nand_gate
+    (
+    input A,
+    input B,
+    output Y
+    );
+
+    assign Y = ~(A & B);
+
+    endmodule
+
+- prompt: |
+    Generate a Python script as a variation of nand_gate.py using Pyverilog to produce a Verilog module. The original module (nand_gate) performs Y = ~(A & B) with a continuous assignment. The new script should:
+
+    Define a sub_nand module that performs Z = ~(A & B) with a continuous assignment, and instantiate it in the main module.
+    Use the instantiated module’s output Z in a continuous assignment Y = Z to simulate XMR.
+    Define both modules in the same script, wrapping them in a vast.Description and vast.Source.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to nand_gate_xmr.v with main module name nand_gate_xmr.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “module XMR” and “continuous assign” themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports for sub_nand module
+        a_sub = vast.Ioport(vast.Input('A'))
+        b_sub = vast.Ioport(vast.Input('B'))
+        z_sub = vast.Ioport(vast.Output('Z'))
+        ports_sub = vast.Portlist([a_sub, b_sub, z_sub])
+
+        # Define sub_nand module (Z = ~(A & B))
+        assign_z = vast.Assign(
+            vast.Lvalue(vast.Identifier('Z')),
+            vast.Rvalue(vast.Unot(vast.And(vast.Identifier('A'), vast.Identifier('B'))))
+        )
+        items_sub = [assign_z]
+        sub_nand = vast.ModuleDef("sub_nand", None, ports_sub, items_sub)
+
+        # Define ports for main module
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, b, y])
+
+        # Instantiate sub_nand module
+        inst = vast.Instance(
+            module='sub_nand',
+            name='inst',
+            parameterlist=[],
+            portlist=[
+                vast.PortArg('A', vast.Identifier('A')),
+                vast.PortArg('B', vast.Identifier('B')),
+                vast.PortArg('Z', vast.Identifier('Z'))
+            ]
+        )
+        inst_list = vast.InstanceList('sub_nand', [], [inst])
+
+        # Define continuous assignment: Y = Z
+        assign_y = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Identifier('Z'))
+        )
+
+        # Define Z as wire
+        z_wire = vast.Wire('Z')
+
+        # Module items for main module
+        items = [z_wire, inst_list, assign_y]
+
+        # Main module definition
+        main_module = vast.ModuleDef("nand_gate_xmr", None, ports, items)
+
+        # Combine modules using Description
+        description = vast.Description([sub_nand, main_module])
+        source = vast.Source('nand_gate_xmr', description)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(source)
+        with open("nand_gate_xmr.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of nand_gate.py using Pyverilog to produce a Verilog module. The original module (nand_gate) performs Y = ~(A & B) with a continuous assignment. The new script should:
+
+    Add a clock input CLK and use an always block sensitive to posedge CLK with vast.Sens(type='posedge') to perform Y <= ~(A & B) using vast.Unot and vast.And.
+    Retain 1-bit inputs A, B, and output Y, declaring Y as reg with vast.Reg.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to nand_gate_reg_sequential.v with module name nand_gate_reg_sequential.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “always” and “reg” base type themes for sequential logic.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        clk = vast.Ioport(vast.Input('CLK'))
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([clk, a, b, y])
+
+        # Define Y as reg
+        y_reg = vast.Reg('Y')
+
+        # Define sequential logic in always block
+        sens = vast.Sens(vast.Identifier('CLK'), type='posedge')
+        senslist = vast.SensList([sens])
+
+        assign_y = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Unot(vast.And(vast.Identifier('A'), vast.Identifier('B'))))
+        )
+        statement = vast.Block([assign_y])
+
+        always = vast.Always(senslist, statement)
+
+        # Module items
+        items = [y_reg, always]
+
+        # Module definition
+        ast = vast.ModuleDef("nand_gate_reg_sequential", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("nand_gate_reg_sequential.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of nand_gate.py using Pyverilog to produce a Verilog module. The original module (nand_gate) performs Y = ~(A & B) with a continuous assignment. The new script should:
+
+    Use an always block sensitive to inputs A and B to perform Y <= ~(A & B) using vast.Unot and vast.And, with output Y declared as a reg using vast.Reg.
+    Retain 1-bit inputs A, B, and output Y.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to nand_gate_reg.v with module name nand_gate_reg.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “always” and “reg” base type themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+        from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A'))
+        b = vast.Ioport(vast.Input('B'))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, b, y])
+
+        # Define Y as reg
+        y_reg = vast.Reg('Y')
+
+        # Define combinational logic in always block
+        sens_a = vast.Sens(vast.Identifier('A'), type='level')
+        sens_b = vast.Sens(vast.Identifier('B'), type='level')
+        senslist = vast.SensList([sens_a, sens_b])
+
+        assign_y = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Unot(vast.And(vast.Identifier('A'), vast.Identifier('B'))))
+        )
+        statement = vast.Block([assign_y])
+
+        always = vast.Always(senslist, statement)
+
+        # Module items
+        items = [y_reg, always]
+
+        # Module definition
+        ast = vast.ModuleDef("nand_gate_reg", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("nand_gate_reg.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+        
+- prompt: |
+    Generate a Python script as a variation of nand_gate.py using Pyverilog to produce a Verilog module. The original module (nand_gate) performs Y = ~(A & B) with a continuous assignment. The new script should:
+
+    Add a WIDTH parameter (default 8) using vast.Parameter and apply it to inputs A, B, and output Y using vast.Width, performing bit-wise NAND with vast.Unot and vast.And.
+    Retain the continuous assignment structure.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to nand_gate_param.v with module name nand_gate_param.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “array as a whole” and “logic-vector” base type themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define parameter
+        width_param = vast.Parameter('WIDTH', vast.Rvalue(vast.IntConst('8')))
+        params = vast.Paramlist([width_param])
+
+        # Define ports with parameterized width
+        width = vast.Width(vast.Minus(vast.Identifier('WIDTH'), vast.IntConst('1')), vast.IntConst('0'))
+        a = vast.Ioport(vast.Input('A', width=width))
+        b = vast.Ioport(vast.Input('B', width=width))
+        y = vast.Ioport(vast.Output('Y', width=width))
+        ports = vast.Portlist([a, b, y])
+
+        # Define continuous assignment: Y = ~(A & B)
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Unot(vast.And(vast.Identifier('A'), vast.Identifier('B'))))
+        )
+
+        # Module items
+        items = [assign]
+
+        # Module definition
+        ast = vast.ModuleDef("nand_gate_param", params, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("nand_gate_param.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of nand_gate.py using Pyverilog to produce a Verilog module. The original module (nand_gate) performs Y = ~(A & B) with a continuous assignment. The new script should:
+
+    Use an 8-bit input A and 1-bit output Y, with an internal 4-element 8-bit array (values) initialized in an initial block to [100, 110, 120, 130] using vast.BlockingSubstitution.
+    Set Y to 1 if A equals any values[i] using vast.Eq and vast.Lor for comparisons, simulating an inside-like operation.
+    Declare Y and values as reg with vast.Reg.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to nand_gate_compare.v with module name nand_gate_compare.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “range list”, “Initial and final blocks”, and “variable initialization” themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A', width=vast.Width(vast.IntConst('7'), vast.IntConst('0'))))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, y])
+
+        # Define internal array and Y as reg
+        values = vast.Reg('values', width=vast.Width(vast.IntConst('7'), vast.IntConst('0')), 
+                        dimensions=vast.Dimensions([vast.Length(vast.IntConst('3'), vast.IntConst('0'))]))
+        y_reg = vast.Reg('Y')
+
+        # Initial block to initialize array and compare
+        init_values = [
+            vast.BlockingSubstitution(
+                vast.Lvalue(vast.Pointer(vast.Identifier('values'), vast.IntConst(str(i)))),
+                vast.Rvalue(vast.IntConst(str(100 + i * 10)))
+            ) for i in range(4)
+        ]
+        compare = vast.Eq(vast.Identifier('A'), vast.Pointer(vast.Identifier('values'), vast.IntConst('0')))
+        for i in range(1, 4):
+            compare = vast.Lor(compare, vast.Eq(vast.Identifier('A'), vast.Pointer(vast.Identifier('values'), vast.IntConst(str(i)))))
+        assign_y = vast.BlockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(compare)
+        )
+        statement = vast.Block(init_values + [assign_y])
+        initial = vast.Initial(statement)
+
+        # Module items
+        items = [values, y_reg, initial]
+
+        # Module definition
+        ast = vast.ModuleDef("nand_gate_compare", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("nand_gate_compare.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of nand_gate.py using Pyverilog to produce a Verilog module. The original module (nand_gate) performs Y = ~(A & B) with a continuous assignment. The new script should:
+
+    Use an 8-bit input A and 1-bit output Y, with an internal 4-element 8-bit array (values) initialized in an initial block to [100, 110, 120, 130].
+    Set Y to 1 if A is in the range [100:130] using vast.GreaterEq, vast.LessEq, and vast.Land in the initial block, simulating an inside-like range check.
+    Declare Y and values as reg with vast.Reg.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to nand_gate_compare_range.v with module name nand_gate_compare_range.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “range list” and “Initial and final blocks” themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports
+        a = vast.Ioport(vast.Input('A', width=vast.Width(vast.IntConst('7'), vast.IntConst('0'))))
+        y = vast.Ioport(vast.Output('Y'))
+        ports = vast.Portlist([a, y])
+
+        # Define internal array and Y as reg
+        values = vast.Reg('values', width=vast.Width(vast.IntConst('7'), vast.IntConst('0')), 
+                        dimensions=vast.Dimensions([vast.Length(vast.IntConst('3'), vast.IntConst('0'))]))
+        y_reg = vast.Reg('Y')
+
+        # Initial block to initialize array and perform range check
+        init_values = [
+            vast.BlockingSubstitution(
+                vast.Lvalue(vast.Pointer(vast.Identifier('values'), vast.IntConst(str(i)))),
+                vast.Rvalue(vast.IntConst(str(100 + i * 10)))
+            ) for i in range(4)
+        ]
+        range_check = vast.Land(
+            vast.GreaterEq(vast.Identifier('A'), vast.IntConst('100')),
+            vast.LessEq(vast.Identifier('A'), vast.IntConst('130'))
+        )
+        assign_y = vast.BlockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(range_check)
+        )
+        statement = vast.Block(init_values + [assign_y])
+        initial = vast.Initial(statement)
+
+        # Module items
+        items = [values, y_reg, initial]
+
+        # Module definition
+        ast = vast.ModuleDef("nand_gate_compare_range", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("nand_gate_compare_range.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of nand_gate.py using Pyverilog to produce a Verilog module. The original module (nand_gate) performs Y = ~(A & B) with a continuous assignment. The new script should:
+
+    Use 4-bit array inputs A, B, and output Y (width [3:0]) using vast.Width, performing bit-wise NAND with vast.Unot and vast.And in a continuous assignment.
+    Retain the continuous assignment structure.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to nand_gate_array.v with module name nand_gate_array.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “Fixed” arrays and “logic-vector” base type themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+        from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define ports with 4-bit arrays
+        width = vast.Width(vast.IntConst('3'), vast.IntConst('0'))
+        a = vast.Ioport(vast.Input('A', width=width))
+        b = vast.Ioport(vast.Input('B', width=width))
+        y = vast.Ioport(vast.Output('Y', width=width))
+        ports = vast.Portlist([a, b, y])
+
+        # Define continuous assignment: Y = ~(A & B)
+        assign = vast.Assign(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Unot(vast.And(vast.Identifier('A'), vast.Identifier('B'))))
+        )
+
+        # Module items
+        items = [assign]
+
+        # Module definition
+        ast = vast.ModuleDef("nand_gate_array", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("nand_gate_array.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()
+
+- prompt: |
+    Generate a Python script as a variation of nand_gate.py using Pyverilog to produce a Verilog module. The original module (nand_gate) performs Y = ~(A & B) with a continuous assignment. The new script should:
+
+    Use 4x4 2D array inputs A, B, and output Y ([3:0][3:0]) using vast.Width and vast.Dimensions, performing bit-wise NAND with vast.Unot and vast.And in an always_comb block using vast.AlwaysComb.
+    Declare Y as a reg inside the module with vast.Reg.
+    Use pyverilog.vparser.ast and ASTCodeGenerator for compatibility.
+    Save the output to nand_gate_2d_array.v with module name nand_gate_2d_array.
+    Ensure the Verilog is syntactically correct and aligns with the test plan’s “Different types of MDAs” and “always_comb” themes.
+    Provide the script in an <xaiArtifact> tag with a unique artifact_id and include the expected Verilog output.
+
+    code: |
+    from __future__ import absolute_import
+    from __future__ import print_function
+    import pyverilog.vparser.ast as vast
+    from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+
+    def main():
+        # Define 2D array ports (4x4)
+        width = vast.Width(vast.IntConst('3'), vast.IntConst('0'))
+        dim = vast.Dimensions([vast.Length(vast.IntConst('3'), vast.IntConst('0'))])
+        a = vast.Ioport(vast.Input('A', width=width, dimensions=dim))
+        b = vast.Ioport(vast.Input('B', width=width, dimensions=dim))
+        y = vast.Ioport(vast.Output('Y', width=width, dimensions=dim))
+        ports = vast.Portlist([a, b, y])
+
+        # Define Y as reg
+        y_reg = vast.Reg('Y', width=width, dimensions=dim)
+
+        # Define always_comb block
+        assign_y = vast.NonblockingSubstitution(
+            vast.Lvalue(vast.Identifier('Y')),
+            vast.Rvalue(vast.Unot(vast.And(vast.Identifier('A'), vast.Identifier('B'))))
+        )
+        statement = vast.Block([assign_y])
+        always = vast.AlwaysComb(None, statement)
+
+        # Module items
+        items = [y_reg, always]
+
+        # Module definition
+        ast = vast.ModuleDef("nand_gate_2d_array", None, ports, items)
+
+        # Generate Verilog code
+        codegen = ASTCodeGenerator()
+        rslt = codegen.visit(ast)
+        with open("nand_gate_2d_array.v", "w") as f:
+            f.write(rslt)
+
+    if __name__ == '__main__':
+        main()

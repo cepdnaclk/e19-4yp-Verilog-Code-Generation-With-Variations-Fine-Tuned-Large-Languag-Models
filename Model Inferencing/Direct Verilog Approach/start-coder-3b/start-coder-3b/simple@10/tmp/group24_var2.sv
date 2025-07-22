@@ -1,0 +1,1 @@
+module Counter(input clk, input rst, output reg [

@@ -1,0 +1,4 @@
+Test: wire_to_reg_conversion
+Description: Transform wire declarations to reg declarations in a Verilog module
+Error: Missing some input keys: {'e'}
+Timestamp: 2025-07-19T13:57:28.894564

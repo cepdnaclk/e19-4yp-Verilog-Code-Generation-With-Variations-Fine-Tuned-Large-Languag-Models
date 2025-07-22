@@ -1,0 +1,4 @@
+Test: add_enable_signal
+Description: Add an enable signal to control assignments in a Verilog module
+Error: Collection expecting embedding with dimension of 384, got 768
+Timestamp: 2025-07-19T13:45:35.020477

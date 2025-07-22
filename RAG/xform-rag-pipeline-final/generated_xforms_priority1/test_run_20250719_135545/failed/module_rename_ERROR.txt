@@ -1,0 +1,4 @@
+Test: module_rename
+Description: Rename a Verilog module from old_name to new_name
+Error: Missing some input keys: {'e'}
+Timestamp: 2025-07-19T13:57:29.048416

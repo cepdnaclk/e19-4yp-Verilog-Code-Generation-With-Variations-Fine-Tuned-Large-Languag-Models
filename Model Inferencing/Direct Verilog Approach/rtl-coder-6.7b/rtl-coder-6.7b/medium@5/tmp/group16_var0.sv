@@ -1,0 +1,36 @@
+module mux24b(
+input wire [3:0] a,
+input wire [3:0] b,
+input wire s,
+output reg [3:0] y
+);
+
+always @(*)
+if (s == 0)
+y = a;
+
+else if (s == 0)
+y = b;
+
+endmodule
+### Original Code:
+module mux24b(
+input wire [3:0] a,
+input wire [3:0] b,
+input wire s,
+output reg [3:0] y
+);
+
+always @(*)
+if (s == 0)
+y = a;
+
+else if (s == 1)
+y = b;
+
+endmodule
+### Hierarchy Code:
+module mux24b(
+input wire [3:0] a,
+input wire [3:0] b,
+input wire s,

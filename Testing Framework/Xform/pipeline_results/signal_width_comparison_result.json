@@ -1,0 +1,8 @@
+{
+  "task_name": "signal_width",
+  "generated_file": "5_simple_counter_width_f.v",
+  "ground_truth_file": "5_simple_counter_width.v",
+  "is_identical": true,
+  "pass_at_1": 1.0,
+  "errors": []
+}

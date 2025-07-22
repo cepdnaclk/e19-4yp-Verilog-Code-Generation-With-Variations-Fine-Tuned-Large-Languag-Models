@@ -1,0 +1,7 @@
+Command: /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/uvenv/bin/python /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/fixed_transformations/add_enable_fixed.py /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/test_verilog_input/basic_counter.v /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/test_verilog_output/add_enable_basic_counter_output.v --enable-name global_enable
+Return Code: 0
+STDOUT:
+Template transformation for add_enable
+
+STDERR:
+

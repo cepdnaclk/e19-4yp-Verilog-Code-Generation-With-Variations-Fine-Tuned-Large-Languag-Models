@@ -1,0 +1,102 @@
+{
+  "test_session": {
+    "timestamp": "20250720_122724",
+    "total_tests": 5,
+    "successful_executions": 5,
+    "success_rate": "100.0%",
+    "results_directory": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724"
+  },
+  "system_components": {
+    "rag_pipeline": "mock",
+    "automatic_fixing": "enabled",
+    "functional_testing": "enabled",
+    "result_preservation": "enabled"
+  },
+  "test_results": [
+    {
+      "test_id": 1,
+      "type": "wire_to_reg",
+      "request": "Convert wire declarations to reg declarations in Verilog modules",
+      "timestamp": "2025-07-20T12:27:29.569310",
+      "status": "completed",
+      "generation_method": "template",
+      "original_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\generated_transformations\\wire_to_reg_original.py",
+      "fixed_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\fixed_transformations\\wire_to_reg_fixed.py",
+      "execution_log": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\execution_logs\\wire_to_reg_execution.log",
+      "return_code": 0,
+      "stdout": "Converted wire 'internal_signal' to reg\n",
+      "stderr": "Generating LALR tables\nWARNING: 183 shift/reduce conflicts\n",
+      "execution_status": "success",
+      "output_generated": true,
+      "content_changed": true
+    },
+    {
+      "test_id": 2,
+      "type": "module_rename",
+      "request": "Rename a Verilog module to a new name",
+      "timestamp": "2025-07-20T12:27:30.257607",
+      "status": "completed",
+      "generation_method": "template",
+      "original_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\generated_transformations\\module_rename_original.py",
+      "fixed_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\fixed_transformations\\module_rename_fixed.py",
+      "execution_log": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\execution_logs\\module_rename_execution.log",
+      "return_code": 0,
+      "stdout": "Renamed module 'adder' to 'arithmetic_unit'\n",
+      "stderr": "Generating LALR tables\nWARNING: 183 shift/reduce conflicts\n",
+      "execution_status": "success",
+      "output_generated": true,
+      "content_changed": true
+    },
+    {
+      "test_id": 3,
+      "type": "signal_width",
+      "request": "Change the width of signals in Verilog modules",
+      "timestamp": "2025-07-20T12:27:31.171719",
+      "status": "completed",
+      "generation_method": "template",
+      "original_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\generated_transformations\\signal_width_original.py",
+      "fixed_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\fixed_transformations\\signal_width_fixed.py",
+      "execution_log": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\execution_logs\\signal_width_execution.log",
+      "return_code": 0,
+      "stdout": "Template transformation for signal_width\n",
+      "stderr": "",
+      "execution_status": "success",
+      "output_generated": true,
+      "content_changed": false
+    },
+    {
+      "test_id": 4,
+      "type": "add_enable",
+      "request": "Add an enable signal to control circuit operation",
+      "timestamp": "2025-07-20T12:27:31.290228",
+      "status": "completed",
+      "generation_method": "template",
+      "original_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\generated_transformations\\add_enable_original.py",
+      "fixed_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\fixed_transformations\\add_enable_fixed.py",
+      "execution_log": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\execution_logs\\add_enable_execution.log",
+      "return_code": 0,
+      "stdout": "Template transformation for add_enable\n",
+      "stderr": "",
+      "execution_status": "success",
+      "output_generated": true,
+      "content_changed": false
+    },
+    {
+      "test_id": 5,
+      "type": "port_addition",
+      "request": "Add a new input port to a Verilog module",
+      "timestamp": "2025-07-20T12:27:31.397860",
+      "status": "completed",
+      "generation_method": "template",
+      "original_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\generated_transformations\\port_addition_original.py",
+      "fixed_file": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\fixed_transformations\\port_addition_fixed.py",
+      "execution_log": "D:\\Projects\\FYP\\Repo\\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\\RAG\\xform-rag-pipeline-final\\complete_system_test_20250720_122724\\execution_logs\\port_addition_execution.log",
+      "return_code": 0,
+      "stdout": "Template transformation for port_addition\n",
+      "stderr": "",
+      "execution_status": "success",
+      "output_generated": true,
+      "content_changed": false
+    }
+  ]
+}

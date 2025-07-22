@@ -1,0 +1,31 @@
+# Commands for 10 variations using transformations from xform_registry.py
+
+# 1. Change reg variables to wire (simple_counter.v)
+python3 1_xform_reg_to_wire.py simple_counter.v base_codes/1_simple_counter_wire.v --variable count
+
+# 2. Change module name (simple_counter.v)
+python3 2_xform_module_name.py simple_counter.v base_codes/2_simple_counter_renamed.v --from simple_counter --to advanced_counter
+
+# 3. Rename ports in a module (simple_shift_reg.v)
+python3 3_xform_rename_port.py simple_shift_reg.v base_codes/3_simple_shift_reg_port_renamed.v --from shift_out --to data_shifted
+
+# 4. Transform reset condition (simple_shift_reg.v)
+python3 4_xform_change_reset_condition.py simple_shift_reg.v base_codes/4_simple_shift_reg_reset.v --signal rst --direction high_to_low
+
+# 5. Change a signal's width (simple_updown_counter.v)
+python3 5_xform_change_signal_width.py simple_updown_counter.v base_codes/5_simple_updown_counter_width.v --signal count --width 15:0
+
+# 6. Change module name (simple_updown_counter.v)
+python3 2_xform_module_name.py simple_updown_counter.v base_codes/6_simple_updown_counter_renamed.v --from simple_updown_counter --to advanced_updown_counter
+
+# 7. Change reg variables to wire (simple_toggle_ff.v)
+python3 1_xform_reg_to_wire.py simple_toggle_ff.v base_codes/7_simple_toggle_ff_wire.v --variable toggle_reg
+
+# 8. Rename ports in a module (simple_toggle_ff.v)
+python3 3_xform_rename_port.py simple_toggle_ff.v base_codes/8_simple_toggle_ff_port_renamed.v --from toggle_out --to flip_out
+
+# 9. Transform reset condition (simple_pulse_gen.v)
+python3 4_xform_change_reset_condition.py simple_pulse_gen.v base_codes/9_simple_pulse_gen_reset.v --signal rst --direction high_to_low
+
+# 10. Change module name (simple_pulse_gen.v)
+python3 2_xform_module_name.py simple_pulse_gen.v base_codes/10_simple_pulse_gen_renamed.v --from simple_pulse_gen --to advanced_pulse_gen

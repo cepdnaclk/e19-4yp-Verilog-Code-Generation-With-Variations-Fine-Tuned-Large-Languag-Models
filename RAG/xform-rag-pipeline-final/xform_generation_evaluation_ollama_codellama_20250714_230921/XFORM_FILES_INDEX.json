@@ -1,0 +1,155 @@
+{
+  "total_files": 30,
+  "files": [
+    {
+      "filename": "add_debug_ports_attempt_1.py",
+      "size_bytes": 2102,
+      "path": "generated_xforms/add_debug_ports_attempt_1.py"
+    },
+    {
+      "filename": "add_debug_ports_attempt_2.py",
+      "size_bytes": 2102,
+      "path": "generated_xforms/add_debug_ports_attempt_2.py"
+    },
+    {
+      "filename": "add_debug_ports_attempt_3.py",
+      "size_bytes": 2102,
+      "path": "generated_xforms/add_debug_ports_attempt_3.py"
+    },
+    {
+      "filename": "add_debug_ports_attempt_4.py",
+      "size_bytes": 2102,
+      "path": "generated_xforms/add_debug_ports_attempt_4.py"
+    },
+    {
+      "filename": "add_debug_ports_attempt_5.py",
+      "size_bytes": 2102,
+      "path": "generated_xforms/add_debug_ports_attempt_5.py"
+    },
+    {
+      "filename": "add_enable_signal_attempt_1.py",
+      "size_bytes": 1085,
+      "path": "generated_xforms/add_enable_signal_attempt_1.py"
+    },
+    {
+      "filename": "add_enable_signal_attempt_2.py",
+      "size_bytes": 1086,
+      "path": "generated_xforms/add_enable_signal_attempt_2.py"
+    },
+    {
+      "filename": "add_enable_signal_attempt_3.py",
+      "size_bytes": 3228,
+      "path": "generated_xforms/add_enable_signal_attempt_3.py"
+    },
+    {
+      "filename": "add_enable_signal_attempt_4.py",
+      "size_bytes": 3059,
+      "path": "generated_xforms/add_enable_signal_attempt_4.py"
+    },
+    {
+      "filename": "add_enable_signal_attempt_5.py",
+      "size_bytes": 1163,
+      "path": "generated_xforms/add_enable_signal_attempt_5.py"
+    },
+    {
+      "filename": "fsm_state_rename_attempt_1.py",
+      "size_bytes": 4411,
+      "path": "generated_xforms/fsm_state_rename_attempt_1.py"
+    },
+    {
+      "filename": "fsm_state_rename_attempt_2.py",
+      "size_bytes": 3520,
+      "path": "generated_xforms/fsm_state_rename_attempt_2.py"
+    },
+    {
+      "filename": "fsm_state_rename_attempt_3.py",
+      "size_bytes": 3535,
+      "path": "generated_xforms/fsm_state_rename_attempt_3.py"
+    },
+    {
+      "filename": "fsm_state_rename_attempt_4.py",
+      "size_bytes": 4135,
+      "path": "generated_xforms/fsm_state_rename_attempt_4.py"
+    },
+    {
+      "filename": "fsm_state_rename_attempt_5.py",
+      "size_bytes": 3702,
+      "path": "generated_xforms/fsm_state_rename_attempt_5.py"
+    },
+    {
+      "filename": "reset_condition_change_attempt_1.py",
+      "size_bytes": 9314,
+      "path": "generated_xforms/reset_condition_change_attempt_1.py"
+    },
+    {
+      "filename": "reset_condition_change_attempt_2.py",
+      "size_bytes": 9243,
+      "path": "generated_xforms/reset_condition_change_attempt_2.py"
+    },
+    {
+      "filename": "reset_condition_change_attempt_3.py",
+      "size_bytes": 8902,
+      "path": "generated_xforms/reset_condition_change_attempt_3.py"
+    },
+    {
+      "filename": "reset_condition_change_attempt_4.py",
+      "size_bytes": 8929,
+      "path": "generated_xforms/reset_condition_change_attempt_4.py"
+    },
+    {
+      "filename": "reset_condition_change_attempt_5.py",
+      "size_bytes": 8513,
+      "path": "generated_xforms/reset_condition_change_attempt_5.py"
+    },
+    {
+      "filename": "signal_rename_basic_attempt_1.py",
+      "size_bytes": 382962,
+      "path": "generated_xforms/signal_rename_basic_attempt_1.py"
+    },
+    {
+      "filename": "signal_rename_basic_attempt_2.py",
+      "size_bytes": 4019,
+      "path": "generated_xforms/signal_rename_basic_attempt_2.py"
+    },
+    {
+      "filename": "signal_rename_basic_attempt_3.py",
+      "size_bytes": 3770,
+      "path": "generated_xforms/signal_rename_basic_attempt_3.py"
+    },
+    {
+      "filename": "signal_rename_basic_attempt_4.py",
+      "size_bytes": 2974,
+      "path": "generated_xforms/signal_rename_basic_attempt_4.py"
+    },
+    {
+      "filename": "signal_rename_basic_attempt_5.py",
+      "size_bytes": 1765,
+      "path": "generated_xforms/signal_rename_basic_attempt_5.py"
+    },
+    {
+      "filename": "wire_to_reg_basic_attempt_1.py",
+      "size_bytes": 3283,
+      "path": "generated_xforms/wire_to_reg_basic_attempt_1.py"
+    },
+    {
+      "filename": "wire_to_reg_basic_attempt_2.py",
+      "size_bytes": 620,
+      "path": "generated_xforms/wire_to_reg_basic_attempt_2.py"
+    },
+    {
+      "filename": "wire_to_reg_basic_attempt_3.py",
+      "size_bytes": 1677,
+      "path": "generated_xforms/wire_to_reg_basic_attempt_3.py"
+    },
+    {
+      "filename": "wire_to_reg_basic_attempt_4.py",
+      "size_bytes": 17446,
+      "path": "generated_xforms/wire_to_reg_basic_attempt_4.py"
+    },
+    {
+      "filename": "wire_to_reg_basic_attempt_5.py",
+      "size_bytes": 585,
+      "path": "generated_xforms/wire_to_reg_basic_attempt_5.py"
+    }
+  ]
+}

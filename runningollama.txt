@@ -1,0 +1,66 @@
+OLLAMA_HOST=127.0.0.1:11435 ollama serve
+
+in the other terminal
+export OLLAMA_HOST=127.0.0.1:11435
+
+
+python xform_evaluator.py --mode original
+
+python xform_evaluator.py --mode pass-at-k
+
+# Custom k-values for Pass@k
+python xform_evaluator.py --mode pass-at-k --k-values 1 5 15 20
+
+# Different model
+python xform_evaluator.py --mode original --model llama3.2:3b
+
+# Custom output directory
+python xform_evaluator.py --mode original --output-dir my_results
+
+ 
+default_model=llama3.2:1b
+
+
+# Test with different Llama models
+python xform_evaluator.py --mode original --model llama3.2:1b
+python xform_evaluator.py --mode original --model llama3.2:3b  
+python xform_evaluator.py --mode original --model llama3.1:8b
+
+# Test with CodeLlama (if you have it)
+python xform_evaluator.py --mode original --model codellama:7b
+python xform_evaluator.py --mode original --model codellama:13b
+
+# Test with other models
+python xform_evaluator.py --mode original --model mistral:7b
+python xform_evaluator.py --mode original --model qwen2.5-coder:7b
+
+
+# Compare multiple models systematically
+python xform_evaluator.py --mode original --model llama3.2:1b --output-dir results_llama1b
+python xform_evaluator.py --mode original --model llama3.2:3b --output-dir results_llama3b  
+python xform_evaluator.py --mode original --model codellama:7b --output-dir results_codellama
+
+# Compare results
+echo "=== Llama 3.2 1B ==="
+grep "Success Rate" results_llama1b_original/evaluation_report.md
+
+echo "=== Llama 3.2 3B ==="
+grep "Success Rate" results_llama3b_original/evaluation_report.md
+
+echo "=== CodeLlama 7B ==="
+grep "Success Rate" results_codellama_original/evaluation_report.md
+
+
+
+# Pass@k evaluation with different models
+python xform_evaluator.py --mode pass-at-k --model llama3.2:1b
+python xform_evaluator.py --mode pass-at-k --model codellama:7b
+
+# Quick Pass@k comparison (fewer k values for speed)
+python xform_evaluator.py --mode pass-at-k --model llama3.2:1b --k-values 1 5
+python xform_evaluator.py --mode pass-at-k --model llama3.2:3b --k-values 1 5
+
+
+ source ~/.bashrc
+
+deepseek-coder:1.3b

@@ -1,0 +1,1496 @@
+- code: |-
+    module tst_or_gate();
+    input clock;
+    input reset;
+    reg [3:0]a;
+    reg en;
+    wire b;
+    or_gate gg(b,a,en);
+    initial
+    begin
+    a = 4'h0; // Initialize input
+    en = 1'b0; // Initialize enable
+    end
+    initial begin // Stimulus generation
+    end
+    initial $monitor("t=%0d, clock = %b, reset = %b, en = %b, a = %h, b = %b",$time,clock,reset,en,a,b); // Use %h for hex 'a'
+    initial #30 $stop; // Stop simulation
+    endmodule
+    ### Test:
+    1. Run the simulation
+    2. Verify the modified code's behavior
+    3. Verify the test bench's behavior
+    4. Verify the behavior of the original code
+
+    ## Test 10
+    ### Base Verilog
+- code: |-
+    ```
+    module tst_nor3NMOS();
+      reg in1,in2,in3; wire b;
+      generate
+        block1 begin
+    nor3NMOS nn(in1,in2,in3,b); // Instantiate NMOS NOR
+    initial begin // Initialize inputs
+      in1=1'b0; in2=1'b0; in3=1'b0; // Corrected: was 1'b1
+    end
+    // Toggle inputs at different rates
+    always #2 in1=~in1;
+    always #3 in2=~in2;
+    always #5 in3=~in3;
+    initial $monitor($time, "in1 = %b, in2 = %b, in3 = %b, output = %b ",in1,in2,in3,b); // Removed newline
+    initial #24 $stop; // Stop simulation
+    end
+    endend generate
+    endmodule
+
+    ```
+    Upvotes: 0
+- code: |-
+    The example code is from `test_multiplier.v`. It has been modified as follows:
+    ```
+    ### Base Verilog Code:
+    module test_multiplier;
+    reg clk=0, start, error; // Added clk initialization
+    wire [7:0] databus;
+    wire lsb_out, msb_out, done;
+    reg [7:0] mem1[0:2], mem2[0:2]; // Memory for operands
+    reg [7:0] im_data; // Data to drive onto bus
+    reg [7:0] opnd1, opnd2; // Operands
+    reg [15:0] expected_result, multiplier_result; // Results
+    integer indx; // Loop index
+    // Instantiate the Multiplier Unit Under Test
+    Multiplier uut ( clk, start, databus, lsb_out, msb_out, done );
+    // Apply_Data
+    // --- Placeholder blocks referenced by Figure numbers ---
+    initial begin
+    opnd1 = 3; //... Figure 8.11...
+    opnd2 = 11; //... Figure 8.11...
+    mem1 = 3; //... Figure 8.11...
+    mem2 = 11; //... Figure 8.11...
+    im_data = 0; //... Figure 8.11...
+    for ( indx = 0; indx < 3; indx = indx + 4 ) //... Figure 8.11...
+    begin
+    end
+    end //... Figure 8.11...
+    // ---
+- code: |-
+    package package_prob6;
+
+    // Constants used in sequence detector
+    const int S_0 = 0, S_1 = 1, S_2 = 2, S_3 = 3, S_4 = 4;
+    const int S_5 = 5, S_6 = 6, S_7 = 7, S_8 = 8;
+    endpackage
+
+    module Prob_6_7_Moore_Mod (Detect_Moore, D_in, clk, rst);
+    // Moore nonresetting sequence detector
+    output Detect_Moore;
+    input D_in, clk, rst;
+    reg [3: 0] state_Moore
+- code: |-
+    module tst_ctr_wt;
+    reg clk,En;
+    reg[3:0]N;
+    wire[3:0]a;
+    ctr_wt c1(a,clk,N,En);
+    initial
+    begin
+    clk=0; N=4'b1111; // Set limit to 15
+    En=1'b0; // Start disabled
+    end
+    always
+    initial #35 $stop; // Stop simulation
+    initial $monitor($time,"clk=%b, En=%b, N=%d, a=%d",clk,En,N,a); // Corrected format specifiers
+    endmodule
+    ### Testing Results:
+
+    ![Vivado HLS](../img/HLS-07.png)
+
+    ![Vivado Block Diagram](../img/HLS-08.png)# 2.4.1. Vivado High Level Synthesis (HLS)
+
+    ## 2.4.1.1. Introduction
+
+    In this lab, you will practice creating Vivado High Level Synthesis (HLS) designs.
+
+    ## 2.4.1.2. Vivado High Level Synthesis (HLS) Environment Setup
+
+    The environment setup is mostly the same as that of previous labs.
+
+    ### 2.4.1.2.1. Get the source codes
+
+    For this lab, you will need the following files for creating the `Vivado_HLS` project.  You can download these files by right-clicking on the following links and selecting `Save Link As...` from the pop-up menu and saving the files to a directory of your choice.
+
+
+    - [test.cpp](../src/test_code/2.4.1/test.cpp)
+    - [test.h](../src/test_code/2.4.1/test.h)
+
+    ### 2.4.1.2.2. Create Vivado HLS Project
+
+    We will be working with `Vivado HLS` project in this lab.  The first step in creating the project is to create the project.  To create the project, in the `File Manager` window, click on the `New Project` button.  In the pop-up menu that appears, navigate to `Vivado_HLS` and click on the `Next` Button.  In the next window that appears, in the `Project Name` and `Project Directory` fields, enter the following:
+
+    ```
+    Project Name:  my_hls_project
+    Project Directory:  <your_project_directory> (leave this empty)
+    ```
+
+    ![Create Vivado HLS Project](../img/HLS-01.png)
+
+    Click on `Finish` to create the project.
+
+    ### 2.4.1.2.3. Add Sources to the Vivado HLS Project
+
+    In the `File Manager` window, navigate to the directory that contains the `test.cpp` and `test.h` files from the previous lab.  Drag the `test.cpp` and `test.h` files to the `Source Sources` tab.
+
+    ![Add Source Files to the Vivado HLS Project](../img/HLS-02.png)
+
+    ### 2.4.1.2.4. Add System-Level Header File to the Vivado HLS Project
+
+    Next, we will add a header file that contains the definitions of all the functions that we will be using in our testbench.  To add your header file, click on the `Add Files` drop-down menu in the `Source Sources` tab and select `Add Files`.  In the pop-up window that opens, navigate to the directory that contains the `test.h` file and add the `test.h` file to the `Source Sources` tab.
+
+    ![Add Header File to the Vivado H
+- code: |-
+    [mealy_inside_package_instantiate.sv](mealy_inside_package_instantiate.sv)
+    ### Result:
+    ![mealy_inside_package_instantiate](./images/mealy_inside_package_instantiate.svg)
+
+    ## FSM With UVM Parameterized State Machine
+
+    ### Base Verilog Code:
+    module mealy(Clock, Resetn, w, z);
+    input Clock, Resetn, w;
+    output z;
+    reg y, Y, z;
+    parameter A =
+- code: |-
+    module mux4to1(w0, w1, w2, w3, S, f);
+    input w0, w1, w2, w3;
+    input [1:0] S;
+    output
+- code: |-
+    ```
+    module alu(s, A, B, F);
+    input [2:0] s;
+    input [3:0] A, B;
+    output [3:0] F;
+    reg [3:0] F;
+    reg [0:3] A_LUT_0 =
+- code: |-
+    module Add (output, input1, input2, carry_in, carry_out);
+    input carry_in, carry_out;
+    input [63: 0] input1, input2;
+    output [63: 0] output;
+    always @ (*)
+    output = input1 ^ input2 ^ carry_in ^ carry_out;
+    endmodule
+
+    module Add_Wrapper (output, input1, input2, carry_in, carry_out);
+    output reg [63: 0] output;
+    input [64: 0] input1, input2;
+    input carry_in, carry_out;
+    integer i;
+    generate
+    for (i = 0; i < 8; i = i + 1)
+    Add M0 (output[i], input1[i], input2[i], carry_in, carry_out);
+    generate
+    end
+    endgenerate
+    endmodule
+
+    module t_Add_Wrapper ();
+    wire [64: 0] output, input1, input2;
+    reg carry_in, carry_out;
+    wire [5: 0] carry_in, carry_out;
+    Add_Wrapper M0 (output, input1, input2, carry_in, carry_out);
+    initial #500 $finish;
+    endmodule
+- code: |-
+    module mltp_b(a1,a0,b1,b0,c1,c2,c3,c4); // PLA based 2x2 multiplier
+      input a1,a0,b1,b0; output c1,c2,c3,c4;
+      // Declare storage for AND plane and OR plane
+      wire[1:4] and[1:9]; wire[1:9] or[1:4];
+      wire p1,p2,p3,p4,p5,p6,p7,p8,p9; // Product terms
+      assign c1 = p1; // Outputs are wires, must assign to c1
+      assign c2 = p2; // Outputs are wires, must assign to c2
+      assign c3 = p3; // Outputs are wires, must assign to c3
+      assign c4 = p4; // Outputs are wires, must assign to c4
+      assign {p1,p2,p3,p4,p5,p6,p7,p8,p9} = and; // Corrected AND product list order
+- code: |-
+    module d_ff (input d, clk, s, r, output reg q, q_b );
+    always @( s ) begin : force_a_1
+    if( s )
+    begin
+    end else begin
+    deassign q;
+    deassign q_b;
+    end
+    end
+    always @( r ) begin : force_a_0
+    if( r )
+    begin
+    end else begin
+    deassign q;
+    deassign q_b;
+    end
+    end
+    always @( posedge clk ) begin : clocked
+    end
+    endmodule
+- code: Syntax Error
+- code: Syntax Error
+- code: |-
+    module Universal_Shift_Reg (Data_Out, MSB_Out, LSB_Out, Data_In,
+    MSB_In, LSB_In, s1, s0, clk, rst);
+    output [3: 0] Data_Out;
+    output MSB_Out, LSB_Out;
+    input [3: 0] Data_In;
+    input MSB_In, LSB_In;
+    reg [3: 0] Data_Out; // 10-12-2004
+    input clk, s1, s0, rst;
+    assign MSB_Out = Data_Out[3];
+    assign LSB_Out = Data_Out[0];
+    always @ (posedge clk)
+    begin
+    if (rst) Data_Out <= 0;
+    else case (s1, s0)
+    0: Data_Out <= Data_Out; // Idle
+    1: Data_Out <= {MSB_In, Data_Out[3:1]}; // Shift right
+    2: Data_Out <= {Data_Out[2:0], LSB_In}; // Shift Left
+    3: Data_Out <= Data_In; // Parallel Load
+    endcase
+    end
+    endmodule
+    /*
+    Test Plan
+    Verify initial reset
+    Verify idle
+    Verify shift right
+    Verify shift left
+    Verify parallel load
+    Verify reset-on-the-fly
+    */
+    module t_Universal_Shift_Reg();
+    wire [3: 0] Data_Out;
+    reg [3: 0] Data_In;
+    wire MSB_Out, LSB_Out;
+    reg MSB_In, LSB_In;
+    reg [2: 0] s1, s0, rst;
+    defparam M2.half_cycle = 5;
+
+    Universal_Shift_Reg M1 (Data_Out, MSB_Out, LSB_Out, Data_In, MSB_In, LSB_In, s1,
+    s0, clk, rst);
+    Clock_Gen M2(clk);
+
+    initial #1000 $finish;
+    initial fork
+    begin #5 rst = 1; #20 rst = 0;end
+    begin #120 rst = 1; #20 rst = 0;end
+    begin #260 rst = 1; #20 rst = 0;end
+    begin #380 rst = 1; #20 rst = 0;end
+    join
+    initial fork
+    join
+    begin // Verify left shift
+    join
+    begin // Verify load
+    join
+    begin // reset
+    join
+
+    join
+    endmodule
+    ### Base Verilog Code:
+    module Universal_Shift_Reg (Data_Out, MSB_Out, LSB_Out, Data_In,
+    MSB_In, LSB_In, s1, s0, clk, rst);
+    output [3: 0] Data_Out;
+    output MSB_Out, LSB_Out;
+    input [3: 0] Data_In;
+    input MSB_In, LSB_In;
+    reg [3: 0] Data_Out; // 10-12-2004
+    input s1, s0, clk, rst;
+    assign MSB_Out = Data_Out[3];
+    assign LSB_Out = Data_Out[0];
+    always @ (posedge clk) begin
+    if (rst) Data_Out <= 0;
+    else case ({s1, s0})
+    0: Data_Out <= Data_Out; // Idle
+    1: Data_Out <= {MSB_In, Data_Out[3:1]}; // Shift right
+    2: Data_Out <= {Data_Out[2:0], LSB_In}; // Shift Left
+    3: Data_Out <= Data_In; // Parallel Load
+    endcase
+    end
+    endmodule
+    /*
+    Test Plan
+    Verify initial reset
+    Verify idle
+    Verify shift right
+    Verify shift left
+    Verify parallel load
+    Verify reset-on-the-fly
+    */
+    module t_Universal_Shift_Reg();
+    wire [3: 0] Data_Out;
+    reg [3: 0] Data_In;
+    wire MSB_Out, LSB_Out;
+    reg MSB_In, LSB_In;
+    reg s1, s0, rst;
+    defparam M2.half_cycle = 5;
+
+    Universal_Shift_Reg M1 (Data_Out, MSB_Out, LSB_Out, Data_In, MSB_In, LSB_In, s1,
+    s0, clk, rst);
+    Clock_Gen M2(clk);
+
+    initial #1000 $finish;
+    initial fork
+    begin #5 rst = 1; #20 rst = 0;end
+    begin #120 rst = 1; #20 rst = 0;end
+    begin #260 rst = 1; #20 rst = 0;end
+    begin #380 rst = 1; #20 rst = 0;end
+    join
+    initial fork
+    join
+    begin // Verify left shift
+    join
+    begin // Verify load
+    join
+    begin // reset
+    join
+
+    join
+    endmodule
+    ## Demonstration
+
+    The following demonstration of the `Universal_Shift_Reg` module shows the `Universal_Shift_Reg` module in action. Note that the reset signal is toggled at every cycle of the clock input to the module. The testbench and the module are given below. The reset signal is toggled at the half-cycle where the module is instantiated. This is done by assigning the `rst` signal in the `t_Universal_Shift_Reg` instance declaration.
+
+    ### Testbench:
+    module t_Universal_Shift_Reg();
+    wire [3: 0] Data_In;
+    wire [3: 0] Data_Out;
+    wire MSB_Out, LSB_Out;
+    reg [3: 0] Data_In;
+    reg MSB_In, LSB_In;
+    reg s1, s0, rst;
+    defparam M2.half_cycle = 5;
+
+    Universal_Shift_Reg M1 (Data_Out, MSB_Out, LSB_Out, Data_In, MSB_In, LSB_In, s1,
+    s0, clk, rst);
+    Clock_Gen M2(clk);
+
+    initial #1000 $finish; initial fork begin #5 rst = 1; #20 rst = 0;end begin #120 rst = 1; #20 rst = 0;end begin #260 rst = 1; #20 rst = 0;end begin #380 rst = 1; #20 rst = 0;end join initial fork join begin // Verify left shift join join begin // Verify load join join begin // reset join join join join join join join join join join join join join join join join join join join join join join join join endmodule ### Module Instantiation: module Universal_Shift_Reg (Data_Out, MSB_Out, LSB_Out, Data_In, MSB_In, LSB_In, s1, s0, clk, rst); output [3: 0] Data_Out; output MSB_Out, LSB_Out; input [3: 0] Data_In; input MSB_In, LSB_In; reg [3: 0] Data_Out; input clk, s1, s0, rst; assign MSB_Out = Data_Out[3]; assign LSB_Out = Data_Out[0]; always @ (posedge clk) begin if (rst) Data_Out <= 0; else case ({s1, s0}) 0: Data_Out <= Data_Out; // Idle 1: Data_Out <= {MSB_In, Data_Out[3:1]}; // Shift right 2: Data_Out <= {Data_Out[2:0], LSB_In}; // Shift Left 3: Data_Out <= Data_In; // Parallel Load endcase end endmodule ## Results The following shows the result of the demonstration. Notice how the left shift moves the left-most digit to the MSB of the output, while the right shift moves the right-most digit to the LSB of the output. The results of the test plan are shown as comments at the end of the testbench. The testbench results are as follows: ### Testbench Results: M1-clk M1-s1 M1-s0 M1-rst M1-Data_In M1-Data_Out M1-MSB_Out M1-LSB_Out # 0b0000 1 1 1 0b1000 0b1000 0b0000 0b1000 # 0b0000 1 1 0 0b1000 0b1000 0b0000 0b1000 # 0b0000 0 1 1 0b1000 0b0000 0b1000 0b0000 # 0b0
+- code: Syntax Error
+- code: |-
+    module tst_dadd(in_a,in_b,out_c);
+    wire [3:0] out_c;
+    reg clock;
+    dadd(out_c,in_a,in_b,clock);
+    endmodule
+    ### Testbench Invocation and Results:
+    %IOPL=high C:\Users\\Documents\GitHub\VerilogProjects\dadd.v
+    %IOPL=high C:\Users\\Documents\GitHub\VerilogProjects\dadd.v
+    .//tb_dadd_tst.v(7) : $error: D:\Programming\Verilog Projects\dadd.v(11): syntax error, unexpected `)', expecting `;`
+    Simulation time = 70 ns
+
+    ### Explanation:
+    The issue was with the use of the `clock` variable. After removing `clock` from the `dadd` module within the `tst_dadd` module, I was not able to send the clock signal to the `dadd` module. This was because I was sending the `clock` signal from the top-level module, rather than the `dadd` module. This can be solved by sending the `clock` signal to the `dadd` module in the top-level module.
+
+    ## 11.
+    Modify the
+- code: Syntax Error
+- code: |-
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt, // Greater than
+    output reg eq, // Equal
+    output reg lt // Less than
+    );
+    always @(*) // Combinational logic
+    begin
+    // Default outputs to 0
+    gt = 1'b0;
+    eq = 1'b0;
+    lt = 1'b0;
+    // Set flags based on comparison results
+    if(x > y)
+    gt = 1'b1;
+    if(x == y)
+    eq = 1'b1;
+    if(x < y)
+    lt = 1'b1;
+    end
+    endmodule
+    ### Modified Verilog Code:
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt, // Greater than
+    output reg eq, // Equal
+    output reg lt // Less than
+    );
+    generate
+    for(genvar i = 0; i < N; i++)
+    begin
+    if(x[i] == y[i])
+    eq = 1'b1;
+    else if(x[i] > y[i])
+    gt = 1'b1;
+    else
+    lt = 1'b1;
+    end
+    endgenerate
+    endmodule
+    ### Summary:
+    Generate blocks provide a more robust way of specifying a loop that can be used to handle cases that the for-loop would not handle. However, these blocks have their own limitations as well.
+
+    #### 4.3.4.3.2.3. Nested Block:
+
+    Nested blocks allow the user to place code that is more nested within a larger block. The following code is a counter example:
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    always @(*)
+    begin
+    // Default outputs to 0
+    gt = 1'b0;
+    eq = 1'b0;
+    lt = 1'b0;
+    // Set flags based on comparison results
+    if(x > y)
+    gt = 1'b1;
+    if(x == y)
+    eq = 1'b1;
+    if(x < y)
+    lt = 1'b1;
+    end
+    endmodule
+    ### Summary:
+    Nested blocks can be used to wrap a code block inside another code block.
+
+    #### 4.3.4.3.2.4. Array Pointer Block:
+
+    This code is equivalent to the previous code
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    always @(*)
+    begin
+    // Loop over all bits
+    for(genvar i = 0; i < N; i++)
+    begin
+    if(x[i] == y[i])
+    eq = 1'b1;
+    else if(x[i] > y[i])
+    gt = 1'b1;
+    else
+    lt = 1'b1;
+    end
+    end
+    endmodule
+    ### Summary:
+    The for loop can be used to loop over an array where the array index is used as a loop iteration variable.
+
+    #### 4.3.4.3.2.5. Array Pointer and Indexed Block:
+
+    These code examples both use the same logic as the code examples in the section above. However, the first one uses an array pointer to access the array and the second uses a generated block to handle the array index.
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    always @(*)
+    begin
+    // Loop over all bits
+    for(genvar i = 0; i < N; i++)
+    begin
+    if(x[i] == y[i])
+    eq = 1'b1;
+    else if(x[i] > y[i])
+    gt = 1'b1;
+    else
+    lt = 1'b1;
+    end
+    end
+    endmodule
+    ### Summary:
+    Array pointers allow access to the individual bits of an array and the generated block allows the user to define their own index variable.
+
+    #### 4.3.4.3.2.6. Array Pointer and Generate Block:
+
+    The code below is identical to the previous code. However, the generate block is used to provide a more robust way of performing the logic.
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    generate
+    for(genvar i = 0; i < N; i++)
+    begin
+    if(x[i] == y[i])
+    eq = 1'b1;
+    else if(x[i] > y[i])
+    gt = 1'b1;
+    else
+    lt = 1'b1;
+    end
+    endgenerate
+    endmodule
+    ### Summary:
+    The generate block is used to provide a more robust way of performing the logic.
+
+    #### 4.3.4.3.2.7. Pointer and Generate Block:
+
+    The code below is another approach to the previous code but with a different approach.
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    generate
+    if(x == y)
+    eq = 1'b1;
+    else if(x > y)
+    gt = 1'b1;
+    else
+    lt = 1'b1;
+    endgenerate
+    endmodule
+    ### Summary:
+    The generate block is used to provide a more robust way of performing the logic.
+
+    ## 4.3.4.4. Examples:
+
+    #### 4.3.4.4.1. Example Code:
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    always @(*)
+    begin
+    // Default outputs to 0
+    gt = 1'b0;
+    eq = 1'b0;
+    lt = 1'b0;
+    // Set flags based on comparison results
+    if(x > y)
+    gt = 1'b1;
+    if(x == y)
+    eq = 1'b1;
+    if(x < y)
+    lt = 1'b1;
+    end
+    endmodule
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    always @(*)
+    begin
+    // Default outputs to 0
+    gt = 1'b0;
+    eq = 1'b0;
+    lt = 1'b0;
+    // Set flags based on comparison results
+    if(x[N-1] == y[N-1])
+    eq = 1'b1;
+    else if(x[N-1] > y[N-1])
+    gt = 1'b1;
+    else
+    lt = 1'b1;
+    end
+    endmodule
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    always @(*)
+    begin
+    // Default outputs to 0
+    gt = 1'b0;
+    eq = 1'b0;
+    lt = 1'b0;
+    // Set flags based on comparison results
+    if(x[N-1] == y[N-1])
+    eq = 1'b1;
+    else if(x[N-1] > y[N-1])
+    gt = 1'b1;
+    else
+    lt = 1'b1;
+    end
+    endmodule
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    always @(*)
+    begin
+    // Default outputs to 0
+    gt = 1'b0;
+    eq = 1'b0;
+    lt = 1'b0;
+    // Set flags based on comparison results
+    if(x[N-1] == y[N-1])
+    eq = 1'b1;
+    else if(x[N-1] > y[N-1])
+    gt = 1'b1;
+    else
+    lt = 1'b1;
+    end
+    endmodule
+
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt,
+    output reg eq,
+    output reg lt
+    );
+    always @(*)
+    begin
+    //
+- code: |-
+    ```Verilog
+    module dff_aa(q,qb,di,clk,clr,pr); // Behavioral DFF with async controls and conditional path delay
+      output q,qb; input di,clk,clr,pr;
+      reg q;
+      assign qb=~q;
+      specify
+        // Conditional path delay: clk->q edge-sensitive path active only if clr and pr are low
+        if (!clr &&!pr) (posedge clk *> (q:di)) = 1;
+      endspecify
+      // Behavioral description with async reset/preset priority
+      always @(posedge clk or posedge clr or posedge pr) //
+- code: |-
+    ```
+    module addern(carryin, X, Y, S, carryout);
+    parameter n = 16;
+    input carryin;
+    input [n-1:0] X, Y;
+    output [n-1:0] S;
+    output carryout;
+    reg [n-1:0] S;
+    reg [n:0] C;
+    reg carryout;
+    integer k;
+    wire [n-1:0] data[n-1:0];
+    assign data = {X, Y};
+    always @(data or carryin)
+    begin
+        C[0] = carryin;
+        for (k = 0; k <= n-1; k = k + 1)
+        begin
+            S[k] = data[k] ^ C[k];
+            C[k+1] = (data[k] & C[k]) | (C[k] & data[k]);
+        end
+        carryout = C[n];
+    end
+    endmodule
+    ```
+    ### Comparison Result:
+    ```
+    $ diff before.v after.v
+    Only in before: addern
+    Only in after: addern
+    13c13
+    < reg [n-1:0] S;
+    ---
+    > reg [n:0] S;
+    14c14
+    < reg [n:0] C;
+    ---
+    > reg [n-1:0] C;
+    19c19
+    < wire [n-1:0] data[n-1:0];
+    ---
+    > wire [n-1:0] data[n-1:0];
+    21c21
+    < assign data = {X, Y};
+    ---
+    > assign data = {X, Y};
+    32d31
+    < for (k = 0; k <= n-1; k = k + 1)
+    ---
+    > for (k = 0; k <= n-1; k = k + 1)
+    33,36c32,35
+    < S[k] = data[k] ^ C[k];
+    < C[k+1] = (data[k] & C[k]) | (C[k] & data[k]);
+    ---
+    < S[k] = data[k] ^ C[k];
+    < C[k] = (data[k] & C[k]) | (C[k] & data[k]);
+
+    $ diff before.v after.v
+    Only in before: addern
+    Only in after: addern
+    13c13
+    < reg [n-1:0] S;
+    ---
+    > reg [n:0] S;
+    14c14
+    < reg [n:0] C;
+    ---
+    > reg [n-1:0] C;
+    19c19
+    < wire [n-1:0] data[n-1:0];
+    ---
+    > wire [n-1:0] data[n-1:0];
+    21c21
+    < assign data = {X, Y};
+    ---
+    > assign data = {X, Y};
+    32d31
+    < for (k = 0; k <= n-1; k = k + 1)
+    ---
+    > for (k = 0; k <= n-1; k = k + 1)
+    33,36c32,35
+    < S[k] = data[k] ^ C[k];
+    < C[k+1] = (data[k] & C[k]) | (C[k] & data[k]);
+    ---
+    < S[k] = data[k] ^ C[k];
+    < C[k] = (data[k] & C[k]) | (C[k] & data[k]);
+    ```
+    ### Observations:
+    - The only thing that was modified is the declaration of `reg` in line 14.
+    - The declaration of `C` was also modified, but it was not in the loop.
+    - The variable `k` was also moved from declaration to a constant.
+    - Line 32 was also moved from declaration to a constant.
+    - Line 33 was also moved from declaration to a constant.
+    - In line 21, `data` was moved from declaration to an expression.
+    - The loop was modified with the proper index.
+    - The values of `S` and `C` are still the same.
+
+    # 1.4 - Arithmetic Operations
+
+    ## Exercises
+    1. What is the sum of the following:
+    ```
+    1100010 + 1100100 =?
+    ```
+    2. Simplify:
+    ```
+    (x + ~x) + (~x + x) =?
+    ```
+    3. Write an expression that, given the 8-bit value A, produces the 12-bit value A * 4 - A / 2.
+    4. Given the following expression for a 16-bit adder, which operation or operations should be added to make it work as the 32-bit adder shown on the right?
+    ```
+    A
+    B
+    -B
+    +A
+    +B
+    ~B
+    ~A
+    -A
+    -B
+    ```
+    ![Addition Table](./img/addition_table.PNG)
+    5. What is the sum of the following:
+    ```
+    1100010 + 1100100 =?
+    ```
+    6. Find the 8-bit value of the following expression:
+    ```
+    ~01010101 + 001100110 =?
+    ```
+    7. Is the sum of two 16-bit numbers the same as the sum of the two 8-bit numbers? If not, why?
+    8. Is the product of two 16-bit numbers the same as the product of the two 8-bit numbers? If not, why?
+    9. Given the following expression for a 16-bit adder, which operation or operations should be added to make it work as the 32-bit adder shown on the right?
+    ```
+    B
+    A
+    -B
+    A
+    +B
+    ~B
+    ~A
+    -A
+    -B
+    ```
+
+    ![Addition Table](./img/addition_table.PNG)
+
+    ## Notes
+    - Arithmetic operations can be expressed in the following way:
+    ```
+    result[i-j+1: j] = A[i-j+1: j] op B[i-j+1: j]
+    ```
+    - `result` and `A` are the operands, `op` is the operator, `i` is the maximum bit of `A` and `j` is the minimum bit of `A`.
+    - For example, for `i-j+1:j`, for an operand `A` of `32 bits`, `j = 1` and `i = 32`, `i-j+1:j` means from bit 2 to bit 1.
+    - For example, for `i-j+1:j`, for an operand `A` of `8 bits`, `j = 3` and `i = 7`, `i-j+1:j` means from bit 4 to bit 3.
+    - For example, for `A[i-j+1:j]`, for an operand `A` of `32 bits`, `j = 1` and `i = 32`, `A[i-j+1:j]` means from bit 31 to bit 1.
+    - For example, for `A[i-j+1:j]`, for an operand `A` of `8 bits`, `j = 3` and `i = 7`, `A[i-j+1:j]` means from bit 7 to bit 3.
+    - For example, for `A[i-j+1:j]`, for an operand `A` of `16 bits`, `j = 4` and `i = 15`, `A[i-j+1:j]` means from bit 15 to bit 4.
+    - The results of the above expression are `result` and `B`.
+    - For example, for `result[i-j+1:j] = A[i-j+1:j] op B[i-j+1:j]` with `op = ~`, `j = 1` and `i = 32`, `result[i-j+1:j]` is `(0 - 1) = -1`.
+    - For example, for `result[i-j+1:j] = A[i-j+1:j] op B[i-j+1:j]` with `op = +`, `j = 1` and `i = 32`, `result[i-j+1:j]` is `10000000000000000000000000000001 + 1111111111111111111
+- code: |-
+    module mixed_sim;
+    reg dcontrol, x, y;
+    reg [31:0] data;
+    wire [31:0] bus;
+    assign bus = dcontrol? data : 'bz;
+    dcontrol_state_Mealy_inside_t dcontrol_state_Mealy_inside = $dcontrol_state_Mealy_inside_t(dcontrol);
+    always @x
+    y = ~x;
+    initial
+    begin
+    $monitor("time=%d dcontrol=%d data=%d x=%d y=%d bus=%d",
+             $time, dcontrol, data, x, y, bus);
+    dcontrol = 0;
+    end
+    endmodule
+    ```
+    # [01] Verilator
+
+    The C++ RTL simulator, [Verilator](https://verilator.org/), supports a variety of synthesizable languages. Verilator is included with Vivado, so as long as the synthesis tool can generate the VHDL/SystemVerilog code, Verilator can be used.
+
+    # Requirements
+
+    Verilator 4.101+ is used in the course.
+
+    # Installation
+
+    * Install [Verilator](https://verilator.org/download/)
+    * Install [Vivado](https://www.xilinx.com/products/design-tools/vivado.html)
+      * Vivado 2018.3 (you can download the free evaluation version here for personal use)
+      * Be sure to select the option to install the Vivado Design Suite
+    * Create a new workspace in Vivado
+      * Select 'File' -> 'Open' -> 'Select Workspace Directory'
+      * Navigate to the workspace folder, or create a new one
+      * Close the project window (`Ctrl+W`)
+
+    # Usage
+
+    ## Generate Verilog
+
+    * Open Vivado
+    * In the toolbar, select 'File' -> 'Open Project'
+      * Navigate to the workspace folder, or create a new one
+    * In the projects window, select 'Project', then 'Generate Block Design'
+      * Select the 'RTL Source Files' tab
+      * Select 'Add File...'
+      * Select the top level file, for example `Top_module.v`
+      * Click the 'Generate' button
+    * In the projects window, select 'Project', then 'Generate RTL Design'
+      * Check the boxes for the required IPs (for example, `altera_primitives`)
+      * Click the 'Generate' button
+    * In the projects window, select 'Project', then 'Rebuild Target'
+      * Check the boxes for the required IPs (for example, `altera_primitives`)
+      * Click the 'Rebuild' button
+      * Select 'Generate Output Files'
+      * Select 'RTL File', 'SystemVerilog Interface File', 'SystemVerilog Module File'
+        * File names and path can be modified, but be sure to place these files in the proper places
+
+    ## Run Verilator
+
+    * Run the following command from the project directory
+
+    ```bash
+    verilator --trace -CFLAGS -g --top-module top_module --cc --exe --sv --sv-intf UartIF --exe Top_module.cpp
+    ```
+
+    * The Verilator executable is named `Vtop_module`
+    * In the same directory, open the `out_dir/Vtop_module.cpp` file in a text editor
+    * You will see code that looks like this:
+
+    ```cpp
+    int main(int argc, char** argv, char** env) {
+        Verilated::commandArgs(argc, argv);
+        Verilated::traceEverOn(true);
+        Top_module *top_module = new Top_module;
+        VerilatedVcdC* tfp = new VerilatedVcdC;
+        VerilatedVcdC* tfp_uart = new VerilatedVcdC;
+        top_module->trace(tfp, 99);
+        top_module->uart_interface->trace(tfp_uart, 99);
+        top_module->clk = 0;
+        top_module->rstb = 0;
+        top_module->uart_interface->rstb = 0;
+        top_module->uart_interface->uart_tx = 0;
+        top_module->uart_interface->uart_rx = 0;
+
+
+        tfp->open("top_module.vcd");
+        tfp_uart->open("uart_interface.vcd");
+
+        for (int i = 0; i < 20; ++i) {
+            top_module->clk = 0;
+            tfp->dump(i*2);
+            tfp_uart->dump(i*2);
+            top_module->eval();
+            top_module->clk = 1;
+            tfp->dump(i*2 + 1);
+            tfp_uart->dump(i*2 + 1);
+            top_module->eval();
+        }
+
+        tfp->close();
+        tfp_uart->close();
+        delete top_module;
+        exit(0);
+    }
+    ```
+
+    * The first part creates a `Top_module` object, and a `VerilatedVcdC` object for each interface
+    * The second part enables `tfp` and `tfp_uart` to dump all signals into VCD files
+    * The third part sets the initial state of the modules to their default values
+    * The last part executes the simulation, and closes the files
+
+    # Examples
+
+    * [01.verilator](01.verilator)
+      * Generate Verilog
+      * Run Verilator
+
+    # References
+
+    * [Verilator](https://verilator.org/)
+    # [01] Verilator
+
+    The C++ RTL simulator, [Verilator](https://verilator.org/), supports a variety of synthesizable languages. Verilator is included with Vivado, so as long as the synthesis tool can generate the VHDL/SystemVerilog code, Verilator can be used.
+
+    # Requirements
+
+    Verilator 4.101+ is used in the course.
+
+    # Installation
+
+    * Install [Verilator](https://verilator.org/download/)
+    * Install [Vivado](https://www.xilinx.com/products/design-tools/vivado.html)
+      * Vivado 2018.3 (you can download the free evaluation version here for personal use)
+      * Be sure to select the option to install the Vivado Design Suite
+    * Create a new workspace in Vivado
+      * Select 'File' -> 'Open' -> 'Select Workspace Directory'
+      * Navigate to the workspace folder, or create a new one
+      * Close the project window (`Ctrl+W`)
+
+    # Usage
+
+    ## Generate Verilog
+
+    * Open Vivado
+    * In the toolbar, select 'File' -> 'Open Project'
+      * Navigate to the workspace folder, or create a new one
+    * In the projects window, select 'Project', then 'Generate Block Design'
+      * Select the 'RTL Source Files' tab
+      * Select 'Add File...'
+      * Select the top level file, for example `Top_module.v`
+      * Click the 'Generate' button
+    * In the projects window, select 'Project', then 'Generate RTL Design'
+      * Check the boxes for the required IPs (for example, `altera_primitives`)
+      * Click the 'Generate' button
+    * In the projects window, select 'Project', then 'Rebuild Target'
+      * Check the boxes for the required IPs (for example, `altera_primitives`)
+      * Click the 'Rebuild' button
+      * Select 'Generate Output Files'
+      * Select 'RTL File', 'SystemVerilog Interface File', 'SystemVerilog Module File'
+        * File names and path can be modified, but be sure to place these files in the proper places
+
+    ## Running Verilator
+
+    * Run the following command from the project directory
+
+    ```bash
+    verilator --trace -CFLAGS -g --top-module top_module --cc Top_module.cpp --exe --sv --sv-intf UartIF --exe Top_module.cpp
+    ```
+
+    * The Verilator executable is named `Vtop_module`
+    * In the same directory, open the `out_dir/Vtop_module.cpp` file in a text editor
+    * You will see code that looks like this:
+
+    ```cpp
+    int main(int argc, char** argv, char** env) {
+        Verilated::commandArgs(argc, argv);
+        Verilated::traceEverOn(true);
+        Top_module* top_module = new Top_module;
+        top_module->uart_interface->uart_tx = 0;
+        top_module->uart_interface->uart_rx = 0;
+        top_module->uart_interface->rstb = 0;
+        top_module->uart_interface->clk = 0;
+
+
+        top_module->uart_interface->rstb = 1;
+        top_module->uart_interface->clk = 1;
+        top_module->uart_interface->rstb = 1;
+        top_module->uart_interface->clk = 0;
+        top_module->uart_interface->rstb = 1;
+        top_module->uart
+- code: |-
+    module Prob_6_7_Dlatch (Detect_Dlatch, D_in, clk, rst);
+    // D-latch nonresetting sequence detector
+    output Detect_Dlatch;
+    input D_in, clk, rst;
+    parameter S_0 = 0, S_1 = 1, S_2 = 2, S_3 = 3;
+    parameter S_5 = 5, S_6 = 6, S_7 = 7;
+    reg [2: 0] state_Dlatch, next_state;
+    wire Detect_Dlatch = (((state_Dlatch == S_3)&&(D_in == 0))
+    || ((state_Dlatch == S_7)&&(D_in ==1)));
+    always @ (posedge clk) if (rst) state_Dlatch <= S_0; else state_Dlatch <= next_state;
+    always @ (state_Dlatch, D_in) begin
+    case (state_Dlatch)
+    S_0:  next_state = S_1;
+    S_1:  next_state = S_2;
+    S_2:  next_state = S_3;
+    S_3:  next_state = S_3;
+    S_5:  next_state = S_6;
+    S_6:  next_state = S_7;
+    S_7:  next_state = S_7;
+    default: next_state = S_0;
+    endcase
+    end
+    endmodule
+    ### Testbench:
+    module d_latch_tb;
+    reg clk, rst;
+    reg [1: 0] Din_tb;
+    wire [1: 0] Dout_tb;
+    Prob_6_7_Dlatch Dout_Dlatch (Dout_tb, Din_tb, clk, rst);
+    always begin
+    Din_tb = {Din_tb[1],
+- code: |-
+    module reg_8bit; //8-bit register
+    input [7:0] di; // Data input
+    input clk; // Clock input
+    reg [7:0] do; // Data output
+    always @(posedge clk)
+    do <= di;
+    initial
+    #200 $finish; // Stop simulation endmodule #### 3. Full Adder ##### Base Verilog Code: module add3(//3-bit adder // Input A,B,C. // Output S,C // S = A+B+C, C = 2 bit carry // Input A,B // Output S,C // S = A+B, C = 1 bit carry module add3( input wire a, b, input wire s_in, c_in, output wire s_out, output wire c_out); // Inputs of add3 module // Inputs a,b input wire a,b; // Inputs s_in,c_in input wire s_in,c_in; // Outputs of add3 module // Outputs s_out,c_out output wire s_out,c_out; // Combined inputs, s_in,c_in,a input wire [1:0] s_in,c_in,a; // Combined outputs, s_out,c_out output wire s_out,c_out; // Adder's functionality // Inputs a,b and s_in,c_in assign s_out = a ^ b ^ c_in; assign c_out = (a & b) | (a & c_in) | (b & c_in); endmodule // Instantiation of 3-bit adder module add4( input wire [2:0] a, b, input wire [2:0] s_in, c_in, // Outputs s_out,c_out output wire [2:0] s_out,c_out); // 3 inputs to adder's 3 inputs // 3 outputs from adder's 3 outputs // a,b,s_in,c_in input wire [2:0] a,b,s_in,c_in; // a[2:0],b[2:0],s_in[2:0],c_in[2:0] wire [2:0] s_out,c_out; // s_out[2:0],c_out[2:0] assign s_out[0] = a[0]^b[0]; assign s_out[1] = a[0]^b[1]^c_in[0]; assign s_out[2] = a[1]^b[1]^c_in[1]; assign c_out[0] = s_in[0]^a[1]^b[0]; assign c_out[1] = s_in[1]^a[1]^b[1]; assign c_out[2] = c_in[1]; endmodule // Instantiation of 4-bit adder module add3( input wire a, b, input wire s_in, c_in, output wire s_out, output wire c_out); add4 add1(.a(a),.b(b),.s_in(s_in),.c_in(c_in),.s_out(s_out),.c_out(c_out)); endmodule // Instantiation of 3-bit adder module add3( input wire a, b, input wire s_in, c_in, output wire s_out, output wire c_out); add4 add1(.a(a),.b(b),.s_in(s_in),.c_in(c_in),.s_out(s_out),.c_out(c_out)); endmodule ##### Variation Instruction: Add `inside` operator to check `s_cnt` inside a constant array and wrap combinational block in escaped generate block. ##### Modified Code: module add3( //3-bit adder // Input A,B,C // Output S,C // S = A+B+C, C = 2 bit carry // Input A,B input wire a,b; // Inputs s_in,c_in input wire s_in,c_in; // Outputs of add3 module // Outputs s_out,c_out output wire s_out,c_out; // Combined inputs, s_in,c_in,a input wire [1:0] s_in,c_in,a; // Combined outputs, s_out,c_out output wire s_out,c_out; // Adder's functionality // Inputs a,b and s_in,c_in assign s_out = a ^ b ^ c_in; assign c_out = (a & b) | (a & c_in) | (b & c_in); endmodule // Instantiation of 3-bit adder module add4( input wire [2:0] a, b, input wire [2:0] s_in, c_in, // Outputs s_out,c_out output wire [2:0] s_out,c_out); // 3 inputs to adder's 3 inputs // 3 outputs from adder's 3 outputs // a,b,s_in,c_in input wire [2:0] a,b,s_in,c_in; // a[2:0],b[2:0],s_in[2:0],c_in[2:0] wire [2:0] s_out,c_out; // s_out[2:0],c_out[2:0] assign s_out[0] = a[0]^b[0]; assign s_out[1] = a[0]^b[1]^c_in[0]; assign s_out[2] = a[1]^b[1]^c_in[1]; assign c_out[0] = s_in[0]^a[1]^b[0]; assign c_out[1] = s_in[1]^a[1]^b[1]; assign c_out[2] = c_in[1]; endmodule // Instantiation of 4-bit adder module add3( input wire a, b, input wire s_in, c_in, output wire s_out, output wire c_out); add4 add1(.a(a),.b(b),.s_in(s_in),.c_in(c_in),.s_out(s_out),.c_out(c_out)); endmodule // Instantiation of 3-bit adder module add3( input wire a, b, input wire s_in, c_in, output wire s_out, output wire c_out); add4 add1(.a(a),.b(b),.s_in(s_in),.c_in(c_in),.s_out(s_out),.c_out(c_out)); endmodule ##### Variation Instruction: Add `inside` operator to check `s_cnt` inside a constant array and wrap combinational block in escaped generate block. ##### Modified Code: module add3( //3-bit adder // Input A,B,C // Output S,C // S = A+B+C, C = 2 bit carry // Input A,B input wire a,b; // Inputs s_in,c_in input wire s_in,c_in; // Outputs of add3 module // Outputs s_out,c_out output wire s_out,c_out; // Combined inputs, s
+- code: |-
+    module shift_reg( input [3:0] d_in, input clk, sr, sl, ld,
+    input [1:0] s_cnt, output reg [3:0] q);
+    reg [3:0] int_q;
+    always @( d_in, q, s_cnt, sr, sl, ld ) begin: combinational
+    if( ld )
+    int_q = d_in;
+    else if( sr )
+    int_q = q >> s_cnt;
+    else if( sl )
+    int_q = q << s_cnt;
+    else int_q = q;
+    end
+    always @( posedge clk ) begin: register
+    if (rst) q <= 0;
+    else q <= int_q;
+    end
+    endmodule
+    // #################################################################
+    // # Copyright (c) 2005-2020 Mentor Graphics Corporation
+    // #       All Rights Reserved
+    // #
+    // # THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+    // # WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+    // # LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+    // #
+    // ###################################################################
+    // ###################################################################
+    ## The above copyright notice and this permission notice shall be
+    ## included in all copies or substantial portions of the Software.
+    ##
+    ## THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    ## EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    ## OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    ## NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    ## HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+    ## WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    ## FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    ## OTHER DEALINGS IN THE SOFTWARE.
+    ##
+    ## Except as contained in this notice, the name of Mentor Graphics
+    ## shall not be used in advertising or otherwise to promote the sale,
+    ## use or other dealings in this Software without prior written
+    ## authorization from Mentor Graphics.
+    ##
+    ## Author:  ()
+    ##
+    ## Revision History:
+    ##
+    ## 07/12/17, rk: Removed "endgenerate" from the wrapper module
+    ## 01/21/18, rk: Added input parameter of size_t to shift_reg
+    ## 01/25/18, rk: Added shift_reg_arr as wrapper module
+    ## 02/05/18, rk: Added s_cnt to shift_reg_arr as width
+    ## 10/10/18, rk: Fix typo on instantiation of shift_reg_arr
+    ## 10/10/18, rk: Add shift_reg_arr as wrapper module
+    ## 10/10/18, rk: Add shift_reg_arr as wrapper module
+    ## 07/14/19, rk: Replace shift_reg_arr with a generate block for
+    ##               better synthesis
+    ##
+    ## ###################################################################
+    // ###################################################################
+    // # Copyright (c) 2005-2020 Mentor Graphics Corporation
+    // #       All Rights Reserved
+    // #
+    // # THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+    // # WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+    // # LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+    // #
+    // ###################################################################
+    // ###################################################################
+    // ###################################################################
+    ## The above copyright notice and this permission notice shall be
+    ## included in all copies or substantial portions of the Software.
+    ##
+    ## THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    ## EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    ## OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    ## NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    ## HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+    ## WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    ## FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    ## OTHER DEALINGS IN THE SOFTWARE.
+    ##
+    ## Except as contained in this notice, the name of Mentor Graphics
+    ## shall not be used in advertising or otherwise to promote the sale,
+    ## use or other dealings in this Software without prior written
+    ## authorization from Mentor Graphics.
+    ##
+    ## Revision History:
+    ##
+    ## 01/25/18, rk: Added shift_reg_arr as wrapper module
+    ## 01/25/18, rk: Added shift_reg_arr as wrapper module
+    ## 02/05/18, rk: Added s_cnt to shift_reg_arr as width
+    ## 10/10/18, rk: Fix typo on instantiation of shift_reg_arr
+    ## 10/10/18, rk: Add shift_reg_arr as wrapper module
+    ## 10/10/18, rk: Add shift_reg_arr as wrapper module
+    ## 07/14/19, rk: Replace shift_reg_arr with a generate block for
+    ##               better synthesis
+    ## 07/26/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19, rk: Use generate instead of wrapper module
+    ## 08/02/19,
+- code: Syntax Error
+- code: |-
+    module encoder (BCD_in, Excess_3_out);
+    input [3:0] BCD_in;
+    output [3:0] Excess_3_out;
+    parameter [1:0] HiCount = {BC,AB,AA,00};
+
+    reg [3:0] Adjr;
+    wire [3:0] Excess_4_out;
+
+    reg [3:0] HiCount_local;
+
+    wire [3:0] Excess_3_out_local;
+
+    generate
+    begin
+    Excess_4_out = Excess_3_out + HiCount;
+    end
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_4_out[3:0] : 0;
+    endgenerate
+    assign Excess_3_out = (HiCount_local == 0)? BCD_in : (HiCount_local == 1)? Excess_4_out[1:0] : (HiCount_local == 2)? Excess_4_out[2:0] : (HiCount_local == 3)? Excess_
+- code: Syntax Error
+- code: Syntax Error
+- code: |-
+    * Line 45
+    ```verilog
+    always_comb begin
+     if(state inside {IDLE, P0, P1})
+    ```
+    ### Modified Code (Package Version):
+    * Line 45
+    ```verilog
+    always_comb begin
+     if(state inside {IDLE, P0, P1})
+    ```
+    ### Source:
+    * [C:\Users\harris\Desktop\GitHub\Digital Logic\Verilog\Lab3/tstdlatch.v](C:\Users\harris\Desktop\GitHub\Digital Logic\Verilog\Lab3/tstdlatch.v)
+    /Lab5/src/testbench.h
+    #ifndef TEST_BENCH
+    #define TEST_BENCH
+
+    #include "hdl_util.h"
+    #include <vector>
+    #include <map>
+    #include <set>
+
+    // The testbench class
+    class Testbench
+    {
+    private:
+        std::set<std::string> modules;
+        std::map<std::string, std::vector<std::string>> instance_map;
+        std::string netlist_path;
+        std::string testbench_path;
+        std::string vpi_path;
+
+    public:
+        Testbench();
+        void add_module(std::string name, bool is_reg);
+        void generate_netlist();
+        void generate_testbench();
+        void generate_vpi();
+        std::map<std::string, std::vector<std::string>> get_instance_map();
+    };
+
+
+
+
+    #endif
+- code: |-
+    module hex_to_7seg
+    (
+    output reg [ 7 : 0 ] seven_seg,
+    input [15 : 0 ] x
+    );
+    parameter [15 : 0 ] lookup =
+    16'h000, 16'h000, 16'h780, 16'h790, 16'h788, 16'h798,
+    16'h784, 16'h794, 16'h000, 16'h008, 16'h000, 16'h000,
+    16'h000, 16'h000, 16'h000, 16'h000;
+    always @ ( * )
+    if ( x == lookup [9] )
+    seven_seg = 7'h100;
+    else if ( x == lookup [15] )
+    seven_seg = 7'h100;
+    else
+    seven_seg = 7'h000;
+    endmodule
+    ### Modified Verilog Code:
+    module hex_to_7seg
+    (
+    output reg [ 7 : 0 ] seven_seg,
+    input [15 : 0 ] x
+    );
+    reg [15 : 0 ] lookup [9 : 0];
+    always @ ( * ) begin
+    lookup [0] = 16'h000;
+    lookup [1] = 16'h000;
+    lookup [2] = 16'h780;
+    lookup [3] = 16'h790;
+    lookup [4] = 16'h788;
+    lookup [5] = 16'h798;
+    lookup [6] = 16'h784;
+    lookup [7] = 16'h794;
+    lookup [8] = 16'h000;
+    lookup [9] = 16'h008;
+    end
+    if ( x == lookup [9] )
+    seven_seg = 7'h100;
+    else if ( x == lookup [15] )
+    seven_seg = 7'h100;
+    else
+    seven_seg = 7'h000;
+    endmodule
+
+    ## S-R Finite State Machine
+
+    ### Base Verilog Code:
+    module control_unit (flush_P0_P1, Ld_P1, Ld_P0, Ld_R0, Ld, En, clock, rst);
+    output reg flush_P0_P1, Ld_P1, Ld_P0, Ld_R0;
+    input Ld, En, clock, rst;
+    reg [1: 0] state, next_state;
+    parameter S_idle = 0, S_1 = 1, S_full = 2, S_wait = 3;
+    always @ (posedge clock) if (rst) state <= S_idle;
+    else state <= next_state;
+    always @ (state, Ld, En) begin
+    flush_P0_P1 = 0;
+    Ld_P1 = 0;
+    Ld_P0 = 0;
+    Ld_R0 = 0;
+    next_state = S_idle;
+    case (state)
+    S_idle: if (En)
+    begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    else flush_P0_P1 = 1;
+
+    S_1: begin next_state = S_full; Ld_P1 = 1; Ld_P0 = 1; end
+    S_full: if (Ld == 1) begin
+    Ld_R0 = 1;
+    case (En)
+    0: begin next_state = S_idle; flush_P0_P1 = 1; end
+    1: begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    endcase
+    end
+    else next_state = S_wait;
+    S_wait: if (Ld == 1) begin
+    Ld_R0 = 1;
+    case (En)
+    0: begin next_state = S_idle; flush_P0_P1 = 1; end
+    1: begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    endcase
+    end
+    else next_state = S_wait;
+    endcase
+    end
+    endmodule
+
+    ### Variation Instruction:
+    For the S-R Finite State Machine, use the `case` statement to compare the current state in the state machine with a constant array of states.
+
+    ### Modified Verilog Code:
+    module control_unit (flush_P0_P1, Ld_P1, Ld_P0, Ld_R0, Ld, En, clock, rst);
+    output reg flush_P0_P1, Ld_P1, Ld_P0, Ld_R0;
+    input Ld, En, clock, rst;
+    reg [1: 0] state, next_state;
+    parameter S_idle = 0, S_1 = 1, S_full = 2, S_wait = 3;
+    always @ (posedge clock) if (rst) state <= S_idle;
+    else state <= next_state;
+    always @ (state, Ld, En) begin
+    flush_P0_P1 = 0;
+    Ld_P1 = 0;
+    Ld_P0 = 0;
+    Ld_R0 = 0;
+    next_state = S_idle;
+    case (state)
+    S_idle: if (En)
+    begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    else flush_P0_P1 = 1;
+
+    S_1: begin next_state = S_full; Ld_P1 = 1; Ld_P0 = 1; end
+    S_full: if (Ld == 1) begin
+    Ld_R0 = 1;
+    case (En)
+    0: begin next_state = S_idle; flush_P0_P1 = 1; end
+    1: begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    endcase
+    end
+    else next_state = S_wait;
+    S_wait: if (Ld == 1) begin
+    Ld_R0 = 1;
+    case (En)
+    0: begin next_state = S_idle; flush_P0_P1 = 1; end
+    1: begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    endcase
+    end
+    else next_state = S_wait;
+    endcase
+    end
+    endmodule
+
+    ## S-R Finite State Machine Using `case` Statement
+
+    This section illustrates the `case` statement in more detail.
+
+    ### Base Verilog Code:
+    module control_unit (flush_P0_P1, Ld_P1, Ld_P0, Ld_R0, Ld, En, clock, rst);
+    output reg flush_P0_P1, Ld_P1, Ld_P0, Ld_R0;
+    input Ld, En, clock, rst;
+    reg [1: 0] state, next_state;
+    parameter S_idle = 0, S_1 = 1, S_full = 2, S_wait = 3;
+    always @ (posedge clock) if (rst) state <= S_idle;
+    else state <= next_state;
+    always @ (state, Ld, En) begin
+    flush_P0_P1 = 0;
+    Ld_P1 = 0;
+    Ld_P0 = 0;
+    Ld_R0 = 0;
+    next_state = S_idle;
+    case (state)
+    S_idle: if (En)
+    begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    else flush_P0_P1 = 1;
+
+    S_1: begin next_state = S_full; Ld_P1 = 1; Ld_P0 = 1; end
+    S_full: if (Ld == 1) begin
+    Ld_R0 = 1;
+    case (En)
+    0: begin next_state = S_idle; flush_P0_P1 = 1; end
+    1: begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    endcase

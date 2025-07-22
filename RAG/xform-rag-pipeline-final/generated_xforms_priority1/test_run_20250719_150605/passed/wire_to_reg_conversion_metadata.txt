@@ -1,0 +1,11 @@
+Test Name: wire_to_reg_conversion
+Description: Transform wire declarations to reg declarations in a Verilog module
+Complexity: simple
+Quality Score: 1.00
+Code Length: 2239 characters
+Success: True
+Generated: 2025-07-19T15:07:44.337724
+Has Shebang: True
+Has Main: True
+Has Argparse: True
+Has PyVerilog: True

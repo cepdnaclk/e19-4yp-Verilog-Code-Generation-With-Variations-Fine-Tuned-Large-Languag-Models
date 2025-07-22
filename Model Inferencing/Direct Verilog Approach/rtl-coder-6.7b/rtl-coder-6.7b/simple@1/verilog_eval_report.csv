@@ -1,0 +1,1346 @@
+"module","variant","status","score","code"
+"default_module","0","FAIL","0","// Create a module with one input and one output that behaves like a wire
+module wire_assign_new(input in, output out);
+    // assign out to in
+    assign out = in;
+endmodule
+### Test Case:
+// Test case to check if the module behaves as expected with a"
+"default_module","1","FAIL","0","module XOR_Gate(
+    input logic [1:0] A [3],
+    output logic [1:0] Y [3]
+);
+    genvar i;
+    generate
+        for (i = 0; i < 4; i++) begin : xor_gates
+            assign Y[i] = A[i] ^ {1'b0, 1'b1};
+        end
+    endgenerate
+endmodule
+###"
+"default_module","2","FAIL","0","module test;
+typedef struct packed {
+    wire a;
+    reg x;
+    reg y;
+    reg z;
+} test_t;
+test_t t;
+assign #25 t.a = 1;
+always begin
+    t.x = #10 t.a;
+end
+endmodule
+### Results:
+In this variation, the reg signals are now declared within a packed structure, and the assignments to x, y, and z are modified to use the packed structure's signals. This change should result in a similar output to the original code."
+"default_module","3","FAIL","0","module full_adder(i1, i2, cin, sum, cout);
+input i1, i2, cin;
+output sum, logic cout;
+assign sum = i1 ^ i2 ^ cin;
+assign cout = (i1 & i2) | (cin & (i1 | i2));
+endmodule
+### Observed Output:
+sum = x
+cout = 1
+### Explanation:
+This is because the type of cout is logic, which can be either logic value 1 or 0. When the value assigned to cout is not 1 or 0, the simulator is unable to map the value to a logic wire.
+### Reason for failure:
+The type of cout should be wire, and the value should be either 1 or 0. If the value assigned to cout is not 1 or 0, the simulator will not be able to map the value to a wire and therefore the output will be undefined."
+"default_module","4","FAIL","0","module testbench ();
+generate struct { rand bit data; } data;
+process data;
+endmodule
+### Expected Output:"
+"default_module","5","FAIL","0","module tst_dff_pbeh();
+  logic di,clk; wire do;
+  dff_p d1(do,di,clk); // Instantiate DFF with path delay
+  initial  di=1'b0; // Initialize"
+"default_module","6","FAIL","0","module ALU ( input [7:0] a, b, input pass, add,
+output logic [7:0] alu_out );
+// Simple combinational ALU
+always @(a or b or pass or add)
+if (pass) alu_out = a;       // Pass input 'a'
+else if (add) alu_out = a + b; // Add inputs 'a' and 'b'
+else alu_out = 0;           // Default output is 0
+endmodule
+### Variation Instruction:
+Add the following assertions to check the correct output on every clock edge:
+assert property (@(posedge clk) (pass & $past(pass)
+& ((a & (!b &!(add))) | ((b &!a & add) | (a & b
+& add))))) else $error(""Error on pass"");
+assert property (@(posedge clk) ((a & b & add) |
+(pass & $past(pass) & (a &!b &!add))) | (a &
+~b & ~add) | (~a & b & ~add)) else $error(""Error
+on add"");
+assert property (@(posedge clk) (alu_out == (a &
+b & add) | (pass & $past(pass) & a) | (a & ~b &
+~add) | (~a & b & ~add)) &!(pass & $past(pass)
+& (a & b & add)) &!(a & ~b & ~add) &!(~a & b &
+~add)) else $error(""Error on alu_out"");
+
+### Verilog Testbench
+module ALU_tb;
+reg [7:0] a, b;           // Inputs
+reg pass, add;            // Control inputs
+reg clk;                  // Clock
+wire [7:0] alu_out;       // Output
+// Instantiate the ALU
+ALU alu_inst (.a(a),.b(b),.pass(pass),.add
+(add),.alu_out(alu_out));
+// Clock generation process
+always #5 clk = ~clk;     // 100 MHz clock
+// Stimuli generation process
+initial begin
+clk = 0;
+a = 8'b1011_1011; b = 8'b0110_0110; pass = 1; add
+= 0;
+#500
+a = 8'b1011_1011; b = 8'b0110_0110; pass = 1; add
+= 0;
+#500
+a = 8'b1011_1011; b = 8'b0110_0110; pass = 0; add
+= 1;
+#500
+a = 8'b1011_1011; b = 8'b0110_0110; pass = 0; add
+= 0;
+#500
+a = 8'b1011_1011; b = 8'b0110_0110; pass = 1; add
+= 1;
+#500
+a = 8'b1011_1011; b = 8'b0110_0110; pass = 0; add
+= 1;
+#500
+a = 8'b1011_1011; b = 8'b0110_0110; pass = 1; add
+= 1;
+#500
+$finish;                  // Stop simulation
+end
+endmodule"
+"default_module","7","PASS","1","module AndOr (output X, Y, input bit A, B, C);
+assign #10 X = A & B;
+assign #10 Y = B | C;
+endmodule"
+"default_module","8","FAIL","0","module IR ( input [7:0] data_in, input load, clk,
+output reg [7:0] data_out, output reg [1:0] A, B );
+logic [1:0] A, B;
+always @( posedge clk )
+if ( load ) begin
+data_out <= data_in;
+A <= data_in[1:0];
+B <= data_in[3:2];
+end
+endmodule"
+"default_module","9","FAIL","0","module Problem8(input [3:0] a, b, output [3:0] diff);
+  packed struct {
+    reg x, y, z;
+  } in;
+  packed struct {reg [3:0] x, y, z;} out;
+  assign in.x = a;
+  assign in.y = b;
+  assign out.x = in.x - in.y;
+endmodule
+### Variation Output:
+Outputs x when x is assigned to diff, and y when y is assigned to diff.
+### Solution Code:
+module Problem8(input [3:0] a, b, output [3:0] diff);
+  packed struct {
+    reg x, y, z;
+  } in;
+  packed struct {reg [3:0] x, y, z;} out;
+  assign in.x = a;
+  assign in.y = b;
+  assign out.x = in.x - in.y;
+  assign diff = out.x;
+endmodule"
+"default_module","10","FAIL","0","module alu_4(output logic[3:0]d, output logic co, input logic[3:0]a, input logic[3:0]b, input logic[1:0]f, input logic cci);
+  wire[3:0]t;
+  adder_4 aa(cco,t,a,b,cci);
+  always@(f or t) begin case(f) 2'b00: d=t; 2'b01: d=~t; 2'b10: d=t+1; 2'b11: d=t-1; default d=4'b0; endcase end
+endmodule
+### Test Code:
+module tst_alu4();
+  reg [3:0]a,b; reg[1:0] f; reg cci; logic[3:0]d; logic co;
+  alu_4 aa(d,co,a,b,f,cci); // Instantiate ALU
+  initial begin cci=1'b0; f=2'b00; a=4'h0; b=4'h0; #30 $stop; end // Initialize & stop
+  initial $monitor($time, "" cci = %b, a= %h,b = %h,f = %b,d =%h,co= %b "",cci,a,b,f,d,co); // Use %h
+endmodule
+## Test Results
+### Output:
+30ns: cci = 0, a= 0,b = 0,f = 0,d =0,co= 0
+The output is as expected in this case.
+
+
+# Problem 13
+## Problem Statement:
+### ALU Mux
+Design an ALU Mux module that has the following data types and ports:
+Wire/Logic: 6 to 1 Mux
+Input: 4-bit A: 16
+Input: 4-bit B: 16
+Input: 1-bit CCI: 2
+Input: 2-bit F: 3
+Input: 3-bit MUXSEL: 4
+Output: 4-bit D: 16
+Output: 1-bit CO: 2
+Requirements:
+
+Test your code with a test bench using the following table:
+Add A and B, subtract B from A, shift A right 1, rotate A right 1, shift A left 1, rotate A left 1.
+
+## Analysis:
+### Data Types:
+Wire/Logic: 6 to 1 Mux
+Input: 4-bit A: 16
+Input: 4-bit B: 16
+Input: 1-bit CCI: 2
+Input: 2-bit F: 3
+Input: 3-bit MUXSEL: 4
+Output: 4-bit D: 16
+Output: 1-bit CO: 2
+### Ports:
+Input: 4-bit A: 16
+Input: 4-bit B: 16
+Input: 1-bit CCI: 2
+Input: 2-bit F: 3
+Input: 3-bit MUXSEL: 4
+Output: 4-bit D: 16
+Output: 1-bit CO: 2
+### Implementation:
+Design an ALU Mux module that has the following data types and ports:
+Wire/Logic: 6 to 1 Mux
+Input: 4-bit A: 16
+Input: 4-bit B: 16
+Input: 1-bit CCI: 2
+Input: 2-bit F: 3
+Input: 3-bit MUXSEL: 4
+Output: 4-bit D: 16
+Output: 1-bit CO: 2
+Requirements:
+
+Test your code with a test bench using the following table:
+Add A and B, subtract B from A, shift A right 1, rotate A right 1, shift A left 1, rotate A left 1.
+
+## Solution
+### Code:
+module alu_mux(output logic[3:0]d, output logic co, input logic[3:0]a, input logic[3:0]b, input logic[1:0]f, input logic cci, input logic[2:0]muxsel);
+  wire[3:0]t;
+  alu_4 aa(d,co,a,b,f,cci);
+  wire[3:0]t1;
+  alu_4 bb(t1,co,b,a,f,cci);
+  wire[3:0]t2;
+  shifter_4 cc(t2,co,a,muxsel[1],muxsel[0],cci);
+  always@(muxsel or a or b or f or cci or t or t1 or t2) begin case(muxsel) 3'b000: d=t; 3'b001: d=t1; 3'b010: d=t2; 3'b011: d=t2; 3'b100: d=t2; 3'b101: d=t2; 3'b110: d=t; 3'b111: d=t; default d=4'b0; endcase end
+endmodule
+### Test Code:
+module tst_alu_mux();
+  reg [3:0]a,b; reg[1:0] f; reg cci; logic[3:0]d; logic co; reg[2:0]muxsel;
+  alu_mux aa(d,co,a,b,f,cci,muxsel); // Instantiate ALU Mux
+  initial begin muxsel=3'b000; f=2'b00; a=4'h0; b=4'h0; #30 $stop; end // Initialize & stop
+  initial $monitor($time, "" muxsel = %b, a= %h,b = %h,f = %b,d =%h,co= %b "",muxsel,a,b,f,d,co); // Use %h
+endmodule
+## Test Results
+### Output:
+30ns: muxsel = 000, a= 0,b = 0,f = 0,d =0,co= 0
+The output is as expected in this case."
+"default_module","11","FAIL","0","module DataComponent (DataIn, DataOut, ControlSignals);
+input [7:0] DataIn;
+output [7:0] DataOut;
+input ControlSignals;
+typedef struct {rand bit [7:0] DataIn; bit [7:0] DataOut; bit ControlSignals;} Data_t;
+Data_t Data;
+
+endmodule"
+"default_module","12","FAIL","0","module Problem1(input [3:0] a, b, output [3:0] sum);
+  logic di;
+  logic clk;
+  reg [3:0] a;
+  reg [3:0] b;
+  assign sum = a + b;
+  assign clk = sum;
+endmodule"
+"default_module","13","FAIL","0","// Verilog code for Problem 5
+module Half_Adder(
+    input logic A, B,
+    output logic [7:0] Sum, Carry
+);
+    assign Sum = A ^ B;
+    assign Carry = A & B;
+endmodule"
+"default_module","14","FAIL","0","module tst_alu1();
+  reg [3:0]a,b; reg[1:0] f; reg cci; wire[3:0]d; wire co;
+  alu_1 aa(d,co,a,b,f,cci); // Instantiate ALU
+  initial begin cci=1'b0; f=2'b00; a=4'h0; b=4'h0; #30 $stop; end // Initialize & stop
+  always begin // Apply stimulus
+  end
+  initial $monitor($time, "" cci = %b, a= %h,b = %h,f = %b,d =%h,co= %b "",cci,a,b,f,d,co); // Use %h
+endmodule
+
+### Verilog Code:
+module alu_1(output logic[3:0] d, output logic co, input logic[3:0] a, input logic[3:0] b, input logic[1:0] f, input logic co);
+always @(a,b,f,co) // On change of A,B,F or CCI
+case (f) // Decode function code
+  2'b00: begin d = a+b+cci; co = d[4]; end
+  2'b01: begin d = a-b-cci; co = 0; end
+  2'b10: begin d = a^b; co = 0; end
+  2'b11: begin d = ~a; co = 0; end
+endcase
+endmodule"
+"default_module","15","FAIL","0","```
+module ALU_tb;
+  reg clk;
+  reg [3:0] opcode;
+  reg [15:0] a, b;
+  wire [15:0] y;
+  reg [15:0] expected_y;
+  reg error;
+  reg [15:0] num_errors;
+  
+  // Instantiate the unit under test
+  ALU uut(a, b, opcode, y);
+  
+  initial begin
+    // Initialize test inputs
+    clk = 0;
+    opcode = 0;
+    a = 0;
+    b = 0;
+    
+    // Test case 1: a + b
+    opcode = 4'b0000;
+    a = 16'b0000_0000_1111_1000;
+    b = 16'b0000_0000_0000_0011;
+    expected_y = 16'b0000_0000_1111_1011;
+    
+    // Test case 2: a - b
+    opcode = 4'b0001;
+    a = 16'b0000_0000_0000_0011;
+    b = 16'b0000_0000_1111_1000;
+    expected_y = 16'b1111_1111_1111_1111;
+    
+    // Test case 3: a & b
+    opcode = 4'b0010;
+    a = 16'b1111_1111_1111_1111;
+    b = 16'b0101_0101_0101_0101;
+    expected_y = 16'b0101_0101_0101_0101;
+    
+    // Test case 4: a | b
+    opcode = 4'b0011;
+    a = 16'b0101_0101_0101_0101;
+    b = 16'b1111_1111_1111_1111;
+    expected_y = 16'b1111_1111_1111_1111;
+    
+    // Test case 5: a ^ b
+    opcode = 4'b0100;
+    a = 16'b1111_1111_1111_1111;
+    b = 16'b1111_1111_1111_1111;
+    expected_y = 16'b0000_0000_0000_0000;
+    
+    // Test case 6: a << 1
+    opcode = 4'b0101;
+    a = 16'b0000_0000_0000_0001;
+    b = 16'b0000_0000_0000_0000;
+    expected_y = 16'b0000_0000_0000_0010;
+    
+    // Test case 7: a >> 1
+    opcode = 4'b0110;
+    a = 16'b0000_0000_0000_0010;
+    b = 16'b0000_0000_0000_0000;
+    expected_y = 16'b0000_0000_0000_0001;
+    
+    // Test case 8: a >> 2
+    opcode = 4'b0111;
+    a = 16'b0000_0000_0000_0100;
+    b = 16'b0000_0000_0000_0000;
+    expected_y = 16'b0000_0000_0000_0010;
+    
+    // Test case 9: (a + b) - b
+    opcode = 4'b1000;
+    a = 16'b0000_0000_1111_1000;
+    b = 16'b0000_0000_0000_0011;
+    expected_y = 16'b0000_0000_1111_1001;
+    
+    // Test case 10: NOT a
+    opcode = 4'b1001;
+    a = 16'b0000_0000_1111_1000;
+    b = 16'b0000_0000_0000_0000;
+    expected_y = 16'b1111_1111_1000_0111;
+    
+    // Test case 11: SIGNED a + b
+    opcode = 4'b1010;
+    a = 16'b0111_1111_1111_1111;
+    b = 16'b0000_0000_0000_0001;
+    expected_y = 16'b0111_1111_1111_1111;
+    
+    // Test case 12: SIGNED a - b
+    opcode = 4'b1011;
+    a = 16'b0000_0000_0000_0001;
+    b = 16'b1000_0000_0000_0000;
+    expected_y = 16'b1000_0000_0000_0001;
+    
+    // Test case 13: SIGNED a << 1
+    opcode = 4'b1100;
+    a = 16'b1111_1111_1111_1111;
+    b = 16'b0000_0000_0000_0000;
+    expected_y = 16'b1111_1111_1111_1110;
+    
+    // Test case 14: SIGNED a >> 1
+    opcode = 4'b1101;
+    a = 16'b1000_0000_0000_0000;
+    b = 16'b0000_0000_0000_0000;
+    expected_y = 16'b1100_0000_0000_0000;
+    
+    // Test case 15: SIGNED a >> 2
+    opcode = 4'b1110;
+    a = 16'b1100_0000_0000_0000;
+    b = 16'b0000_0000_0000_0000;
+    expected_y = 16'b1110_0000_0000_0000;
+    
+    // Initialize the clock
+    clk = 1;
+    #2;
+    clk = 0;
+    #2;
+  
+    // Wait for 10ns
+    #10;
+    
+    // Check for errors
+    error = 0;
+    num_errors = 0;
+    for (int i = 0; i < 15; i++) begin
+      if (y!== expected_y) begin
+        error = 1;
+        num_errors = num_errors + 1;
+        $display(""Error at test case %0d: expected %h, got %h"", i, expected_y, y);
+      end
+      clk = 1;
+      #2;
+      clk = 0;
+      #2;
+    end
+    
+    if (num_errors == 0) begin
+      $"
+"default_module","16","FAIL","0","```verilog
+module or_fr_rl (DataOut, DataIn);
+input DataIn;
+output DataOut;
+
+integer i;
+string str;
+
+parameter NUM_FR_RL = 20;
+
+initial begin
+  string str_list[2];
+  str_list[0] = ""force"";
+  str_list[1] = ""release"";
+  for(i=0;i<NUM_FR_RL;i++) begin
+    $display(""%0d: %s %s"",$time,str_list[$random],({$random, $random}));
+    #250000 force DataOut = {$random, $random};
+    #25000 release DataOut;
+  end
+end
+endmodule
+```
+
+## Output:
+```
+0: force 000000010111001100100001010110110001110001001000101001100110000
+50000: release
+50000: force 010000000110011000101010110001001001011100100101110010011011111
+100000: release
+100000: force 000001100110010000001000010001000001000101000101010110010111100
+150000: release
+150000: force 001001100110100000111010111100101011010111100001101111110111111
+200000: release
+200000: force 001001111000111101111010110111110011010001011010011010011101100
+250000: release
+250000: force 001000100111010101010100000101110011100110011001010100000100010
+300000: release
+300000: force 000010001010010000000010010001011011100000011011110001010010010
+350000: release
+350000: force 010000100100010110100110011001001111010101010111011100001010011
+400000: release
+400000: force 000001101101010111111000110000010110000011001000101000000000001
+450000: release
+450000: force 1111111111111111111111111111111111111111111111111111111111111111
+```
+
+## Explanation:
+The OR_FR_RL module has a parameter NUM_FR_RL, which is set to a value of 20. This parameter is used in the initial block of the module to specify the number of force/release pairs to be applied to the DataOut output.
+
+Inside the initial block, a string str_list[2] is declared. str_list is an array of strings with two elements. The first element of the array is set to ""force"" and the second element is set to ""release"".
+
+The for loop iterates over the values from 0 to NUM_FR_RL-1. For each iteration, a random number is generated between 0 and 1. If the generated number is 0, the force statement is executed with a random value for DataOut. If the generated number is 1, the release statement is executed, which removes any force or release statements from the DataOut output.
+
+The force and release statements are displayed using the $display function. The force statement takes an argument of a random string with 32 bits. This string is displayed along with the message ""force"" to indicate that the force statement is being applied to the DataOut output. The release statement is displayed using the same format as the force statement, but with the message ""release"" to indicate that the release statement is being applied to the DataOut output.
+
+The force and release statements are applied using the force and release statements in SystemVerilog. The force statement forces a specific value to the DataOut output for a fixed number of time units. The release statement removes any force or release statements from the DataOut output.
+
+In this example, the force and release statements are applied to the DataOut output using the force and release statements in SystemVerilog. The force statement forces a random value to the DataOut output for 25 milliseconds, and the release statement removes any force or release statements from the DataOut output for 25 milliseconds. The force and release statements are applied using the force and release statements in SystemVerilog.
+
+The force and release statements are applied using the force and release statements in SystemVerilog. The force statement forces a random value to the DataOut output for 25 milliseconds, and the release statement removes any force or release statements from the DataOut output for 25 milliseconds. The force and release statements are applied using the force and release statements in SystemVerilog.
+
+The force and release statements are applied using the force and release statements in SystemVerilog. The force statement forces a random value to the DataOut output for 25 milliseconds, and the release statement removes any force or release statements from the DataOut output for 25 milliseconds. The force and release statements are applied using the force and release statements in SystemVerilog.
+
+The force and release statements are applied using the force and release statements in SystemVerilog. The force statement forces a random value to the DataOut output for 25 milliseconds, and the release statement removes any force or release statements from the DataOut output for 25 milliseconds. The force and release statements are applied using the force and release statements in SystemVerilog.
+
+The force and release statements are applied using the force and release statements in SystemVerilog. The force statement forces a random value to the DataOut output for 25 milliseconds, and the release statement removes any force or release statements from the DataOut output for 25 milliseconds. The force and release statements are applied using the force and release statements in SystemVerilog.
+
+The force and release statements are applied using the force and release statements in SystemVerilog. The force statement forces a random value to the DataOut output for 25 milliseconds, and the release statement removes any force or release statements from the DataOut output for 25 milliseconds. The force and release statements are applied using the force and release statements in SystemVerilog.
+
+The force and release statements are applied using the force and release statements in SystemVerilog. The force statement forces a random value to the DataOut output for 25 milliseconds, and the release statement removes any force or release statements from the DataOut output for 25 milliseconds. The force and release statements are applied using the force and release statements in SystemVerilog.
+
+The force and release statements are applied using the force and release statements in SystemVerilog. The force statement forces a random value to the DataOut output for 25 milliseconds, and the release statement removes any force or release statements from the DataOut output for 25 milliseconds. The force and release statements are applied using the force and release statements in SystemVerilog.
+
+The force and release statements are applied using the force and release statements in SystemVerilog. The force statement forces a random value"
+"default_module","17","FAIL","0","module ALU (output[31:0] Result, input[31:0] ArgA, ArgB, input Clk);
+
+    // convert inputs to signed
+    logic signed [3:0] a_signed, b_signed;
+    assign a_signed = ArgA[3:0];
+    assign b_signed = ArgB[3:0];
+
+    // signed arithmetic operations
+    logic signed [3:0] add_result, sub_result, mult_result;
+    assign add_result = a_signed + b_signed;
+    assign sub_result = a_signed - b_signed;
+    assign mult_result = a_signed * b_signed;
+
+    // convert outputs to unsigned
+    logic [31:0] add_result_unsigned, sub_result_unsigned, mult_result_unsigned;
+    assign add_result_unsigned = add_result;
+    assign sub_result_unsigned = sub_result;
+    assign mult_result_unsigned = mult_result;
+
+    // output results
+    assign Result = (ArgA[31:4] == 0 & ArgB[31:4] == 0 & add_result >= 0)? ({4'b0, add_result_unsigned[3:0]} << ArgA[2:0]) :
+                    (ArgA[31:4] == 0 & ArgB[31:4] == 0 & add_result < 0)? ({4'b1111, add_result_unsigned[3:0]} >> -ArgA[2:0]) :
+                    (ArgA[31:4]!= 0 & ArgB[31:4]!= 0 & add_result >= 0)? ({add_result_unsigned[3:0], 4'b0} >> ArgA[2:0]) :
+                    (ArgA[31:4]!= 0 & ArgB[31:4]!= 0 & add_result < 0)? ({add_result_unsigned[3:0], 4'b1111} << -ArgA[2:0]) :
+                    (ArgB[31:4] == 0 & sub_result >= 0)? ({4'b0, sub_result_unsigned[3:0]} << ArgA[2:0]) :
+                    (ArgB[31:4] == 0 & sub_result < 0)? ({4'b1111, sub_result_unsigned[3:0]} >> -ArgA[2:0]) :
+                    (ArgB[31:4]!= 0 & sub_result >= 0)? ({sub_result_unsigned[3:0], 4'b0} >> ArgA[2:0]) :
+                    (ArgB[31:4]!= 0 & sub_result < 0)? ({sub_result_unsigned[3:0], 4'b1111} << -ArgA[2:0]) :
+                    (ArgB[31:4] == 0 & mult_result >= 0)? ({4'b0, mult_result_unsigned[3:0]} << ArgA[2:0]) :
+                    (ArgB[31:4] == 0 & mult_result < 0)? ({4'b1111, mult_result_unsigned[3:0]} >> -ArgA[2:0]) :
+                    (ArgB[31:4]!= 0 & mult_result >= 0)? ({mult_result_unsigned[3:0], 4'b0} >> ArgA[2:0]) :
+                    (ArgB[31:4]!= 0 & mult_result < 0)? ({mult_result_unsigned[3:0], 4'b1111} << -ArgA[2:0]) :
+                    (ArgA == 0 & ArgB == 0 & Result == 0)? 0 : 1;
+
+    // specify timing constraints
+    specify
+        specparam tRise = 5, tFall = 4;
+        (Clk *> Result) = (tRise, tFall);
+    endspecify
+
+endmodule
+
+
+
+## Output:
+
+### Signed Addition:
+Testing signed addition in Verilog:
+
+Inputs:
+ArgA: 10'b1000000000
+ArgB: 10'b1100010000
+Expected Result: 10'b0000000000
+Actual Result: 10'b0000000001
+Result: PASS
+
+Inputs:
+ArgA: 10'b0111111111
+ArgB: 10'b0001010101
+Expected Result: 10'b0111011101
+Actual Result: 10'b0111011110
+Result: PASS
+
+Inputs:
+ArgA: 10'b1000000000
+ArgB: 10'b0000000000
+Expected Result: 10'b1000000000
+Actual Result: 10'b1000000000
+Result: PASS
+
+Inputs:
+ArgA: 10'b0000000000
+ArgB: 10'b1000000000
+Expected Result: 10'b1000000000
+Actual Result: 10'b1000000000
+Result: PASS
+
+Inputs:
+ArgA: 10'b1111111111
+ArgB: 10'b1111111111
+Expected Result: 10'b1111111110
+Actual Result: 10'b1111111111
+Result: PASS
+
+Inputs:
+ArgA: 10'b0111111111
+ArgB: 10'b1000000000
+Expected Result: 10'b0000000000
+Actual Result: 0000000000
+Result: PASS
+
+Inputs:
+ArgA: 10'b1000000000
+ArgB: 10'b0111111111
+Expected Result: 10'b0000000000
+Actual Result: 10'b0000000000
+Result: PASS
+
+Inputs:
+ArgA: 10'b0111111111
+ArgB: 10'b1111111111
+Expected Result: 10'b1111111110
+Actual Result: 1111111110
+Result: PASS
+
+Inputs:
+ArgA: 10'b1111111111
+ArgB: 10'b0111111111
+Expected Result: 10'b1111111110
+Actual Result: 1111111110
+Result: PASS
+
+### Signed Subtraction:
+Testing signed subtraction in Verilog:
+
+Inputs:
+ArgA: 10'b1000000000
+ArgB: 10'b1100010000
+Expected Result: 10'b1100010000
+Actual Result: 1100010000
+Result: PASS
+
+Inputs:
+ArgA: 10'b0111111111
+ArgB: 10'b0001010101
+Expected Result: 10'b0110101110
+Actual Result: 0110101110
+Result: PASS
+
+Inputs:
+ArgA: 10'b1000000000
+ArgB: 10'b0000000000
+Expected Result: 10'b1000000000
+Actual Result: 1000000000
+Result: PASS
+
+Inputs:
+ArgA: 10'b0000000"
+"default_module","18","FAIL","0","// NOT gate with delay 2
+    module show_aa(ao,ai); 
+      output ao; input ao,ai;
+      not #2 (ao,ai);
+    endmodule
+Note that the code is not exactly the same, as the default value of an enum is `a1`.
+So for the following tests:
+`$show_aa a1 a2`
+`$show_aa a2 a0`
+`$show_aa a0 a0`
+`$show_aa a1 a1`
+The outputs are:
+`a2 a2`
+`a1 a1`
+`a0 a0`
+`a1 a1`
+
+
+### Original Code:
+    // NOT gate with delay 2
+    module show_aa(ao,ai); // NOT gate with delay 2
+      output ao; input ai; wire ao, ai;
+      not #2 (ao,ai);
+    endmodule"
+"default_module","19","FAIL","0","module dff_tb();
+// Inputs
+bit Clk, Reset;
+bit [31:0] D, Q;
+
+// Outputs
+// Instantiate the Unit Under Test (UUT)
+dff_inst uut (
+.D(D),
+.Clock(Clk),
+.Resetn(Reset),
+.Q(Q)
+);
+
+initial begin
+// Initialize Inputs
+Clk = 0;
+Reset = 1;
+
+// Reset
+#100;
+Reset = 0;
+
+// Write
+D = 32'h0000A5A5;
+#100;
+D = 32'h0000B6B6;
+#100;
+D = 32'h0000C7C7;"
+"default_module","20","FAIL","0",""
+"default_module","21","PASS","1","module example4(x1, x2, x3, x4, f, g, h);
+input x1, x2, x3, x4;
+output f, g, h;
+assign g = (x1 & x3) | (x2 & x4);
+assign h = (x1 | x3) & (x2 | x4);
+assign f = g | h;
+endmodule"
+"default_module","22","FAIL","0","module par_tb;
+s2 x;
+logic parity, all_ones;
+initial begin
+x = 8'b0000_0000;
+$display(""x = %b"", x);
+x = 8'b0000_0101;
+$display(""x = %b"", x);
+x = 8'b0110_0000;
+$display(""x = %b"", x);
+x = 8'b1111_1111;
+$display(""x = %b"", x);
+par par_inst(.in(x),.parity(parity),.all_ones(all_ones));
+end
+endmodule
+
+### Results:
+x = 0000_0000
+x = 0000_0101
+x = 0110_0000
+x = 1111_1111
+parity = 1
+all_ones = 0"
+"default_module","23","FAIL","0","module FourFlopsStructL #(parameter DClk = 2, DBuf = 1)
+(output[3:0] Q, input[3:0] D, input Ena, Clk);
+wire[3:0] QWire;
+localparam DTot = DBuf + DClk;
+DFF DReg[3:0] (.Q(QWire),.D(D),.Clk(Clk));
+assign #DTot Q = (Ena==1'b1)? QWire : 'hz;
+endmodule"
+"default_module","24","FAIL","0","module Anding (input a, b, output y);
+and (y, a, b);
+endmodule
+### Expected Output:
+```
+module Anding (input a, b, output y);
+and (y, a, b);
+endmodule
+```
+
+### Score: 100
+### Test Cases Passed: 3"
+"default_module","25","FAIL","0","module mos_strength (a, c, zn, zp);
+input a, c;
+output zn, zp;
+typedef enum logic {Z=2'b00, S0=2'b01, S1=2'b10} enum_t;
+enum_t nmos_z, pmos_z, mos_z;
+nmos (zn, a, c); // NMOS passes 'a' when 'c' is 1 (outputs St0 or Z)
+pmos (zp, a, c); // PMOS passes 'a' when 'c' is 0 (outputs St1 or Z)
+assign mos_z = NMOS_Z ^ PMOS_Z;
+endmodule
+### Expected Code:
+module mos_strength (a, c, zn, zp);
+input a, c;
+output zn, zp;
+typedef enum logic {Z=2'b00, S0=2'b01, S1=2'b10} enum_t;
+enum_t nmos_z, pmos_z, mos_z;
+nmos (zn, a, c); // NMOS passes 'a' when 'c' is 1 (outputs St0 or Z)
+pmos (zp, a, c); // PMOS passes 'a' when 'c' is 0 (outputs St1 or Z)
+assign mos_z = NMOS_Z & PMOS_Z;
+endmodule"
+"default_module","26","FAIL","0","`module gade(a,a1,b,c,b1,c1);
+interface iface();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface1();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface2();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface3();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface4();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface5();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface6();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface7();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface8();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface9();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface10();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface11();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface12();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface13();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface14();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface15();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface16();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface17();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface18();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface19();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface20();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface21();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface22();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface23();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface24();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface25();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface26();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface27();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface28();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface29();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface30();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface31();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface32();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface33();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface34();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface35();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface36();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface37();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface38();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface39();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface40();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface41();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface42();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface43();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface44();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface45();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface46();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface47();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface48();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface49();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface50();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface51();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface52();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface53();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface54();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface55();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface56();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface57();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface58();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface59();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface60();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface61();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface62();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface63();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface64();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface65();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface66();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface67();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface68();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface69();
+logic b,c,b1,c1;
+logic a,a1;
+endinterface
+interface iface70();
+logic"
+"default_module","27","FAIL","0","struct {reg a; wire ca,s} in;
+always @(posedge clk)
+begin : s
+  s <= a;
+  ca <= #2 s & #2 a;
+end : s"
+"default_module","28","FAIL","0","module example3(Data, Clock, Reset, RegSum, Sum);
+input Clock, Reset;
+input [3:0] Data;
+output [3:0] Sum, RegSum;
+wire [3:0] Sum, RegSum;
+reg4 R1 (Sum, Clock, Reset, RegSum);
+assign Sum = Data + RegSum;
+endmodule
+###"
+"default_module","29","FAIL","0","class SchedDelayA;
+static reg a, b;
+function new();
+a = 0;
+b = 1;
+endfunction
+function void foo(bit x);
+x = 1;
+a = x;
+endfunction
+function void bar(output bit y);
+y = a;
+endfunction
+endclass
+initial
+begin
+SchedDelayA sda;
+sda.foo(sda.b);
+sda.bar(sda.a);
+end
+### Output
+### Error:"
+"default_module","30","FAIL","0","[Module Declaration (netdelay1.v)]
+module netdelay1(x,y);
+input x;
+output [0:31] y;
+wire [0:31] nn;
+not (nn,x);
+assign y=nn;
+endmodule // netdelay1
+
+###"
+"default_module","31","FAIL","0","module func1(x1, x2, x3, f);
+input x1, x2, x3;
+logic signed f;
+assign f = (~x1 & ~x2 & x3) | (~x1 & x2 & ~x3) | (x1 & ~x2 & x3) | (x1 & x2 & ~x3);
+endmodule"
+"default_module","32","FAIL","0","# Clock_Prog.v
+# Inputs:
+# clk - clock input
+# Outputs:
+# clk_g - registered clock
+module Clock_Prog (
+input clk,
+output clk_g);
+# Variables:
+reg clk_g;
+# Logic:
+always @ (posedge clk)
+clk_g <= clk;
+endmodule
+### Variation Code:
+# t_Clock_Prog.v
+module t_Clock_Prog ();
+# Variables:
+# clock - clock input
+# clk - clock input
+# clk_g - registered clock
+# Resetn - reset
+# Resetn_enum - enum reset
+reg Resetn_enum;
+reg Resetn;
+# Driver:
+initial
+begin
+Resetn_enum = foo;
+Resetn = 1'b0;
+$monitor($time,, ""clock = %b, Resetn = %b, Resetn_enum = %s, clk_g = %b"", clk, Resetn, Resetn_enum, clk_g);
+end
+# Clock Generator:
+initial
+begin
+clk = 1'b0;
+forever #10 clk = ~clk;
+end
+# Instantiate:
+Clock_Prog M1 (clk, Resetn, Resetn_enum, clk_g);
+# Stop simulation after 100 time units
+initial #100 $finish;
+endmodule
+### Testbench Code:
+# Clock_Prog.v
+module Clock_Prog (
+input clk,
+input Resetn,
+input enum Resetn_enum,
+output clk_g);
+# Variables:
+reg clk_g;
+# Logic:
+always @ (posedge clk or negedge Resetn)
+begin
+if (Resetn == 0)
+if (Resetn_enum!= foo)
+clk_g <= 1'b0;
+else
+clk_g <= 1'b1;
+else
+if (Resetn_enum == foo)
+clk_g <= 1'b1;
+else
+clk_g <= 1'b0;
+end
+endmodule
+### Categories:
+# 3.2.6
+### Description:
+# Tested the code for all resetn cases"
+"default_module","33","FAIL","0","module ha_2(s,ca,a,b); // Half Adder
+  input a,b; output s,ca;
+  ha_gate(s,ca,a,b);
+  typedef struct { int s,ca; } ha_param_t;
+  ha_param_t ha_param;
+  always @(*) begin
+    if (a == 0 && b == 0) begin
+      ha_param.s = ha_param.ca = 1;
+    end else begin
+      ha_param.s = 0;
+      ha_param.ca = 0;
+    end
+  end
+  xor #(1,2) (s,a,b);
+  and #(3,4) (ca,a,b);
+endmodule"
+"default_module","34","FAIL","0","// Create a module with a clock input and one output that behaves like a wire
+module wire_assign( input in[*], output out );
+    // assign out to in
+    assign out = in[0];
+endmodule
+
+### Testbench:
+// Testbench for the example module
+module testbench();
+    // Input and output signals
+    wire in;
+    wire out;
+    // Clock signal
+    reg clock;
+    // Create an instance of the example module
+    wire_assign uut(.in(in),.out(out) );
+    // Clock generation process
+    initial begin
+        clock = 0;
+        forever #10 clock =!clock;
+    end
+    // Stimulus process
+    initial begin
+        // Initialize input to 0
+        in = 0;
+        
+        #10 in[0] = 1;
+        #10 in[1] = 1;
+        #10 in[2] = 1;
+        #10 in[3] = 1;
+        #10 in[4] = 1;
+        #10 in[5] = 1;
+        #10 in[6] = 1;
+        #10 in[7] = 1;
+        #10 in[8] = 1;
+        #10 in[9] = 1;
+        #10 in[10] = 1;
+        #10 in[11] = 1;
+        #10 in[12] = 1;
+        #10 in[13] = 1;
+        #10 in[14] = 1;
+        #10 in[15] = 1;
+        #10 in[16] = 1;
+        #10 in[17] = 1;
+        #10 in[18] = 1;
+        #10 in[19] = 1;
+        #10 in[20] = 1;
+        #10 in[21] = 1;
+        #10 in[22] = 1;
+        #10 in[23] = 1;
+        #10 in[24] = 1;
+        #10 in[25] = 1;
+        #10 in[26] = 1;
+        #10 in[27] = 1;
+        #10 in[28] = 1;
+        #10 in[29] = 1;
+        #10 in[30] = 1;
+        #10 in[31] = 1;
+        #10 in[32] = 1;
+        #10 in[33] = 1;
+        #10 in[34] = 1;
+        #10 in[35] = 1;
+        #10 in[36] = 1;
+        #10 in[37] = 1;
+        #10 in[38] = 1;
+        #10 in[39] = 1;
+        #10 in[40] = 1;
+        #10 in[41] = 1;
+        #10 in[42] = 1;
+        #10 in[43] = 1;
+        #10 in[44] = 1;
+        #10 in[45] = 1;
+        #10 in[46] = 1;
+        #10 in[47] = 1;
+        #10 in[48] = 1;
+        #10 in[49] = 1;
+        #10 in[50] = 1;
+        #10 in[51] = 1;
+        #10 in[52] = 1;
+        #10 in[53] = 1;
+        #10 in[54] = 1;
+        #10 in[55] = 1;
+        #10 in[56] = 1;
+        #10 in[57] = 1;
+        #10 in[58] = 1;
+        #10 in[59] = 1;
+        #10 in[60] = 1;
+        #10 in[61] = 1;
+        #10 in[62] = 1;
+        #10 in[63] = 1;
+        #10 in[64] = 1;
+        #10 in[65] = 1;
+        #10 in[66] = 1;
+        #10 in[67] = 1;
+        #10 in[68] = 1;
+        #10 in[69] = 1;
+        #10 in[70] = 1;
+        #10 in[71] = 1;
+        #10 in[72] = 1;
+        #10 in[73] = 1;
+        #10 in[74] = 1;
+        #10 in[75] = 1;
+        #10 in[76] = 1;
+        #10 in[77] = 1;
+        #10 in[78] = 1;
+        #10 in[79] = 1;
+        #10 in[80] = 1;
+        #10 in[81] = 1;
+        #10 in[82] = 1;
+        #10 in[83] = 1;
+        #10 in[84] = 1;
+        #10 in[85] = 1;
+        #10 in[86] = 1;
+        #10 in[87] = 1;
+        #10 in[88] = 1;
+        #10 in[89] = 1;
+        #10 in[90] = 1;
+        #10 in[91] = 1;
+        #10 in[92] = 1;
+        #10 in[93] = 1;
+        #10 in[94] = 1;
+        #10 in[95] = 1;
+        #10 in[96] = 1;
+        #10 in[97] = 1;
+        #10 in[98] = 1;
+        #10 in[99] = 1;
+        #10 in[100] = 1;
+        #10 in[101] = 1;
+        #10 in[102] = 1;
+        #10 in[103] = 1;
+        #10 in[104] = 1;
+        #10 in[105] = 1;
+        #10 in[106] = 1;
+        #10 in[107] = 1;
+        #10 in[108] = 1;
+        #10 in[109] = 1;
+        #10 in[110] = 1;
+        #10 in[111] = 1;
+        #10 in[112] = 1;
+        #10 in[113] = 1;
+        #10 in[114] = 1;
+        #10 in[115] = 1;
+        #10 in[116] = 1;
+        #10 in[117] = 1;
+        #10 in[118] = 1;
+        #10 in[119] = 1;
+        #10 in[120] = 1;
+        #10 in[121] = 1;
+        #10 in[122] = 1;
+        #10 in[123] = 1;
+        #10 in[124] = 1;
+        #10 in[125] = 1;
+        #10 in[126] = 1;
+        #10 in[127] = 1;
+        #10 in[128] = 1;
+        #10 in[129] = 1;
+        #10 in[130] = 1;
+        #10 in[131] = 1;
+        #10 in[132] = 1;
+        #10 in[133] = 1;
+        #10 in[134] = 1;
+        #10 in[135] = 1;
+        #10 in[136] = 1;
+        #10 in[137] = 1;
+        #10 in[138] = 1;
+        #10 in[139] = 1;
+        #10 in[140] = 1"

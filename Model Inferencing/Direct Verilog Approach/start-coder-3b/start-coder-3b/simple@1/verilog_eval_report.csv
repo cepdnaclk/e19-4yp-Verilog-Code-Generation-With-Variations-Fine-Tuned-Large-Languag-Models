@@ -1,0 +1,1663 @@
+"module","variant","status","score","code"
+"default_module","0","FAIL","0","module wire_assign( input in, output out );
+    assign out = in;
+endmodule
+import sys
+
+def check_valid(line):
+    return (len(line) == 2) and check_number(line[0]) and check_number(line[1])
+
+def check_number(num):
+    return (num.isdigit()) and (int(num) >= 0)
+
+
+try:
+    fd = open(sys.argv[1], 'r')
+    # read each line in file, check if they are valid, and increment counts
+    count1 = 0
+    count2 = 0
+    count3 = 0
+    for line in fd:
+        if check_valid(line.split(' ')):
+            if int(line.split(' ')[0]) < int(line.split(' ')[1]):
+                count1 += 1
+            elif int(line.split(' ')[0]) > int(line.split(' ')[1]):
+                count2 += 1
+            else:
+                count3 += 1
+finally:
+    fd.close()
+
+print(count1)
+print(count2)
+print(count3)
+#!/usr/bin/env python
+
+import sys
+import math
+import operator
+
+# Define Class to handle File processing
+class FileMgr:
+    def __init__(self, file_path):
+        self.file_path = file_path
+
+    def open_file(self):
+        try:
+            self.file = open(self.file_path, 'r')
+        except:
+            raise Exception(""Unable to open: "" + self.file_path)
+
+    def read_file(self):
+        self.numbers = []
+        for line in self.file:
+            self.numbers.append(int(line))
+
+    def close_file(self):
+        self.file.close()
+
+    def write_file(self, count):
+        self.file.write(str(count[0]) + ""\\n"")
+        self.file.write(str(count[1]) + ""\\n"")
+        self.file.write(str(count[2]) + ""\\n"")
+
+    def __del__(self):
+        print(""Cleaning up FileMgr"")
+
+# Define Class to handle Statistics calculation
+class StatMgr:
+    def __init__(self, numbers):
+        self.numbers = numbers
+        self.sum = sum(numbers)
+        self.mean = self.sum / len(numbers)
+
+    def variance(self):
+        variance = [(x - self.mean)**2 for x in self.numbers]
+        return sum(variance) / len(variance)
+
+    def stdev(self):
+        return math.sqrt(self.variance())
+
+    def __del__(self):
+        print(""Cleaning up StatMgr"")
+
+# Define Class to handle Statistic output
+class OutMgr:
+    def __init__(self, output_file):
+        self.output_file = output_file
+
+    def write_numbers(self, numbers):
+        self.output_file.write(str(numbers[0]) + ""\\n"")
+        self.output_file.write(str(numbers[1]) + ""\\n"")
+        self.output_file.write(str(numbers[2]))
+
+    def __del__(self):
+        print(""Cleaning up OutMgr"")
+
+def main():
+    # Input validation
+    if (len(sys.argv)!= 3):
+        print(""Usage: python stats.py <input_file> <output_file>"")
+        sys.exit(1)
+
+    print(""Processing: "" + sys.argv[1])
+    print(""Output to: "" + sys.argv[2])
+
+    # Open file
+    input_file = FileMgr(sys.argv[1])
+    input_file.open_file()
+
+    # Read file
+    input_file.read_file()
+
+    # Create Statistics Manager
+    stats = StatMgr(input_file.numbers)
+
+    # Calculate Variance and Standard Deviation
+    var = stats.variance()
+    std = stats.stdev()
+
+    # Write to Output file
+    output_file = FileMgr(sys.argv[2])
+    output_file.open_file()
+    output_file.write_file((var, std))
+    output_file.close_file()
+
+    # Clean up
+    input_file.close_file()
+    del input_file
+    del stats
+    del output_file
+
+main()
+#!/usr/bin/env python
+
+import sys
+import math
+import operator
+
+class FileMgr:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.numbers = []
+
+    def open_file(self):
+        try:
+            self.file = open(self.file_path, 'r')
+        except:
+            raise Exception(""Unable to open: "" + self.file_path)
+
+    def read_file(self):
+        for line in self.file:
+            self.numbers.append(int(line))
+
+    def close_file(self):
+        self.file.close()
+
+    def write_file(self, count):
+        self.file.write(str(count[0]) + ""\\n"")
+        self.file.write(str(count[1]) + ""\\n"")
+        self.file.write(str(count[2]) + ""\\n"")
+
+    def __del__(self):
+        print(""Cleaning up FileMgr"")
+
+class StatMgr:
+    def __init__(self, numbers):
+        self.numbers = numbers
+        self.sum = sum(numbers)
+        self.mean = self.sum / len(numbers)
+
+    def variance(self):
+        variance = [(x - self.mean)**2 for x in self.numbers]
+        return sum(variance) / len(variance)
+
+    def stdev(self):
+        return math.sqrt(self.variance())
+
+    def __del__(self):
+        print(""Cleaning up StatMgr"")
+
+class OutMgr:
+    def __init__(self, output_file):
+        self.output_file = output_file
+
+    def write_numbers(self, numbers):
+        self.output_file.write(str(numbers[0]) + ""\\n"")
+        self.output_file.write(str(numbers[1]) + ""\\n"")
+        self.output_file.write(str(numbers[2]))
+
+    def __del__(self):
+        print(""Cleaning up OutMgr"")
+
+def main():
+    # Input validation
+    if (len(sys.argv)!= 3):
+        print(""Usage: python stats.py <input_file> <output_file>"")
+        sys.exit(1)
+
+    print(""Processing: "" + sys.argv[1])
+    print(""Output to: "" + sys.argv[2])
+
+    # Open file
+    input_file = FileMgr(sys.argv[1])
+    input_file.open_file()
+
+    # Read file
+    input_file.read_file()
+
+    # Create Statistics Manager
+    stats = StatMgr(input_file.numbers)
+
+    # Calculate Variance and Standard Deviation
+    var = stats.variance()
+    std = stats.stdev()
+
+    # Write to Output file
+    output_file = FileMgr(sys.argv[2])
+    output_file.open_file()
+    output_file.write_file((var, std))
+    output_file.close_file()
+
+    # Clean up
+    input_file.close_file()
+    del input_file
+    del stats
+    del output_file
+
+main()
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+    if (argc!= 2) {
+        cout << ""Usage: "" << argv[0] << "" <number>"" << endl;
+        return 1;
+    }
+
+    cout << ""Number: "" << argv[1] << endl;
+
+    int num = atoi(argv[1]);
+    if (num!= 0) {
+        cout << num << "" is NOT zero."" << endl;
+    } else {
+        cout << num << "" is zero."" << endl;
+    }
+
+    return 0;
+}
+from random import randint
+
+fd = open(""input/random.txt"", ""w"")
+
+counter = 100
+while (counter > 0):
+    fd.write(str(randint(1,30)) + ""\\n"")
+    counter = counter - 1
+
+fd.close()
+#include <iostream>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+    if (argc!= 3) {
+        cout << ""Usage: "" << argv[0] << "" <input_file> <output_file>"" << endl;
+        return 1;
+    }
+
+    ifstream in(argv[1]);
+    ofstream out(argv[2]);
+
+    if (!in.good()) {
+        cout << ""Could not open input file: "" << argv[1] << endl;
+        return 2;
+    }
+    if (!out.good()) {
+        cout << ""Could not open output file: "" << argv[2] << endl;
+        return 3;
+    }
+
+    int counter = 0;
+    string line;
+    while (getline(in, line)) {
+        if (counter == 0) {
+            counter++;
+        } else {
+            out << line << endl;
+        }
+    }
+
+    return"
+"default_module","1","FAIL","0","module XOR_Gate(
+    input A, B, C,
+    output Y
+);
+    assign Y = A ^ C;
+endmodule
+### Test bench code:
+// Test 6
+import ""DPI-C"" function void test_6(input int A, input B, input C);
+    logic [1:0] A, B, C;
+    logic [1:0] Y;
+
+    XOR_Gate XOR_Gate (
+       .A(A),
+       .B(B),
+       .C(C),
+       .Y(Y)
+    );
+
+    initial begin
+        A = 3'b000;
+        B = 3'b000;
+        C = 3'b000;
+        Y = 3'b000;
+    end
+
+    always @(posedge clk) begin
+        if (reset == 1'b0) begin
+            A = 3'b000;
+            B = 3'b000;
+            C = 3'b000;
+            Y = 3'b000;
+        end else begin
+            A = A ^ 1'b1;
+            B = B ^ 1'b1;
+            C = C ^ 1'b"
+"default_module","2","FAIL","0","module test;
+reg a, b, c;
+assign b = 1;
+assign c = 1;
+
+always begin
+    a = 1;
+end
+
+endmodule
+##"
+"default_module","3","FAIL","0","Syntax Error"
+"default_module","4","FAIL","0","```
+module testbench ();
+struct randomtest {
+    rand rand;
+};
+generate data;
+process data;
+endmodule
+```
+> Note: The testbench must be changed to check the rand member.
+### Example:
+```
+module testbench ();
+struct randomtest {
+    rand rand;
+};
+generate data;
+process data;
+endmodule
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include ""testbench.h""
+
+extern int testbench();
+
+int main(int argc, char** argv){
+    int errorCount = 0;
+    for(int i = 0; i < 1000; ++i){
+        printf(""Running testbench #%d\\n"", i);
+        if(testbench()){
+            printf(""passed\\n"");
+        } else {
+            errorCount++;
+            printf(""failed\\n"");
+        }
+        usleep(100000);
+    }
+
+    printf(""Passed: %d, Failed: %d\\n"", 1000 - errorCount, errorCount);
+    return 0;
+}#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include ""testbench.h""
+
+int testbench(){
+    // srand((unsigned)time(NULL));
+    srand((unsigned)1);
+
+    // Declare Test Items
+    int item1, item2, item3;
+
+    // Test the case where there are no items
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == 0 && item2 == 0 && item3 == -1))
+        return 0;
+
+    // Test the case where only one item is in the list
+    insert(1);
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == 1 && item2 == 1 && item3 == -1))
+        return 0;
+
+    // Test the case where there are multiple items in the list
+    insert(2);
+    insert(3);
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == 2 && item2 == 3 && item3 == -1))
+        return 0;
+
+    // Test the case where there are no items in the list
+    insert(4);
+    insert(5);
+    insert(6);
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+    item1 = pop();
+    item2 = pop();
+
+    if(!(item1 == 6 && item2 == 4 && item3 == 5))
+        return 0;
+
+    // Test the case where there are items in the list
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == 0 && item2 == 0 && item3 == -1))
+        return 0;
+
+    return 1;
+}#include <stdio.h>
+#include <stdlib.h>
+#include ""testbench.h""
+
+extern int testbench();
+
+int main(int argc, char** argv){
+    int errorCount = 0;
+    for(int i = 0; i < 5; ++i){
+        printf(""Running testbench #%d\\n"", i);
+        if(testbench()){
+            printf(""passed\\n"");
+        } else {
+            errorCount++;
+            printf(""failed\\n"");
+        }
+        usleep(100000);
+    }
+
+    printf(""Passed: %d, Failed: %d\\n"", 5 - errorCount, errorCount);
+    return 0;
+}#include <stdio.h>
+#include <stdlib.h>
+#include ""testbench.h""
+
+extern int testbench();
+
+int main(int argc, char** argv){
+    int errorCount = 0;
+    for(int i = 0; i < 5; ++i){
+        printf(""Running testbench #%d\\n"", i);
+        if(testbench()){
+            printf(""passed\\n"");
+        } else {
+            errorCount++;
+            printf(""failed\\n"");
+        }
+        usleep(100000);
+    }
+
+    printf(""Passed: %d, Failed: %d\\n"", 5 - errorCount, errorCount);
+    return 0;
+}#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include ""testbench.h""
+
+int testbench(){
+    // srand((unsigned)time(NULL));
+    srand((unsigned)1);
+
+    int randData = rand() % 100;
+    insert(randData);
+
+    // Declare Test Items
+    int item1, item2, item3;
+
+    // Test the case where there are no items
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == randData && item2 == randData && item3 == -1))
+        return 0;
+
+    return 1;
+}#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include ""testbench.h""
+
+int testbench(){
+    // srand((unsigned)time(NULL));
+    srand((unsigned)1);
+
+    int randData = rand() % 100;
+
+    // Declare Test Items
+    int item1, item2, item3;
+
+    // Test the case where there are no items
+    insert(randData);
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == randData && item2 == randData && item3 == -1))
+        return 0;
+
+    // Test the case where only one item is in the list
+    insert(randData);
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == randData && item2 == randData && item3 == -1))
+        return 0;
+
+    // Test the case where there are multiple items in the list
+    insert(randData);
+    insert(randData);
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == randData && item2 == randData && item3 == -1))
+        return 0;
+
+    // Test the case where there are no items in the list
+    insert(randData);
+    insert(randData);
+    insert(randData);
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+    item1 = pop();
+    item2 = pop();
+
+    if(!(item1 == randData && item2 == randData && item3 == randData))
+        return 0;
+
+    // Test the case where there are items in the list
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == 0 && item2 == 0 && item3 == -1))
+        return 0;
+
+    return 1;
+}#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include ""testbench.h""
+
+int testbench(){
+    // srand((unsigned)time(NULL));
+    srand((unsigned)1);
+
+    // Declare Test Items
+    int item1, item2, item3;
+
+    // Test the case where there are items in the list
+    insert(rand() % 100);
+    insert(rand() % 100);
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+
+    if(!(item1 == rand() % 100 && item2 == rand() % 100 && item3 == rand() % 100))
+        return 0;
+
+    // Test the case where there are no items in the list
+    item1 = first();
+    item2 = last();
+    item3 = pop();
+    item1 = pop();
+    item2 = pop();
+
+    if(!(item1 == 0 && item2 == 0 && item3 == -1))
+        return 0;
+
+    return 1;
+}#include <stdio.h>
+#include <stdlib.h>
+#include ""testbench.h""
+
+extern int testbench();
+
+int main(int argc, char** argv){
+    int errorCount = 0;
+    for(int i = 0; i < 10; ++i){
+        printf(""Running testbench #%d\\n"", i);
+        if(testbench()){
+            printf(""passed\\n"");
+        } else {
+            errorCount++;
+            printf(""failed\\n"");
+        }
+        usleep(100000);
+    }
+
+    printf(""Passed: %d, Failed: %d\\n"", 10 - errorCount, errorCount);
+    return 0;
+}#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include ""testbench.h""
+
+int testbench(){
+    // srand((unsigned)time(NULL));
+    srand((unsigned)1);
+
+    int randData = rand() % 100;"
+"default_module","5","FAIL","0","module"
+"default_module","6","FAIL","0","Syntax Error"
+"default_module","7","FAIL","0","module FullAdder(output A, B, C, input S, input T, input U);
+assign #10 A = S ^ T ^ U;
+assign #10 B = (~S & T) | (S & ~T) | (T & ~U);
+assign #10 C = (S & T) | (~S & ~U) | (~T & U);
+endmodule
+### Verification:
+1. Added the 'fulladder' function to the testbench to verify the correct operation of the module.
+2. Tested the module with different combinations of input signal values for different combinations of inputs.
+3. As per the test bench, the logic operation is successful.
+### Results:
+![Result](/images/2_12_fulladder_bit.png)
+###"
+"default_module","8","FAIL","0","module IR ( input [7:0] data_in, input load, clk,
+output reg [7:0] data_out );
+// Simple register (Instruction Register) loaded on posedge clk when load is high
+always @( posedge clk )
+if ( load ) data_out <= data_in;
+endmodule
+### Variation Instruction:
+Modify the inputs A and B to be elements of a packed 1D logic-vector array (e.g., logic [1:0] A [0:3]) and use an inside operator with a fixed 4D range to"
+"default_module","9","FAIL","0","```verilog
+module Problem9(input [3:0] a, b, output [3:0] c, d);
+  reg[3:0] x, y, z;
+
+  always @ * begin
+    x = a;
+    y = b;
+  end
+
+  always @ * begin
+    c = x;
+    d = y;
+
+    z = c + d;
+  end
+endmodule
+```
+
+### Base Verilog Code:
+
+```verilog
+module Problem9(input [3:0] a, b, output [3:0] c, d);
+  reg [3:0] x, y, z;
+
+  always @ * begin
+    x = a;
+    y = b;
+  end
+
+  always @ * begin
+    c = x;
+    d = y;
+
+    z = c + d;
+  end
+endmodule
+```
+
+### Variation Instruction:
+
+Alter the inputs to be 64x32-bit wide to represent a matrix. Replace the state variable declaration with a pack structure to represent the matrix.
+
+### Altered Code:
+
+```verilog
+module Problem10(input [7:0] A, B, input [31:0] C, D, output [31:0] sum, output [31:0] dif, output [31:0] prod);
+  reg [31:0] sum, dif, prod;
+
+  reg [7:0] [31:0] R;
+
+  always @ * begin
+    R = {A, B};
+  end
+
+  always @ * begin
+    prod = R * {C, D};
+  end
+endmodule
+```
+
+### Base Verilog Code:
+```verilog
+module Problem10(input [7:0] A, B, input [31:0] C, D, output [31:0] sum, output [31:0] dif, output [31:0] prod);
+  reg [31:0] sum, dif, prod;
+
+  reg [7:0] [31:0] R;
+
+  always @ * begin
+    R = {A, B};
+  end
+
+  always @ * begin
+    prod = R * {C, D};
+  end
+endmodule
+```
+
+### Variation Instruction:
+
+The input vectors A, B, C, and D are 64-bit wide. The output vectors sum, dif, and prod are 32-bit wide. Replace the reg declaration in the base code with a pack structure to represent the input and output vectors.
+
+### Altered Code:
+
+```verilog
+module Problem11(input [63:0] A, input [63:0] B, input [63:0] C, input [63:0] D, output [63:0] sum, output [63:0] dif, output [63:0] prod);
+  reg [63:0] sum, dif, prod;
+
+  reg [63:0] [63:0] R;
+
+  always @ * begin
+    R = {A, B, C, D};
+  end
+
+  always @ * begin
+    sum = R[0] + R[1];
+    dif = R[2] - R[3];
+    prod = R[0] * R[1] + R[2] * R[3];
+  end
+endmodule
+```
+
+### Base Verilog Code:
+```verilog
+module Problem11(input [63:0] A, input [63:0] B, input [63:0] C, input [63:0] D, output [63:0] sum, output [63:0] dif, output [63:0] prod);
+  reg [63:0] sum, dif, prod;
+
+  reg [63:0] [63:0] R;
+
+  always @ * begin
+    R = {A, B, C, D};
+  end
+
+  always @ * begin
+    sum = R[0] + R[1];
+    dif = R[2] - R[3];
+    prod = R[0] * R[1] + R[2] * R[3];
+  end
+endmodule
+```
+
+### Variation Instruction:
+
+Add a fourth input to the test bench to test the addition of 2 64-bit vectors.
+
+### Altered Code:
+
+```verilog
+module Problem12(input [63:0] A, input [63:0] B, input [63:0] C, input [63:0] D, input [63:0] E, output [63:0] sum, output [63:0] dif, output [63:0] prod);
+  reg [63:0] sum, dif, prod;
+
+  reg [63:0] [63:0] R;
+
+  always @ * begin
+    R = {A, B, C, D, E};
+  end
+
+  always @ * begin
+    sum = R[0] + R[1] + R[2] + R[3] + R[4];
+    dif = R[0] - R[1] - R[2] - R[3] - R[4];
+    prod = R[0] * R[1] * R[2] * R[3] * R[4];
+  end
+endmodule
+```
+
+### Base Verilog Code:
+```verilog
+module Problem12(input [63:0] A, input [63:0] B, input [63:0] C, input [63:0] D, output [63:0] sum, output [63:0] dif, output [63:0] prod);
+  reg [63:0] sum, dif, prod;
+
+  reg [63:0] [63:0] R;
+
+  always @ * begin
+    R = {A, B, C, D};
+  end
+
+  always @ * begin
+    sum = R[0] + R[1];
+    dif = R[2] - R[3];
+    prod = R[0] * R[1] + R[2] * R[3];
+  end
+endmodule
+```
+
+### Variation Instruction:
+
+Extend the addition code to include 64-bit vectors.
+
+### Altered Code:
+
+```verilog
+module Problem13(input [63:0] A, input [63:0] B, input [63:0] C, input [63:0] D, input [63:0] E, input [63:0] F, output [63:0] sum, output [63:0] dif, output [63:0] prod);
+  reg [63:0] sum, dif, prod;
+
+  reg [63:0] [63:0] R;
+
+  always @ * begin
+    R = {A, B, C, D, E, F};
+  end
+
+  always @ * begin
+    sum = R[0] + R[1] + R[2] + R[3] + R[4] + R[5];
+    dif = R[0] - R[1] - R[2] - R[3] - R[4] - R[5];
+    prod = R[0] * R[1] * R[2] * R[3] * R[4] * R[5];
+  end
+endmodule
+```
+
+### Base Verilog Code:
+```verilog
+module Problem13(input [63:0] A, input [63:0] B, input [63:0] C, input [63:0] D, output [63:0] sum, output [63:0] dif, output [63:0] prod);
+  reg [63:0] sum, dif, prod;
+
+  reg [63:0] [63:0] R;
+
+  always @ * begin
+    R = {A, B, C, D};
+  end
+
+  always @ * begin
+    sum = R[0] + R[1];
+    dif = R[2] - R[3];
+    prod = R[0] * R[1] + R[2] * R[3];
+  end
+endmodule
+```
+
+### Variation Instruction:
+
+Add a fourth output, R4 to the test bench. The output R4 can be 127-bits wide. Create a pack structure and add the output R4 to the pack structure.
+
+### Altered Code:
+
+```verilog
+module Problem14(input [63:0] A, input [63:0] B, input [63:0] C, input [63:0] D, input [63:0] E, input [63:0] F, output [127:0] R1, output [127:0] R2, output [127:0] R3, output [127:0] R4);
+  reg [127:0] R1, R2, R3, R4;
+
+  reg [63:"
+"default_module","10","FAIL","0","Syntax Error"
+"default_module","11","FAIL","0","module DataComponent (DataIn, DataOut, ControlSignals);
+input [7:0] DataIn;
+output [7:0] DataOut;
+input ControlSignals;
+struct DataComponentInputStruct {
+rand bit[7:0] DataIn;
+};
+endmodule
+### Modified Verilog Code:
+module DataComponent (DataIn, DataOut, ControlSignals);
+input [7:0] DataIn;
+output [7:0] DataOut;
+input ControlSignals;
+struct DataComponentInputStruct {
+rand bit[7:0] DataIn;
+};
+rand bit[7:0] DataOut;
+endmodule"
+"default_module","12","FAIL","0","Syntax Error"
+"default_module","13","FAIL","0","// Verilog code for Problem 15
+module Full_Adder(
+    input logic [7:0] A, B,
+    input logic [7:0] Cin,
+    output logic [7:0] Sum, Cout
+);
+    assign Sum = A^B^Cin;
+    assign Cout = A&B|A&Cin|B&Cin;
+endmodule
+---
+## Problem 16
+### Base Verilog Code:
+// Verilog code for Problem 16"
+"default_module","14","FAIL","0","Syntax Error"
+"default_module","15","FAIL","0","Syntax Error"
+"default_module","16","FAIL","0","module andfr_tst; // Testbench for AND gate with force/release
+  reg b,c; wire a;
+  initial begin b=1'b0; c=1'b1; #20 $stop; end // Initialize inputs
+  always #3 c = ~c; // Toggle input 'c' every 3 time units
+  and_fr_rl dd(a,b,c); // Instantiate the module containing force/release
+endmodule
+```
+
+### 3.6.1.2.2.1.2.1.2.2.8.1. Test Sequence Diagrams
+
+```diff
+### Base Verilog Code"
+"default_module","17","FAIL","0","module ALU (output [31:0] Result, input [31:0] ArgA, ArgB, input C, input Clk);
+specify
+    specparam tRise = 5, tFall = 4;
+    (Clk *> Result) = (tRise, tFall);
+endspecify
+endmodule
+### Replacement Code:
+module ALU (output [31:0] Result, input [31:0] ArgA, Arg"
+"default_module","18","FAIL","0","<details>
+<summary>
+Show B, C
+</summary>
+
+```verilog
+module show_bc(ao, ai);
+output ao;
+
+input [1:0] ai;
+
+reg [1:0] a;
+reg [1:0] b;
+reg [1:0] c;
+
+reg [1:0] in;
+reg [1:0] out;
+
+// TODO: change to packed enums
+// reg [1:0] enum_ai = 2'bx;
+// reg [1:0] enum_ai_val;
+
+initial begin
+  a = 2'bx;
+  b = 2'bx;
+  c = 2'bx;
+
+  in = {ai[1], ai[0]};
+  out = {in[1], in[0]};
+end
+
+always @* begin
+  // enum_ai_val = enum_ai;
+  // if (enum_ai == 7'b10001001) begin
+  //  enum_ai = 2'bx;
+  // end
+end
+
+// TODO: implement
+// always @* begin
+//   c = 2'bx;
+// end
+
+always @* begin
+  // if (a!= enum_ai_val) begin
+  //   enum_ai_val = enum_ai;
+  //   c = 2'bx;
+  // end
+
+  c = {b, c};
+end"
+"default_module","19","FAIL","0","module dff_inst(D, D_mem, Clock, Resetn, Q);
+input D, Clock, Resetn;
+output Q;
+reg D_mem[0:D-1];
+lpm_ff flipflop(.data(D[0]),.aclr(Resetn),.clock(Clock),.q(Q));
+defparam flipflop.lpm_width = D;
+
+reg [3:0] i;
+reg [3:0] max_i;
+initial
+max_i = 3'd3;
+D_mem = 4'h0;
+
+`else if (i == max_i)begin
+D_mem = 4'h0;
+end
+end
+
+initial
+begin
+i = 4'h0;
+end
+
+always @(negedge Clock)
+begin
+if (Resetn == 1'b0)
+begin
+i = 4'h0;
+end
+else
+begin
+D_mem[i] <= D;
+i = i + 1;
+end
+end
+endmodule
+`"
+"default_module","20","FAIL","0","module counter (d, c, output q, q_b );
+wire [7:0] s;
+
+always @ ( posedge c )
+begin
+s <= d + s;
+end
+
+assign q = s[3:0];
+assign q_b = s[4:0];
+
+endmodule"
+"default_module","21","FAIL","0","module example4(x1, x2, x3, x4, f, g, h);
+input x1, x2, x3, x4;
+output f, g, h;
+
+structure {
+  rand bit w;
+}
+assign g = (x1 & x3) | (x2 & x4);
+assign h = (x1 | x3) & (x2 | x4);
+assign f = g | h;
+endmodule'''
+
+test_code2 = ''''''
+
+
+class RandomizeTestCase(unittest.TestCase):
+    def test_parser(self):
+        test = generate_test(test_code1)
+        self.assertTrue(test.get_test_type() == TestType.PARSER)
+        self.assertEqual(test.get_code(), test_code1)
+
+    def test_randomize_type_normal(self):
+        test = generate_test(test_code1)
+        test.generate()
+        self.assertEqual(test.get_test_type(), TestType.NORMAL)
+
+    def test_randomize_type_random(self):
+        test = generate_test(test_code1)
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+
+    def test_randomize_type_parser(self):
+        test = generate_test(test_code2)
+        test.generate()
+        self.assertEqual(test.get_test_type(), TestType.PARSER)
+
+    def test_no_randomize_instruction(self):
+        with self.assertRaises(AssertionError):
+            test = generate_test('module a; endmodule')
+            test.generate()
+
+    def test_randomize_module_no_input_no_output(self):
+        with self.assertRaises(AssertionError):
+            test = generate_test('module a; endmodule')
+            test.generate_randomized()
+
+    def test_randomize_module_no_input_yes_output(self):
+        test = generate_test('module a(output out); endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_yes_input_no_output(self):
+        test = generate_test('module a(input in); endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_yes_input_yes_output(self):
+        test = generate_test('module a(input in, output out); endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_yes_input_yes_output_with_parameters(self):
+        test = generate_test('module a(input in, output out, parameter a); endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_yes_input_yes_output_with_nettype(self):
+        test = generate_test('module a(input in, output out, reg nettype); endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_yes_input_yes_output_with_nettype_and_parameters(self):
+        test = generate_test('module a(input in, output out, reg nettype, parameter a); endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_yes_input_yes_output_with_parameters_and_nettype(self):
+        test = generate_test('module a(input in, output out, parameter a, reg nettype); endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_yes_input_yes_output_with_parameters_and_nettype_and_parameter(self):
+        test = generate_test('module a(input in, output out, parameter a, reg nettype, parameter b); endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_with_no_body(self):
+        test = generate_test('module a; endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_with_body(self):
+        test = generate_test('module a(input in, output out); case(0) endcase endmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_with_body_multi(self):
+        test = generate_test('module a(input in, output out); \\ncase(0)\\nendcase\\nendmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_with_body_multi_multi(self):
+        test = generate_test('module a(input in, output out); \\ncase(0)\\n\\nendcase\\nendmodule')
+        test.generate_randomized()
+        self.assertEqual(test.get_test_type(), TestType.RANDOM)
+        self.assertTrue(re.match('^\\s*\\* TEST CASE [0-9]+ \\*\\\\n', test.get_code()))
+        self.assertTrue(re.match('^\\s*\\* TEST INPUT [0-9]+ \\*\\\\n', test.get_code()))
+
+    def test_randomize_module_with_body_multi_multi_multi(self):
+        test = generate_test('module a(input in, output out); \\ncase("
+"default_module","22","FAIL","0","module sub(a, b, in, out, mask);
+input [7:0] a, b;
+output [7:0] in;
+output out;
+output mask;
+assign in = a - b;
+assign out = in[7];
+assign mask = in[7] | in[6] | in[5] | in[4] | in[3] | in[2]"
+"default_module","23","FAIL","0","module FourFlopsStructL #(parameter DClk = 2, DBuf = 1)
+(output[7:0] Q, input[7:0] D, input Ena, Clk);
+wire[7:0] QWire;
+localparam DTot = DBuf + DClk;
+DFF DReg[7:0] (.Q(QWire),.D(D),.Clk(Clk));
+assign #DTot Q = (Ena==1'b1)? QWire : 'bz;
+endmodule
+module test_inst (fourflopl, bit clock, bit enable, input[3:0] d_i, output[3:0] d_o);
+FourFlopsStructL fourflopl (d_o, d_i, enable, clock);
+endmodule"
+"default_module","24","FAIL","0","module Cout0Cout1Test (input a, b, output y, output cout0, output cout1);
+reg q1;
+reg q2;
+and (y, q1, a);
+and (cout0, q1, b);
+and (cout1, q2, a);
+and (cout1, q2, b);
+endmodule
+
+### Run Code:
+[Test](https://github.com/MatsRut/COVID-19-Simulation/blob/master/tests/test_cout0cout1test.py)
+[Source](https://github.com/MatsRut/COVID-19-Simulation/blob/master/src/test_cout0cout1test.v)
+
+### Expected results:
+Expected that test was successful.
+
+### Results:
+Test failed
+```
+    Traceback (most recent call last):
+      File ""tests\\test_cout0cout1test.py"", line 22, in test_cout0cout1test
+        assert test_result.ok
+    AttributeError: 'TestResults' object has no attribute 'ok'
+```
+
+## AndOrTest Test
+### Base Verilog Code:
+module AndOrTest (input a"
+"default_module","25","FAIL","0","#### Testbench:
+module test;
+int i = 0;
+mos_strength a(a, c, zn, zp);
+input [7:0] a_in, c_in;
+output [7:0] a_out;
+reg [7:0] c_out;
+reg [7:0] a_out_cmp;
+reg [7:0] c_out_cmp;
+reg [7:0] z_out;
+reg [7:0] p_out;
+
+testbench_bench: begin
+c_out = a_in;
+c_out_cmp = a_in;
+
+for (i = 0; i < 8; i = i + 1) begin
+c_out[i] = 0;
+end
+
+for (i = 0; i < 8; i = i + 1) begin
+c_out_cmp[i] = 1;
+end
+
+for (i = 0; i < 8; i = i + 1) begin
+a_out[i] = a_in[i];
+end
+
+for (i = 0; i < 8; i = i + 1) begin
+if (c_out_cmp[i]!= c_in) begin
+a_out[i] = ~a_in[i];
+c_out[i] = c_in[i];
+end
+end
+
+for (i = 0; i < 8; i = i + 1) begin
+c_out_cmp[i] = 0;
+end
+
+for (i = 0; i < 8; i = i + 1) begin
+c_out_cmp[i] = 1;
+end
+
+//a_out_cmp = $sign(c_out_cmp); // This only works if you declare a_out_cmp as a logic vector //c_out_cmp = ~c_out_cmp; // This only works if you declare c_out_cmp as a logic vector //a_out_cmp = 0; // This only works if you declare a_out_cmp as a logic vector // c_out_cmp = ~c_out_cmp; // This only works if you declare c_out_cmp as a logic vector // a_out_cmp = 0; // This only works if you declare a_out_cmp as a logic vector a_out_cmp = ~a_out_cmp; // This only works if you declare a_out_cmp as a logic vector // c_out_cmp = 0; // This only works if you declare c_out_cmp as a logic vector a_out_cmp = 1; // This only works if you declare a_out_cmp as a logic vector // c_out_cmp = ~c_out_cmp; // This only works if you declare c_out_cmp as a logic vector // a_out_cmp = 0; // This only works if you declare a_out_cmp as a logic vector // c_out_cmp = 1; // This only works if you declare c_out_cmp as a logic vector// a_out_cmp = 1; // This only works if you declare a_out_cmp as a logic vector //// c_out_cmp = 0; // This only works if you declare c_out_cmp as a logic vector #10; #5; #10; #5; //#10; //#5; //#10; //#5; end // for (j = 0; j < 32; j = j + 1) begin a_in = j; c_in = a_in; a = a_in; c = c_in; //assign zp = zn; //assign zn = 0; #10; //#5; //#10; //#5; //#10; //#5; end #100; endmodule #### Module: module mos_strength ( a, c, zn, zp ); input a, c; output zn, zp; assign zp = ~a; assign zn = a; endmodule #### Top level module: module top; wire a, c; wire zp, zn; module mos_strength (a, c, zn, zp); input [7:0] a_in, c_in; output [7:0] a_out, z_out, p_out; wire [7:0] a_out = 0; wire [7:0] p_out = 0; wire [7:0] z_out = 0; mos_strength a_inst(a_out, a_in, z_out, p_out); endmodule #### Expected Results: c_out = 0, c_out_cmp = 0, a_out_cmp = 0, z_out = 0, p_out = 0 c_out = 0, c_out_cmp = 1, a_out_cmp = 0, z_out = 0, p_out = 0 c_out = 0, c_out_cmp = 2, a_out_cmp = 0, z_out = 0, p_out = 0 c_out = 0, c_out_cmp = 3, a_out_cmp = 0, z_out = 0, p_out = 0 c_out = 0, c_out_cmp = 4, a_out_cmp = 0, z_out = 0, p_out = 0 c_out = 0, c_out_cmp = 5, a_out_cmp = 0, z_out = 0, p_out = 0 c_out = 0, c_out_cmp = 6, a_out_cmp = 0, z_out = 0, p_out = 0 c_out = 0, c_out_cmp = 7, a_out_cmp = 0, z_out = 0, p_out = 0 c_out = 1, c_out_cmp = 0, a_out_cmp = 1, z_out = 1, p_out = 0 c_out = 1, c_out_cmp = 1, a_out_cmp = 1, z_out = 1, p_out = 0 c_out = 1, c_out_cmp = 2, a_out_cmp = 1, z_out = 1, p_out = 0 c_out = 1, c_out_cmp = 3, a_out_cmp = 1, z_out = 1, p_out = 0 c_out = 1, c_out_cmp = 4, a_out_cmp = 1, z_out = 1, p_out = 0 c_out = 1, c_out_cmp = 5, a_out_cmp = 1, z_out = 1, p_out = 0 c_out = 1, c_out_cmp = 6, a_out_cmp = 1, z_out = 1, p_out = 0 c_out = 1, c_out_cmp = 7, a_out_cmp = 1, z_out = 1, p_out = 0 c_out = 2, c_out_cmp = 0, a_out_cmp = 2, z_out = 1, p_out = 0 c_out = 2, c_out_cmp = 1, a_out_cmp = 2, z_out = 1, p_out = 0 c_out = 2, c_out_cmp = 2, a_out_cmp = 2, z_out = 1, p_out = 0 c_out = 2, c_out_cmp = 3, a_out_cmp = 2, z_out = 1, p_out = 0 c_out = 2, c_out_cmp = 4, a_out_cmp = 2, z_out = 1, p_out = 0 c_out = 2, c_out_cmp = 5, a_out_cmp = 2, z_out = 1, p_out = 0 c_out = 2, c_out_cmp = 6, a_out_cmp = 2, z_out = 1, p_out = 0 c_out = 2, c_out_cmp = 7, a_out_cmp = 2, z_out = 1, p_out = 0 c_out = 3, c_out_cmp = 0, a_out_cmp = 3, z_out = 0, p_out = 1 c_out = 3, c_out_cmp = 1, a_out_cmp = 3, z_out = 0,"
+"default_module","26","FAIL","0","#### Packed:
+packed module gade_packed_v1(a,a1,b,c,b1,c1);
+input b,c,b1,c1;
+output a,a1;
+// Instantiate OR gate with inertial delay 3
+or #3 gg1_packed_v1(a1,c1,b1);
+// Instantiate AND gate with rise=2, fall=1 inertial delay
+and #(2,1) gg2_packed_v1(a,c,b);
+endmodule
+#### Unpacked:
+module gade_unpacked_v1(a,a1,b,c,b1,c1);
+input b,c,b1,c1;
+output a,a1;
+// Instantiate OR gate with inertial delay 3
+or #3 gg1_unpacked_v1(a1,c1,b1);
+// Instantiate AND gate with rise=2, fall=1 inertial delay
+and #(2,1) gg2_unpacked_v1(a,c,b);
+endmodule"
+"default_module","27","FAIL","0","package pkg;
+
+import std.logic.*; // Import std logic package of gates
+import std.logic.bit.bitop.*; // Import bit operations
+
+interface ha_9;
+
+  `ifdef WITH_RISE_DELAY
+    initial begin // Initialise the rise delay
+      #delay (1'd1,5'd5) 0;
+    end
+  `endif
+
+  `ifdef WITH_FALL_DELAY
+    initial begin // Initialise the fall delay
+      #delay (1'd1,5'd5) 1;
+    end
+  `endif
+
+  `ifdef WITH_CLK_PACK
+    // Packed clock structure
+    packed struct tstha_9_clk_struct {
+      input clk_a_in;
+      input clk_b_in;
+      input clk_c_in;
+    } clk_in;
+
+    // Packed output structure
+    packed struct tstha_9_out_struct {
+      output s,ca;
+    } `ifdef WITH_RISE_DELAY
+      output rise_delayed_s, rise_delayed_ca;
+    `endif
+
+    // Packed input structure
+    packed struct tstha_9_in_struct {
+      input a,b;
+    } `ifdef WITH_RISE_DELAY
+      input rise_delayed_a, rise_delayed_b;
+    `endif
+
+    // Packed signals
+    packed {
+      bit[3:0] a;
+      bit[3:0] b;
+    } clk_in_a, clk_in_b;
+
+    // Convert packed struct instances to individual wires
+    wire a, b;
+    wire rise_delayed_a, rise_delayed_b;
+
+    // Convert bit-vector signals to individual wires
+    wire ca;
+    wire s;
+    wire rise_delayed_s;
+    wire rise_delayed_ca;
+  `else
+    packed struct tstha_9_in_struct {
+      input a,b;
+    } `ifdef WITH_RISE_DELAY
+      input rise_delayed_a, rise_delayed_b;
+    `endif
+
+    // Packed signals
+    packed {
+      bit[3:0] a, b;
+    } `ifdef WITH_RISE_DELAY
+      input rise_delayed_a, rise_delayed_b;
+    `endif
+
+    // Convert packed struct instances to individual wires
+    wire a, b;
+    wire rise_delayed_a, rise_delayed_b;
+
+    // Convert bit-vector signals to individual wires
+    wire ca;
+    wire s;
+  `endif
+
+  // Output signals
+  output s, ca
+
+  `ifdef WITH_RISE_DELAY
+    output rise_delayed_s, rise_delayed_ca;
+  `endif
+
+  `ifdef WITH_CLK_PACK
+    // Instantiate the component in the ha_9 gate
+    ha_9 ha_instance(
+     .s(s),
+     .ca(ca),
+     .a(rise_delayed_a),
+     .b(rise_delayed_b),
+     .clk_in(clk_in)
+    );
+  `else
+    // Instantiate the component in the ha_9 gate
+    ha_9 ha_instance(
+     .s(s),
+     .ca(ca),
+     .a(a),
+     .b(b)
+    );
+  `endif
+
+  `ifdef WITH_RISE_DELAY
+    initial begin
+      #delay (1'd1,5'd5) 0; // Initialise the rise delay
+      #delay (1'd1,5'd5) 1; // Initialise the fall delay
+      #delay (1'd1,5'd5) 0; // Initialise the rise delay
+      #delay (1'd1,5'd5) 1; // Initialise the fall delay
+    end
+  `endif
+
+endinterface // End interface definition
+
+module ha_9(
+  output s,
+  output ca,
+  input a,
+  input b,
+  clk_in
+);
+
+  // Local variables
+  wire a,b;
+  wire t,c;
+  wire s;
+  wire ca;
+
+  // Wire up the 9 bit register
+  `ifdef WITH_CLK_PACK
+    reg [3:0] r_a,r_b;
+    reg [3:0] r_s,r_ca;
+
+    `ifdef WITH_RISE_DELAY
+      assign `ifdef WITH_CLK_PACK
+        r_a = $bitslice(clk_in.clk_a_in, 0, 4);
+        r_b = $bitslice(clk_in.clk_b_in, 0, 4);
+        r_s = $bitslice(clk_in.clk_c_in, 0, 4);
+        r_ca = $bitslice(clk_in.clk_c_in, 4, 1);
+      `else
+        assign a = $bitslice(clk_in, 0, 4);
+        assign b = $bitslice(clk_in, 4, 4);
+        assign s = $bitslice(clk_in, 8, 4);
+        assign ca = $bitslice(clk_in, 12, 1);
+      `endif
+    `else
+      assign a = $bitslice(clk_in, 0, 4);
+      assign b = $bitslice(clk_in, 4, 4);
+      assign s = $bitslice(clk_in, 8, 4);
+      assign ca = $bitslice(clk_in, 12, 1);
+    `endif
+  `else
+    assign a = a;
+    assign b = b;
+    assign s = s;
+    assign ca = ca;
+  `endif
+
+  // Generate output s and carry output ca
+  always @(a,b) begin
+    t = a xor b;
+    c = a&b;
+    s = t xor c;
+  end
+
+    // Generate output s and carry output ca
+  always @(a,b) begin
+    t = a xor b;
+    c = a&b;
+    ca = c;
+    s = t;
+  end
+
+  // Assign output signals
+  assign s = s;
+  assign ca = ca;
+
+  // Assign packed output signals
+  `ifdef WITH_RISE_DELAY
+    assign rise_delayed_s = s;
+    assign rise_delayed_ca = ca;
+  `endif
+
+  // Assign packed input signals
+  `ifdef WITH_CLK_PACK
+    `ifdef WITH_RISE_DELAY
+      assign rise_delayed_a = r_a;
+      assign rise_delayed_b = r_b;
+    `else
+      assign a = r_a;
+      assign b = r_b;
+    `endif
+
+    assign clk_in.clk_a_in = a;
+    assign clk_in.clk_b_in = b;
+    assign clk_in.clk_c_in = s;
+  `endif
+
+  // Assign unpacked input signals
+  `ifdef WITH_CLK_PACK
+    `ifdef WITH_RISE_DELAY
+      assign a = clk_in_a;
+      assign b = clk_in_b;
+    `else
+      assign a = clk_in.a;
+      assign b = clk_in.b;
+    `endif
+  `endif
+
+endmodule
+### Modified Testbench:
+`ifndef WITH_CLK_PACK
+
+  module tstha_9();
+    initial begin
+      reg a,b;
+      a=0;
+      b=0;
+      $dumpvars;
+    end
+    always begin #5 a=1;b=0; #5 a=0;b=1; #5 a=1;b=1; #5 a=0;b=0; end
+    initial $monitor($time, "" a = %b, b = %b,out carry = %b, outsum = %b "",a,b,ca,s);
+    initial #30 $stop;
+  endmodule
+
+`else
+
+  module tstha_9();
+    reg a,b;
+    initial begin
+      a=0;
+      b=0;
+      $dumpvars;
+    end
+    always begin #5 a=1;b=0; #5 a=0;b=1; #5 a=1;b=1; #5 a=0;b=0; end
+    initial $monitor($time, "" a = %b, b = %b,out carry = %b, outsum = %b "",a,b,ca,s);
+    initial #30 $stop;
+  endmodule
+
+`endif
+
+### Gatenames to be used for the test:
+ha_9
+### Testbench command:
+$vlib $(VLOG_WORKER_DIR)
+$vlib_compile
+$vsim -sv_lib $(VLOG_WORKER_DIR) -c tstha_9
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <fstream>
+#include ""gtest/gtest.h""
+#include ""gmock/gmock.h""
+#include ""ha_9.h""
+
+using testing::Eq;
+using testing::Gt;
+using testing::Neq;
+
+TEST(TestHa9, TestAll_Input) {
+  ha_9 ha_test1;
+  EXPECT_EQ(ha_test1.run(0, 0), 0);
+  EXPECT_EQ(ha_test1.run(0, 1), 1);
+  EXPECT_EQ(ha_test1.run(1, 0),"
+"default_module","28","FAIL","0","module example3(Data, Clock, Reset, RegSum, Sum);
+input Clock, Reset;
+input [3:0] Data;
+output [3:0] Sum, RegSum;
+wire [3:0] Sum, RegSum;
+reg4 R1 (Sum, Clock, Reset, RegSum);
+assign Sum = Data + RegSum;
+endmodule
+### Output:
+Error: (vlog-3558) syntax error at example3.v(12) :
+error: syntax error, unexpected lvalue, expecting identifier or symbol
+assign Sum = Data + RegSum;
+
+^
+2 errors detected.
+
+### Expected Behavior:
+Module should generate with the modified code.
+
+### Steps to Reproduce
+
+### Operating System:
+Mac
+### Additional Information
+I'm not quite sure how I can debug the issue. I suspect it has something to do with my code having too many parentheses. Is this assumption correct? I can try to fix the code to see if the issue is resolved after all.username_1: You can use the `unexpand` command to remove all of these redundant parentheses:
+
+```bash
+$ unexpand -a \\
+    example3.v \\
+    | cat > example3.v
+
+```
+
+Then `vlog` should accept your code.
+Upvotes: 0 username_2: I was dealing with something similar. I found that I could get around the problem by writing
+
+```
+if (condition)
+  assign sum = a+b;
+else
+  assign sum = c+d;
+end
+
+```
+
+instead of
+
+```
+reg2 R1;
+
+if (condition)
+  R1 = a+b;
+else
+  R1 = c+d;
+end
+
+assign sum = R1;
+
+```
+
+This seems to work for a single instance. For more instances, I had to put the instances in a for loop and use a net array to hold the sum:
+
+```
+for (i=0; i < #instances; i++)
+  wire [3:0] Sum;
+  wire [3:0] Data;
+  wire [3:0] RegSum;
+
+  reg4 R1 (Sum, Clock, Reset, RegSum);
+  assign Sum = Data + RegSum;
+end
+
+```
+
+I am assuming that the wires are the same size as the data.
+
+I hope this helps.
+Upvotes: 2 [selected_answer]"
+"default_module","29","FAIL","0","Syntax Error"
+"default_module","30","FAIL","0","Syntax Error"
+"default_module","31","FAIL","0","module func4(x1, x2, x3, x4, f);
+input x1, x2, x3, x4;
+output logic signed f;
+assign f = (x1 & x2 & ~x3 & ~x4) | (~x1 & ~x2 & x3 & ~x4) | (x1 & ~x2 & ~x3 & x4) | (~x1 & x2 & x3 & x4);
+endmodule
+### Test Verilog:
+module TestFunc4(
+  input x1, x2, x3, x4, f
+);
+input x1, x2, x3, x4;
+output f;
+func4 myfunc4(x1, x2, x3, x4);
+assign f = myfunc4(x1, x2, x3, x4);
+endmodule
+### Testbench:
+module TestFunc4_tb(
+  input clk,
+  input rst,
+  input x1, x2, x3, x4, f
+);
+logic [3:0] x1, x2, x3, x4;
+logic f;
+func4 myfunc4 (x1, x2, x3, x4, f);
+initial begin
+x1 = 8'h0101;
+x2 = 8'h1010;
+x3 = 8'h1001;
+x4 = 8'h0010;
+#5 rst = 1;
+#5 rst = 0;
+$monitor(1'b1);
+$monitor"
+"default_module","32","FAIL","0","Syntax Error"
+"default_module","33","FAIL","0","#include <stdio.h>
+  #include <stdint.h>
+  typedef struct { unsigned a; int b; } ha_1_t1;
+  typedef struct"
+"default_module","34","FAIL","0","Syntax Error"

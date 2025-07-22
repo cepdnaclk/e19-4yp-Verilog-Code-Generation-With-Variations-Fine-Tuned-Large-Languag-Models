@@ -1,0 +1,4 @@
+
+python xform_evaluator.py --mode original --model codellama:7b --output-dir results_codellama
+
+python xform_evaluator.py --mode original --model codellama:7b --output-dir results_pk_codellama

@@ -1,0 +1,35 @@
+- prompt: Change the type of the input in from wire to bit to test usage of SystemVerilog bit type.
+- prompt: Modify the inputs A and B to be elements of a packed 1D logic-vector array (e.g., logic [1:0] A [0:3]) and use an inside operator with a fixed 4D range to test multi-dimensional array handling.
+- prompt: Replace the reg declarations with a packed structure that includes the signals x, y, and z, and modify the assignments accordingly to test packed structure handling.
+- prompt: Change the type of the output cout from wire to logic to test logic-vector compatibility.
+- prompt: Replace the data construct with a struct containing a rand member to test randomization inside a structure.
+- prompt: Change the reg declarations for di and clk to logic to test compatibility with SystemVerilog types.
+- prompt: Change the output type from reg to logic [7:0] to align with modern signal declarations.
+- prompt: Change the type of the input in from wire to bit to test usage of SystemVerilog bit type.
+- prompt: Modify the inputs A and B to be elements of a packed 1D logic-vector array (e.g., logic [1:0] A [0:3]) and use an inside operator with a fixed 4D range to test multi-dimensional array handling.
+- prompt: Replace the reg declarations with a packed structure that includes the signals x, y, and z, and modify the assignments accordingly to test packed structure handling.
+- prompt: Change the type of the output cout from wire to logic to test logic-vector compatibility.
+- prompt: Replace the data construct with a struct containing a rand member to test randomization inside a structure.
+- prompt: Change the reg declarations for di and clk to logic to test compatibility with SystemVerilog types.
+- prompt: Change the output type from reg to logic [7:0] to align with modern signal declarations.
+- prompt: Replace the inputs A and B with 4-bit logic vectors to test multi-bit combinational logic behavior.
+- prompt: Modify the ALU testbench to include an additional signed test case to evaluate signed integer handling.
+- prompt: Change DataIn and DataOut types to an unpacked structure containing both logic and string fields.
+- prompt: Convert inputs a and b to logic signed [3:0] to test signed arithmetic operations.
+- prompt: Change A and B from logic to packed enums with default and non-default values to test enum-based inputs.
+- prompt: Expand the testbench to include test cases using a dynamic array as input operands.
+- prompt: Change output from reg [7:0] to a packed union to test union-based outputs.
+- prompt: Replace the wait(c) statement with a blocking assignment inside a structure containing rand members to test randomizable structures.
+- prompt: Convert the inputs x1–x4 into a single unpacked struct with logic fields and apply operations on the structure to test structure-based logic operations.
+- prompt: Change the base type of the input vector in from logic to byte to test byte-type vector compatibility.
+- prompt: Modify the DFF instantiation to use a packed union as input to test union handling in module ports.
+- prompt: Replace the xor and and gate expressions with a logic-vector based enum to test enum operations.
+- prompt: Use an unpacked nested structure as the output type to test nested unpacked structure handling.
+- prompt: Modify the clk input to come from a packed structure and test struct signal routing.
+- prompt: Change the output ld to a wire type array with unpacked dimension to test wire-array compatibility.
+- prompt: Replace one of the inputs with a class handle and use inside operator with associative array to test class-based associative access.
+- prompt: Redefine the output Result as a unit width packed structure with 32 fields to test structural granularity.
+- prompt: Change the output type from logic to logic signed to test signed logic vectors.
+- prompt: Replace the Resetn input with an enum having default and non-default base types to test enum coverage.
+- prompt: Modify the parameterized delays to be driven by values stored in an unpacked structure with signed members.
+- prompt: Change the input Clock to a wildcard-indexed associative array and access it via the inside operator to test wildcard indexing.

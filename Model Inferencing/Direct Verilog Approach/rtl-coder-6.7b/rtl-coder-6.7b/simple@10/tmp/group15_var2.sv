@@ -1,0 +1,60 @@
+module alu_tb;
+reg [7:0] a;
+reg signed [7:0] as;
+reg [7:0] b;
+reg signed [7:0] bs;
+reg [2:0] op;
+reg [7:0] result;
+reg [7:0] result_alt;
+reg [7:0] result_alt2;
+reg [7:0] result_alt3;
+reg [7:0] result_alt4;
+wire zero;
+wire signed [7:0] result_signed;
+alu uut (a, b, op, result, zero);
+alu_alt uut1(as, bs, op, result_alt);
+alu_alt2 uut2(as, bs, op, result_alt2);
+alu_alt3 uut3(as, bs, op, result_alt3);
+alu_alt4 uut4(as, bs, op, result_alt4);
+integer i;
+initial begin
+for(i=0; i<8; i=i+1) begin
+a = i;
+b = i;
+op = 0;
+#5;
+assert (result === i+i) else $error("1 failed");
+op = 1;
+#5;
+assert (result === i-i) else $error("2 failed");
+op = 2;
+#5;
+assert (result === i*i) else $error("3 failed");
+op = 3;
+#5;
+assert (result === i/i) else $error("4 failed");
+op = 4;
+#5;
+assert (result === i) else $error("5 failed");
+end
+// test cases:
+a = 0;
+b = 0;
+op = 0;
+#5;
+assert (result === 0) else $error("1 failed");
+a = 0;
+b = 0;
+op = 1;
+#5;
+assert (result === 0) else $error("2 failed");
+a = 0;
+b = 0;
+op = 2;
+#5;
+assert (result === 0) else $error("3 failed");
+a = 0;
+b = 0;
+op = 3;
+#5;
+assert (result ===

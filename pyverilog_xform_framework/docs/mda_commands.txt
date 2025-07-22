@@ -1,0 +1,38 @@
+1. Fixed Range MDA
+standard array to use fixed-range multi-dimensional arrays:
+python range_mda_xform.py simple_array_example.v range_output.v --signal mem_array --ranges 7:0 0:15
+
+For testing non-zero ranges:
+python range_mda_xform.py simple_array_example.v nonzero_output.v --signal mem_array --ranges 101:120
+
+For testing negative ranges:
+python range_mda_xform.py simple_array_example.v negative_output.v --signal mem_array --ranges -10:-1
+
+For testing ranges in reverse direction:
+python range_mda_xform.py simple_array_example.v reverse_output.v --signal mem_array --ranges 15:0
+
+2. Dynamic MDA
+python dynamic_mda_xform.py simple_array_example.v dynamic_output.v --signal mem_array --dimensions 2
+
+3. Queue MDA
+For 1D queue:
+python queue_mda_xform.py simple_array_example.v queue_output.v --signal mem_array --dimensions 1
+
+For a bounded queue:
+python queue_mda_xform.py simple_array_example.v bounded_queue_output.v --signal mem_array --dimensions 1 --bounded --bound-size 10
+
+4. Associative Array
+For string key:
+python associative_mda_xform.py simple_array_example.v assoc_string_output.v --signal mem_array --key-type string
+
+For wildcard index:
+python associative_mda_xform.py simple_array_example.v assoc_wildcard_output.v --signal mem_array --key-type wildcard
+
+For vector key:
+python associative_mda_xform.py simple_array_example.v assoc_vector_output.v --signal mem_array --key-type vector
+
+For class key:
+python associative_mda_xform.py simple_array_example.v assoc_class_output.v --signal mem_array --key-type class
+
+5. Mixed MDA
+python mixed_mda_xform.py simple_array_example.v mixed_output.v --signal mem_array --mda-spec fixed:7:0 assoc:string queue

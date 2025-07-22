@@ -1,0 +1,219 @@
+{
+  "task_name": "add_debug_ports",
+  "task_description": "Add comprehensive debug output ports to a module",
+  "complexity": "complex",
+  "category": "debug_enhancement",
+  "pass_at_k_scores": {
+    "1": 0.0,
+    "3": 0.0,
+    "5": 0.0
+  },
+  "attempts_data": [
+    {
+      "attempt_number": 1,
+      "success": false,
+      "overall_score": 0.5275000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.4,
+        "framework_compliance": 0.625,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.4,
+        "functional_correctness": 0.8125
+      },
+      "errors": [
+        "Syntax error at line 61: invalid syntax",
+        "Missing PyVerilog parser import",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "add_debug_ports_attempt_1.py",
+      "code_length": 1933,
+      "generation_metadata": {
+        "filename": "xform_add_comprehensive_debug_output.py",
+        "source_documents": [
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_registry.py",
+          "xform_inside_op_array.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 2,
+      "success": false,
+      "overall_score": 0.5275000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.4,
+        "framework_compliance": 0.625,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.4,
+        "functional_correctness": 0.8125
+      },
+      "errors": [
+        "Syntax error at line 61: invalid syntax",
+        "Missing PyVerilog parser import",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "add_debug_ports_attempt_2.py",
+      "code_length": 1933,
+      "generation_metadata": {
+        "filename": "xform_add_comprehensive_debug_output.py",
+        "source_documents": [
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_registry.py",
+          "xform_inside_op_array.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 3,
+      "success": false,
+      "overall_score": 0.5275000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.4,
+        "framework_compliance": 0.625,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.4,
+        "functional_correctness": 0.8125
+      },
+      "errors": [
+        "Syntax error at line 61: invalid syntax",
+        "Missing PyVerilog parser import",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "add_debug_ports_attempt_3.py",
+      "code_length": 1933,
+      "generation_metadata": {
+        "filename": "xform_add_comprehensive_debug_output.py",
+        "source_documents": [
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_registry.py",
+          "xform_inside_op_array.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 4,
+      "success": false,
+      "overall_score": 0.5275000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.4,
+        "framework_compliance": 0.625,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.4,
+        "functional_correctness": 0.8125
+      },
+      "errors": [
+        "Syntax error at line 61: invalid syntax",
+        "Missing PyVerilog parser import",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "add_debug_ports_attempt_4.py",
+      "code_length": 1933,
+      "generation_metadata": {
+        "filename": "xform_add_comprehensive_debug_output.py",
+        "source_documents": [
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_registry.py",
+          "xform_inside_op_array.py"
+        ]
+      }
+    },
+    {
+      "attempt_number": 5,
+      "success": false,
+      "overall_score": 0.5275000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.4,
+        "framework_compliance": 0.625,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.4,
+        "functional_correctness": 0.8125
+      },
+      "errors": [
+        "Syntax error at line 61: invalid syntax",
+        "Missing PyVerilog parser import",
+        "Missing visitor class"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing regex transformations",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "xform_file": "add_debug_ports_attempt_5.py",
+      "code_length": 1933,
+      "generation_metadata": {
+        "filename": "xform_add_comprehensive_debug_output.py",
+        "source_documents": [
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_inside_op_debug.py",
+          "xform_registry.py",
+          "xform_inside_op_array.py"
+        ]
+      }
+    }
+  ],
+  "generated_files": [
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_1.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_2.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_3.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_4.py",
+    "xform_generation_evaluation_ollama_codellama_20250714_230921/generated_xforms/add_debug_ports_attempt_5.py"
+  ],
+  "statistics": {
+    "best_score": 0.5275000000000001,
+    "worst_score": 0.5275000000000001,
+    "average_score": 0.5275000000000001,
+    "successful_attempts": 0,
+    "total_attempts": 5
+  },
+  "evaluation_time": 37.45686411857605,
+  "timestamp": "2025-07-15T00:20:55.752868"
+}

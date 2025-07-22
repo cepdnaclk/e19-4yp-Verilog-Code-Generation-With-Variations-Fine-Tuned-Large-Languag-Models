@@ -1,0 +1,1 @@
+module alu_6( output [3:0] d, output co,

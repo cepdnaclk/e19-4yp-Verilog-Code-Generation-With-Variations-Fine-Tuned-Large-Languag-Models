@@ -1,0 +1,295 @@
+{
+  "task_name": "fsm_state_rename",
+  "task_description": "Systematically rename FSM state names throughout a module",
+  "complexity": "complex",
+  "category": "fsm_modification",
+  "requirements": [
+    "Identify FSM state enum/parameter declarations",
+    "Take old_prefix and new_prefix as parameters",
+    "Rename all states that match the prefix pattern",
+    "Update all references in case statements",
+    "Update assignments and comparisons"
+  ],
+  "pass_at_k_scores": {
+    "1": 1.0,
+    "3": 1.0,
+    "5": 1.0,
+    "10": 1.0
+  },
+  "attempt_results": [
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    true,
+    true,
+    false,
+    true
+  ],
+  "attempt_details": [
+    {
+      "attempt_number": 1,
+      "success": true,
+      "overall_score": 0.7835,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.9475
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing command line interface",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 4476,
+      "execution_time": 0.0003058910369873047
+    },
+    {
+      "attempt_number": 2,
+      "success": true,
+      "overall_score": 0.7835,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.9475
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing command line interface",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 4462,
+      "execution_time": 0.00022268295288085938
+    },
+    {
+      "attempt_number": 3,
+      "success": true,
+      "overall_score": 0.79925,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.7925000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 4137,
+      "execution_time": 0.0001995563507080078
+    },
+    {
+      "attempt_number": 4,
+      "success": false,
+      "overall_score": 0.5005,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.6,
+        "framework_compliance": 0.5,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.2,
+        "functional_correctness": 0.655
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 1962,
+      "execution_time": 0.0001373291015625
+    },
+    {
+      "attempt_number": 5,
+      "success": true,
+      "overall_score": 0.7835,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.9475
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing command line interface",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 3753,
+      "execution_time": 0.00019049644470214844
+    },
+    {
+      "attempt_number": 6,
+      "success": true,
+      "overall_score": 0.81075,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.9075
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 4134,
+      "execution_time": 0.000213623046875
+    },
+    {
+      "attempt_number": 7,
+      "success": true,
+      "overall_score": 0.79925,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.7925000000000001
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 4106,
+      "execution_time": 0.00019311904907226562
+    },
+    {
+      "attempt_number": 8,
+      "success": true,
+      "overall_score": 0.8370000000000001,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 1.0,
+        "code_style": 1.0,
+        "robustness": 1.0,
+        "maintainability": 1.0,
+        "functional_correctness": 0.87
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [],
+      "generated_code_length": 4385,
+      "execution_time": 0.00018978118896484375
+    },
+    {
+      "attempt_number": 9,
+      "success": false,
+      "overall_score": 0.5005,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 0.6,
+        "framework_compliance": 0.5,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 0.2,
+        "functional_correctness": 0.655
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent",
+        "Missing PyVerilog parser import",
+        "Missing visitor class",
+        "Missing main transform function"
+      ],
+      "warnings": [
+        "Missing proper node type checking",
+        "Missing command line interface",
+        "Missing main guard",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 1962,
+      "execution_time": 0.00013399124145507812
+    },
+    {
+      "attempt_number": 10,
+      "success": true,
+      "overall_score": 0.7795,
+      "metric_scores": {
+        "syntactic_correctness": 0.0,
+        "semantic_correctness": 1.0,
+        "framework_compliance": 0.875,
+        "code_style": 1.0,
+        "robustness": 0.7,
+        "maintainability": 1.0,
+        "functional_correctness": 0.9075
+      },
+      "errors": [
+        "Syntax error at line 2: unexpected indent"
+      ],
+      "warnings": [
+        "Missing command line interface",
+        "Consider checking file existence before processing"
+      ],
+      "generated_code_length": 3312,
+      "execution_time": 0.00017142295837402344
+    }
+  ],
+  "scores": [
+    0.7835,
+    0.7835,
+    0.79925,
+    0.5005,
+    0.7835,
+    0.81075,
+    0.79925,
+    0.8370000000000001,
+    0.5005,
+    0.7795
+  ],
+  "best_score": 0.8370000000000001,
+  "worst_score": 0.5005,
+  "average_score": 0.737725,
+  "successful_attempts": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    10
+  ],
+  "total_attempts": 10,
+  "evaluation_time": 173.23265171051025,
+  "timestamp": "2025-07-14T18:32:26.018949"
+}

@@ -1,0 +1,1 @@
+`inside` on `state_Moore`

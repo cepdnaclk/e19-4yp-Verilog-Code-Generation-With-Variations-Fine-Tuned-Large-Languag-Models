@@ -1,0 +1,107 @@
+
+# Ollama LLama 3 Xform Generation Evaluation Report
+
+## Overall Results
+- **Success Rate**: 0.00%
+- **Total Tasks**: 40
+- **Successful Tasks**: 0
+- **Average Execution Time**: 6.62s
+
+## Average Scores by Metric
+- **Syntactic Correctness**: 0.000
+- **Semantic Correctness**: 0.235
+- **Functional Correctness**: 0.500
+- **Framework Compliance**: 0.617
+- **Code Style**: 0.720
+- **Robustness**: 0.232
+- **Maintainability**: 0.900
+- **Innovation**: 0.515
+
+## Performance by Complexity
+- **Simple**: 0.00% (0/4)
+- **Unknown**: 0.00% (0/30)
+- **Medium**: 0.00% (0/2)
+- **Complex**: 0.00% (0/2)
+- **Novel**: 0.00% (0/2)
+
+## Detailed Task Results
+- **wire_to_reg_minimal** ❌ FAIL (Score: 0.548)
+  - Errors: Syntax error: unterminated string literal (detected at line 73) (<unknown>, line 73); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing main transform function; Missing proper return values
+- **wire_to_reg_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: unterminated string literal (detected at line 61) (<unknown>, line 61); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **signal_rename_minimal** ❌ FAIL (Score: 0.405)
+  - Errors: Syntax error: unterminated string literal (detected at line 62) (<unknown>, line 62); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing main transform function; Missing proper return values; Missing error handling
+- **signal_rename_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **module_name_change_minimal** ❌ FAIL (Score: 0.438)
+  - Errors: Syntax error: unterminated string literal (detected at line 55) (<unknown>, line 55); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing main transform function; Missing error handling
+- **module_name_change_rich** ❌ FAIL (Score: 0.422)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing visitor class; Missing main transform function; Missing proper return values; Missing error handling
+- **signal_width_change_minimal** ❌ FAIL (Score: 0.395)
+  - Errors: Syntax error: unterminated string literal (detected at line 1) (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing main transform function; Missing proper return values; Missing error handling
+- **signal_width_change_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: unterminated string literal (detected at line 1) (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **multi_signal_width_minimal** ❌ FAIL (Score: 0.512)
+  - Errors: Syntax error: unterminated string literal (detected at line 94) (<unknown>, line 94); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing regex transformations; Missing error handling
+- **multi_signal_width_rich** ❌ FAIL (Score: 0.572)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing error handling
+- **reset_condition_change_minimal** ❌ FAIL (Score: 0.388)
+  - Errors: Syntax error: unterminated string literal (detected at line 54) (<unknown>, line 54); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing proper return values; Missing error handling
+- **reset_condition_change_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: unterminated string literal (detected at line 72) (<unknown>, line 72); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **add_enable_signal_minimal** ❌ FAIL (Score: 0.435)
+  - Errors: Syntax error: unterminated string literal (detected at line 51) (<unknown>, line 51); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing regex transformations; Missing main transform function; Missing proper return values; Missing error handling
+- **add_enable_signal_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **array_base_type_change_minimal** ❌ FAIL (Score: 0.585)
+  - Errors: Syntax error: unterminated string literal (detected at line 81) (<unknown>, line 81); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations
+- **array_base_type_change_rich** ❌ FAIL (Score: 0.455)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing regex transformations; Missing visitor class; Missing proper return values; Missing error handling
+- **fsm_state_rename_minimal** ❌ FAIL (Score: 0.425)
+  - Errors: Syntax error: unterminated string literal (detected at line 66) (<unknown>, line 66); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing main transform function; Missing proper return values; Missing proper file I/O
+- **fsm_state_rename_rich** ❌ FAIL (Score: 0.508)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **queue_mda_conversion_minimal** ❌ FAIL (Score: 0.425)
+  - Errors: Syntax error: unterminated string literal (detected at line 66) (<unknown>, line 66); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing main transform function; Missing error handling; Missing proper file I/O
+- **queue_mda_conversion_rich** ❌ FAIL (Score: 0.485)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing visitor class; Missing proper return values; Missing error handling
+- **dynamic_mda_conversion_minimal** ❌ FAIL (Score: 0.488)
+  - Errors: Syntax error: unterminated string literal (detected at line 87) (<unknown>, line 87); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing regex transformations; Missing proper return values; Missing error handling
+- **dynamic_mda_conversion_rich** ❌ FAIL (Score: 0.452)
+  - Errors: Syntax error: unterminated string literal (detected at line 55) (<unknown>, line 55); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing visitor class; Missing main transform function; Missing proper return values; Missing error handling
+- **associative_mda_conversion_minimal** ❌ FAIL (Score: 0.415)
+  - Errors: Syntax error: unterminated string literal (detected at line 72) (<unknown>, line 72); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing main transform function; Missing proper return values; Missing error handling
+- **associative_mda_conversion_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **structure_type_conversion_minimal** ❌ FAIL (Score: 0.478)
+  - Errors: Syntax error: unterminated string literal (detected at line 73) (<unknown>, line 73); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing proper return values; Missing error handling
+- **structure_type_conversion_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **inside_op_coverage_minimal** ❌ FAIL (Score: 0.392)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing main transform function; Missing proper return values; Missing error handling; Missing proper file I/O
+- **inside_op_coverage_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: unterminated string literal (detected at line 61) (<unknown>, line 61); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **inside_op_array_usage_minimal** ❌ FAIL (Score: 0.338)
+  - Errors: Syntax error: unterminated string literal (detected at line 51) (<unknown>, line 51); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing proper return values; Missing error handling
+- **inside_op_array_usage_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **inside_op_context_scenarios_minimal** ❌ FAIL (Score: 0.345)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing main transform function; Missing proper return values; Missing error handling
+- **inside_op_context_scenarios_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **inside_op_xmr_scenarios_minimal** ❌ FAIL (Score: 0.438)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing proper return values; Missing error handling
+- **inside_op_xmr_scenarios_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **inside_op_debug_scenarios_minimal** ❌ FAIL (Score: 0.458)
+  - Errors: Syntax error: unterminated string literal (detected at line 59) (<unknown>, line 59); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing regex transformations; Missing proper return values; Missing error handling
+- **inside_op_debug_scenarios_rich** ❌ FAIL (Score: 0.448)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **inside_op_misc_scenarios_minimal** ❌ FAIL (Score: 0.368)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing regex transformations; Missing proper return values; Missing error handling
+- **inside_op_misc_scenarios_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: unterminated string literal (detected at line 84) (<unknown>, line 84); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling
+- **mixed_mda_conversion_minimal** ❌ FAIL (Score: 0.455)
+  - Errors: Syntax error: unterminated string literal (detected at line 67) (<unknown>, line 67); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing AST visitor method; Missing proper node type checking; Missing proper return values; Missing error handling; Missing proper file I/O
+- **mixed_mda_conversion_rich** ❌ FAIL (Score: 0.518)
+  - Errors: Syntax error: invalid syntax (<unknown>, line 1); Missing PyVerilog parser import; Missing PyVerilog AST import; Missing proper node type checking; Missing proper return values; Missing error handling

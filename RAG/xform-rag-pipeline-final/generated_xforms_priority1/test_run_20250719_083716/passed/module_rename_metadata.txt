@@ -1,0 +1,11 @@
+Test Name: module_rename
+Description: Rename a Verilog module from old_name to new_name
+Complexity: simple
+Quality Score: 1.00
+Code Length: 2239 characters
+Success: True
+Generated: 2025-07-19T08:59:13.892424
+Has Shebang: True
+Has Main: True
+Has Argparse: True
+Has PyVerilog: True

@@ -1,0 +1,9 @@
+Command: /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/uvenv/bin/python /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/fixed_transformations/wire_to_reg_fixed.py /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/test_verilog_input/basic_counter.v /home/ubuntu/e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models/RAG/xform-rag-pipeline-final/complete_system_test_20250720_082728/test_verilog_output/wire_to_reg_basic_counter_output.v --signal internal_signal
+Return Code: 1
+STDOUT:
+Error: [Errno 2] No such file or directory: 'iverilog'
+
+STDERR:
+Generating LALR tables
+WARNING: 183 shift/reduce conflicts
+

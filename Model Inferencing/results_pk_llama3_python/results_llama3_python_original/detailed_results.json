@@ -1,0 +1,1018 @@
+[
+  {
+    "task_name": "wire_to_reg_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 10.743846893310547,
+    "overall_score": 0.525
+  },
+  {
+    "task_name": "wire_to_reg_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.6000000000000001,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.7,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 3.054373025894165,
+    "overall_score": 0.5383333333333333
+  },
+  {
+    "task_name": "signal_rename_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.0,
+      "code_style": 0.4,
+      "robustness": 0.0,
+      "maintainability": 0.3,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing visitor class",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling",
+      "Missing proper file I/O",
+      "Missing command line interface"
+    ],
+    "execution_time": 2.115396022796631,
+    "overall_score": 0.29500000000000004
+  },
+  {
+    "task_name": "signal_rename_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.16666666666666666,
+      "code_style": 0.5,
+      "robustness": 0.0,
+      "maintainability": 0.6,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling",
+      "Missing proper file I/O",
+      "Missing command line interface"
+    ],
+    "execution_time": 27.956210136413574,
+    "overall_score": 0.2683333333333333
+  },
+  {
+    "task_name": "module_name_change_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.5,
+      "code_style": 1.0,
+      "robustness": 0.3,
+      "maintainability": 0.7,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing visitor class",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 8.3729727268219,
+    "overall_score": 0.555
+  },
+  {
+    "task_name": "module_name_change_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 10.159557104110718,
+    "overall_score": 0.455
+  },
+  {
+    "task_name": "signal_width_change_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing main transform function",
+      "Missing error handling"
+    ],
+    "execution_time": 8.348658561706543,
+    "overall_score": 0.5883333333333334
+  },
+  {
+    "task_name": "signal_width_change_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 0.6,
+      "innovation": 0.8,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 17.556406259536743,
+    "overall_score": 0.41500000000000004
+  },
+  {
+    "task_name": "multi_signal_width_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 7.824830055236816,
+    "overall_score": 0.525
+  },
+  {
+    "task_name": "multi_signal_width_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 10.503120183944702,
+    "overall_score": 0.5183333333333333
+  },
+  {
+    "task_name": "reset_condition_change_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.3333333333333333,
+      "code_style": 0.4,
+      "robustness": 0.0,
+      "maintainability": 0.7,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing visitor class",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 10.964472770690918,
+    "overall_score": 0.40166666666666667
+  },
+  {
+    "task_name": "reset_condition_change_rich",
+    "success": true,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.6000000000000001,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 12.02550458908081,
+    "overall_score": 0.6183333333333334
+  },
+  {
+    "task_name": "add_enable_signal_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.3333333333333333,
+      "code_style": 0.4,
+      "robustness": 0.0,
+      "maintainability": 0.7,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing visitor class",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 7.153813600540161,
+    "overall_score": 0.40166666666666667
+  },
+  {
+    "task_name": "add_enable_signal_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.8333333333333333,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing error handling"
+    ],
+    "execution_time": 10.11112093925476,
+    "overall_score": 0.5516666666666666
+  },
+  {
+    "task_name": "array_base_type_change_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.3333333333333333,
+      "code_style": 0.4,
+      "robustness": 0.0,
+      "maintainability": 0.7,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing visitor class",
+      "Missing main transform function",
+      "Missing error handling",
+      "Missing proper file I/O"
+    ],
+    "execution_time": 7.992075204849243,
+    "overall_score": 0.43166666666666664
+  },
+  {
+    "task_name": "array_base_type_change_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 11.179348230361938,
+    "overall_score": 0.455
+  },
+  {
+    "task_name": "fsm_state_rename_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 0.7,
+      "innovation": 0.7,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing main transform function",
+      "Missing error handling",
+      "Missing proper file I/O"
+    ],
+    "execution_time": 11.73274540901184,
+    "overall_score": 0.575
+  },
+  {
+    "task_name": "fsm_state_rename_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 0.7,
+      "innovation": 0.7,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 14.566547870635986,
+    "overall_score": 0.44499999999999995
+  },
+  {
+    "task_name": "queue_mda_conversion_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.0,
+      "code_style": 0.4,
+      "robustness": 0.0,
+      "maintainability": 0.7,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing visitor class",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling",
+      "Missing proper file I/O",
+      "Missing command line interface"
+    ],
+    "execution_time": 12.270756721496582,
+    "overall_score": 0.365
+  },
+  {
+    "task_name": "queue_mda_conversion_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.16666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 0.6,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling",
+      "Missing proper file I/O",
+      "Missing command line interface"
+    ],
+    "execution_time": 50.76565933227539,
+    "overall_score": 0.3183333333333333
+  },
+  {
+    "task_name": "dynamic_mda_conversion_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 13.871395111083984,
+    "overall_score": 0.525
+  },
+  {
+    "task_name": "dynamic_mda_conversion_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.8333333333333333,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing error handling"
+    ],
+    "execution_time": 11.046912908554077,
+    "overall_score": 0.5516666666666666
+  },
+  {
+    "task_name": "associative_mda_conversion_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 0.6,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing error handling"
+    ],
+    "execution_time": 25.923828601837158,
+    "overall_score": 0.5183333333333333
+  },
+  {
+    "task_name": "associative_mda_conversion_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.7,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 9.49048924446106,
+    "overall_score": 0.5083333333333333
+  },
+  {
+    "task_name": "structure_type_conversion_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.3333333333333333,
+      "code_style": 0.4,
+      "robustness": 0.0,
+      "maintainability": 0.7,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing visitor class",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 9.166458368301392,
+    "overall_score": 0.40166666666666667
+  },
+  {
+    "task_name": "structure_type_conversion_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: unterminated string literal (detected at line 38) (<unknown>, line 38)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing proper return values",
+      "Missing error handling",
+      "Missing command line interface"
+    ],
+    "execution_time": 50.74871897697449,
+    "overall_score": 0.425
+  },
+  {
+    "task_name": "inside_op_coverage_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.16666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.6,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing visitor class",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling",
+      "Missing proper file I/O"
+    ],
+    "execution_time": 9.87691855430603,
+    "overall_score": 0.43833333333333335
+  },
+  {
+    "task_name": "inside_op_coverage_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 15.156406879425049,
+    "overall_score": 0.48833333333333334
+  },
+  {
+    "task_name": "inside_op_array_usage_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.16666666666666666,
+      "code_style": 1.0,
+      "robustness": 0.3,
+      "maintainability": 0.7,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling",
+      "Missing proper file I/O",
+      "Missing command line interface"
+    ],
+    "execution_time": 6.023619174957275,
+    "overall_score": 0.48833333333333334
+  },
+  {
+    "task_name": "inside_op_array_usage_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 0.6,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing proper return values",
+      "Missing error handling",
+      "Missing command line interface"
+    ],
+    "execution_time": 51.30484223365784,
+    "overall_score": 0.415
+  },
+  {
+    "task_name": "inside_op_context_scenarios_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 0.6,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 15.829872846603394,
+    "overall_score": 0.48833333333333334
+  },
+  {
+    "task_name": "inside_op_context_scenarios_rich",
+    "success": true,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.6000000000000001,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 7.5678651332855225,
+    "overall_score": 0.6183333333333334
+  },
+  {
+    "task_name": "inside_op_xmr_scenarios_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.16666666666666666,
+      "code_style": 0.4,
+      "robustness": 0.0,
+      "maintainability": 0.3,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing visitor class",
+      "Missing main transform function",
+      "Missing error handling",
+      "Missing proper file I/O",
+      "Missing command line interface"
+    ],
+    "execution_time": 5.289069414138794,
+    "overall_score": 0.32833333333333337
+  },
+  {
+    "task_name": "inside_op_xmr_scenarios_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.7,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 10.176581859588623,
+    "overall_score": 0.5383333333333333
+  },
+  {
+    "task_name": "inside_op_debug_scenarios_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.0,
+      "framework_compliance": 0.3333333333333333,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.6,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling",
+      "Missing proper file I/O"
+    ],
+    "execution_time": 34.19610095024109,
+    "overall_score": 0.4716666666666667
+  },
+  {
+    "task_name": "inside_op_debug_scenarios_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.8333333333333333,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 0.6,
+      "innovation": 0.6,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing error handling"
+    ],
+    "execution_time": 29.402410745620728,
+    "overall_score": 0.49166666666666664
+  },
+  {
+    "task_name": "inside_op_misc_scenarios_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 0.6,
+      "innovation": 0.6,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing AST visitor method",
+      "Missing proper node type checking",
+      "Missing main transform function",
+      "Missing error handling",
+      "Missing proper file I/O"
+    ],
+    "execution_time": 11.896893978118896,
+    "overall_score": 0.495
+  },
+  {
+    "task_name": "inside_op_misc_scenarios_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.4,
+      "framework_compliance": 0.6666666666666666,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 11.057320833206177,
+    "overall_score": 0.5183333333333333
+  },
+  {
+    "task_name": "mixed_mda_conversion_minimal",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 1.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.0,
+      "maintainability": 1.0,
+      "innovation": 0.5,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 11.629472017288208,
+    "overall_score": 0.525
+  },
+  {
+    "task_name": "mixed_mda_conversion_rich",
+    "success": false,
+    "scores": {
+      "syntactic_correctness": 0.0,
+      "semantic_correctness": 0.2,
+      "framework_compliance": 0.5,
+      "code_style": 0.7,
+      "robustness": 0.3,
+      "maintainability": 1.0,
+      "innovation": 0.7,
+      "functional_correctness": 0.5
+    },
+    "errors": [
+      "Syntax error: invalid syntax (<unknown>, line 1)",
+      "Missing PyVerilog parser import",
+      "Missing PyVerilog AST import",
+      "Missing proper node type checking",
+      "Missing regex transformations",
+      "Missing main transform function",
+      "Missing proper return values",
+      "Missing error handling"
+    ],
+    "execution_time": 9.28441834449768,
+    "overall_score": 0.475
+  }
+]

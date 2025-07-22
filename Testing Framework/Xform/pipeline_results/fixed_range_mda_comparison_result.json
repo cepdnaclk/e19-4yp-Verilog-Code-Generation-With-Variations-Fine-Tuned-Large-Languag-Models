@@ -1,0 +1,8 @@
+{
+  "task_name": "fixed_range_mda",
+  "generated_file": "7_range_output_f.v",
+  "ground_truth_file": "7_range_output.v",
+  "is_identical": false,
+  "pass_at_1": 0.0,
+  "errors": []
+}

@@ -1,0 +1,1220 @@
+"module","variant","status","score","code"
+"default_module","0","FAIL","0","module tb_8(s,ca,a,b);
+  input s,ca,a,b; output s,ca;
+  parameter max_delay=2;
+  localparam max_idx = max_delay-1;
+  ha_8 h1(.s(s[0]),.ca(ca[0]),.a(a[0]),.b(b[0]));
+  ha_8 h2(.s(s[1]),.ca(ca[1]),.a(a[1]),.b(b[1]));
+  ha_8 h3(.s(s[2]),.ca(ca[2]),.a(a[2]),.b(b[2]));
+  ha_8 h4(.s(s[3]),.ca(ca[3]),.a(a[3]),.b(b[3]));
+  ha_8 h5(.s(s[4]),.ca(ca[4]),.a(a[4]),.b(b[4]));
+  ha_8 h6(.s(s[5]),.ca(ca[5]),.a(a[5]),.b(b[5]));
+  ha_8 h7(.s(s[6]),.ca(ca[6]),.a(a[6]),.b(b[6]));
+  ha_8 h8(.s(s[7]),.ca(ca[7]),.a(a[7]),.b(b[7]));
+endmodule
+
+module tb_8(s,ca,a,b);
+  input s,ca,a,b; output s,ca;
+  parameter max_delay=2;
+  localparam max_idx = max_delay-1;
+  ha_8 h1(.s(s[0]),.ca(ca[0]),.a(a[0]),.b(b[0]));
+  ha_8 h2(.s(s[1]),.ca(ca[1]),.a(a[1]),.b(b[1]));
+  ha_8 h3(.s(s[2]),.ca(ca[2]),.a(a[2]),.b(b[2]));
+  ha_8 h4(.s(s[3]),.ca(ca[3]),.a(a[3]),.b(b[3]));
+  ha_8 h5(.s(s[4]),.ca(ca[4]),.a(a[4]),.b(b[4]));
+  ha_8 h6(.s(s[5]),.ca(ca[5]),.a(a[5]),.b(b[5]));
+  ha_8 h7(.s(s[6]),.ca(ca[6]),.a(a[6]),.b(b[6]));
+  ha_8 h8(.s(s[7]),.ca(ca[7]),.a(a[7]),.b(b[7]));
+endmodule
+### Original Code:
+module tb_8(s,ca,a,b);
+  input s,ca,a,b; output s,ca;
+  parameter max_delay=2;
+  localparam max_idx = max_delay-1;
+  ha_8 h1(.s(s[0]),.ca(ca[0]),.a(a[0]),.b(b[0]));
+  ha_8 h2(.s(s[1]),.ca(ca[1]),.a(a[1]),.b(b[1]));
+  ha_8 h3(.s(s[2]),.ca(ca[2]),.a(a[2]),.b(b[2]));
+  ha_8 h4(.s(s[3]),.ca(ca[3]),.a(a[3]),.b(b[3]));
+  ha_8 h5(.s(s[4]),.ca(ca[4]),.a(a[4]),.b(b[4]));
+  ha_8 h6(.s(s[5]),.ca(ca[5]),.a(a[5]),.b(b[5]));
+  ha_8 h7(.s(s[6]),.ca(ca[6]),.a(a[6]),.b(b[6]));
+  ha_8 h8(.s(s[7]),.ca(ca[7]),.a(a[7]),.b(b[7]));
+endmodule
+
+module tb_8(s,ca,a,b);
+  input s,ca,a,b; output s,ca;
+  parameter max_delay=2;
+  localparam max_idx = max_delay-1;
+  ha_8 h1(.s(s[0]),.ca(ca[0]),.a(a[0]),.b(b[0]));
+  ha_8 h2(.s(s[1]),.ca(ca[1]),.a(a[1]),.b(b[1]));
+  ha_8 h3(.s(s[2]),.ca(ca[2]),.a(a[2]),.b(b[2]));
+  ha_8 h4(.s(s[3]),.ca(ca[3]),.a(a[3]),.b(b[3]));
+  ha_8 h5(.s(s[4]),.ca(ca[4]),.a(a[4]),.b(b[4"
+"default_module","1","FAIL","0","`timescale 1ns/100ps
+module ShiftRegister8 (input sl, sr, clk, input [7:0] ParIn, input [1:0] m, output reg [7:0] ParOut);
+always @(negedge clk) begin
+    case({m}) inside {[0:0], [1:1], [2:2], [3:3]}: ParOut <= ParOut;
+    [1:2]: ParOut <= {ParOut[6:0], sr};
+    3: ParOut <= ParIn;
+    default: ParOut <= 8'bX;
+    endcase
+end
+endmodule
+### Code Differences:
+Inside operator is added to select packed vectors.
+Adding default case to handle unknown values."
+"default_module","2","FAIL","0","module example7_4(D, Clock, Q1, Q2);
+input D, Clock;
+output Q1, Q2;
+reg Q1, Q2;
+always @(posedge Clock)
+begin
+    Q1 <= D;
+    Q2 <= Q1;
+    int index = 0;
+    while (index < 2) begin
+        Q2[index] <= D;
+        index = index + 1;
+    end
+end
+endmodule"
+"default_module","3","FAIL","0","module FA;
+    input [3:0]a;
+    input [3:0]b;
+    output [3:0]c;
+endmodule
+
+module Ripple_Add;
+    FA fa0();
+    FA fa1();
+    FA fa2();
+    FA fa3();
+endmodule
+### Testcase:
+```
+
+#### Variation:
+```
+### Base Verilog Code:
+module FA;
+    input [3:0]a;
+    input [3:0]b;
+    output [3:0]c;
+endmodule
+
+module Rip"
+"default_module","4","FAIL","0","module jk(clk,clr,j,k,q,qbar); // JK flip-flop
+  output [0:1] q,qbar; // Vector output
+  input clk,clr,j,k;
+  supply0 a; // Ground
+  wire [0:1] q,qbar; // Vector output
+  pullup (q[1]); // Pullup on first bit
+  pullup (qbar[0]); // Pullup on fourth bit
+  wire d,c,dbar,cbar,s,r,qbarbar;
+  assign d = j & (~q[1]) | (~k & q[1]);
+  assign c = j & q[1] | (~k & qbar[0]);
+  assign dbar = ~d;
+  assign cbar = ~c;
+  nor3NMOS s1 (d,c,a,s);
+  nor3NMOS r1 (dbar,cbar,a,r);
+  nor3NMOS q1 (qbarbar,s,r,q[1]);
+  nor3NMOS q2 (r,qbar[0],s,q[0]);
+  nor3NMOS qbar1 (d,c,a,qbar[1]);
+  nor3NMOS qbar2 (d,cbar,a,qbar[0]);
+  assign qbarbar = ~q[1];
+
+  // Parallel NMOS transistors connect output to ground
+  nmos (q[1], a, r);
+  nmos (qbar[1], a, s);
+  nmos (qbar[0], a, r);
+  nmos (q[0], a, s);
+  pullup (q[1]); // Pullup device on the output
+endmodule
+### Translated Code:
+module jk(clk,clr,j,k,q,qbar); // JK flip-flop
+  output [0:1] q,qbar; // Vector output
+  input clk,clr,j,k;
+  supply0 a; // Ground
+  wire [0:1] q,qbar; // Vector output
+  pullup (q[1]); // Pullup on first bit
+  pullup (qbar[0]); // Pullup on fourth bit
+  wire d,c,dbar,cbar,s,r,qbarbar;
+  assign d = j & (~q[1]) | (~k & q[1]);
+  assign c = j & q[1] | (~k & qbar[0]);
+  assign dbar = ~d;
+  assign cbar = ~c;
+  nor3NMOS s1 (d,c,a,s);
+  nor3NMOS r1 (dbar,cbar,a,r);
+  nor3NMOS q1 (qbarbar,s,r,q[1]);
+  nor3NMOS q2 (r,qbar[0],s,q[0]);
+  nor3NMOS qbar1 (d,c,a,qbar[1]);
+  nor3NMOS qbar2 (d,cbar,a,qbar[0]);
+  assign qbarbar = ~q[1];
+
+  // Parallel NMOS transistors connect output to ground
+  nmos (q[1], a, r);
+  nmos (qbar[1], a, s);
+  nmos (qbar[0], a, r);
+  nmos (q[0], a, s);
+  pullup (q[1]); // Pullup device on the output
+endmodule"
+"default_module","5","FAIL","0","module test_k;
+wire q, clock, j, k, preset, clear;
+reg j, k;
+jkEdgeFF jk(q, clock, j, k, preset, clear);
+initial
+begin
+reset_ff;
+j = 1;
+k = 0;
+constant_array[100][100] = 6;
+end
+m555 timer(clock);
+endmodule
+### Constraints
+###### Clock
+* clock frequency: 1 KHz
+* clock period: 1000ps
+* clock transition: 500ps
+###### JK Flip Flops
+* inputs: j (positive edge), k (positive edge)
+* clear: 0 (negative edge)
+* preset: 0 (negative edge)
+###### m555 Timer
+* input: clock
+* output: clock
+### Expected Results
+* In the simulation, the output should follow the jk flip flop input j and k."
+"default_module","6","FAIL","0","module clock_gen_for2; // Renamed module for clarity
+  reg clk; // Define clock as a reg rather than ""wire""
+  initial
+  begin
+    for (int i = 0; i < 5; i = i + 1) // Create for loop for 5 iterations
+      #1 clk = ~clk; // Toggle clock
+  end
+  initial $monitor(""clk=%b, t=%0d"", clk,$time);
+endmodule
+### Exercise Instructions:
+Translate the C code from this section or this section to Verilog.
+
+### Example C Code:
+// Exercise 12.14
+// Generate 10 clock cycles and 10 enable cycles
+// 0 through 9
+void main()
+{
+  int i;
+  int clk = 0;
+  int en = 0;
+  int count = 10;
+  while (count--)
+  begin
+    i = count;
+    if (!(i % 2))
+      clk = ~clk;
+    if (!(i % 3))
+      en = ~en;
+    print(""clk = %b at %d enable = %b at %d\\n"",clk,i,en,i);
+  end
+}
+
+### Example Modified Code:
+module clock_gen_while; // Renamed module for clarity
+  reg clk, en;
+  initial
+  begin
+    int i = 0;
+    int clk = 0;
+    int en = 0;
+    int count = 10;
+    while (count--)
+    begin
+      i = count;
+      if (!(i % 2))
+        clk = ~clk;
+      if (!(i % 3))
+        en = ~en;
+      $display(""clk = %b at %d enable = %b at %d"",clk,i,en,i);
+    end
+  end
+endmodule
+### Exercise:
+Using the clock generation code from this section
+- Add a clock generation function that controls the wait statement.
+- Add a clock generation function that controls the forever loop.
+- Add a clock generation function that controls the for loop.
+- Add a clock generation function that controls the while loop.
+- Translate it from RTL to structural.
+- Add a clock enable signal, controlled by the for loop.
+- What happens with the simulation?"
+"default_module","7","FAIL","0","module contres(o,i1,i2);
+input i1,i2;
+output o;
+wire [1:0] m;
+buf[1:0] g1(m,{i1,i2}); // Drives pull '1', weak '0'
+assign o = m[0]|m[1];
+endmodule
+### New Verilog Code:
+module contres(o,i1,i2);
+input i1,i2;
+output o;
+// Drive wire 'o' from two buffers with specified output strengths
+buf(pull1, weak0) g1(o,i1); // Drives pull '1', weak '0'
+buf(pull1, weak0) g2(o,i2); // Drives pull '1', weak '0'
+// Resolution: 1,1->1; 1,0->1; 0,1->1; 0,0->0; 1,Z->1; 0,Z->X; Z,Z->Z
+// Effective behavior is OR due to pull1 dominance over weak0
+endmodule
+### Original Code:
+module contres(o,i1,i2);
+input i1,i2;
+output o;
+// Drive wire 'o' from two buffers with specified output strengths
+buf(pull1, weak0) g1(o,i1); // Drives pull '1', weak '0'
+buf(pull1, weak0) g2(o,i2); // Drives pull '1', weak '0'
+// Resolution: 1,1->1; 1,0->1; 0,1->1; 0,0->0; 1,Z->1; 0,Z->X; Z,Z->Z
+// Effective behavior is OR due to pull1 dominance over weak0
+endmodule
+### Old Verilog Code:
+module contres(o,i1,i2);
+input i1,i2;
+output o;
+// Drive wire 'o' from two buffers with specified output strengths
+buf(pull1, weak0) g1(o,i1); // Drives pull '1', weak '0'
+buf(pull1, weak0) g2(o,i2); // Drives pull '1', weak '0'
+// Resolution: 1,1->1; 1,0->1; 0,1->1; 0,0->0; 1,Z->1; 0,Z->X; Z,Z->Z
+// Effective behavior is OR due to pull1 dominance over weak0
+endmodule
+### Variation Comment:
+This variation instruction is not supported."
+"default_module","8","FAIL","0","if (i[0] == 0)
+    o=4'b0001;
+else if (i[0]==1)
+    o=4'b0010;
+else if (i[1] == 0)
+    o=4'b0100;
+else
+    o=4'b1000;
+### Result:
+![[Pasted image 20230221125204.png]]
+### Explanation:
+As you can see, the code now selects the correct output for each value of i."
+"default_module","9","FAIL","0","module pulses; // Incorrect pulse generation attempt
+  reg [9:0] I;
+  reg a,b;
+  initial
+    while (I<100) begin // Loop based on integer I
+      b = I[7:6]==2'b11;
+      I = I + 1;
+    end
+  initial I=0;
+  initial #100 $stop;
+endmodule
+### Explanation:
+Correcting this code fixes the error. To fix this error, we need to use inside with an array-slice range in a logic-vector array.
+### Results:
+In this code, we use inside with an array-slice range to access a bit inside the signal I. This causes the error as only a single bit can be accessed, so the second bit of the array index is ignored."
+"default_module","10","FAIL","0","module reg4(D, Clock, Resetn, Q);
+input [3:0] D;
+input Clock, Resetn;
+output [3:0] Q;
+reg [3:0] Q;
+always @(posedge Clock or negedge Resetn)
+    if (Resetn == 0)
+        Q <= 4'b0000;
+    else
+        begin
+            integer i;
+            for(i=0; i < 4; i=i+1)
+                Q[i] <= D[i];
+        end
+endmodule
+### Additional Code:
+module reg4(D, Clock, Resetn, Q);
+input [3:0] D;
+input Clock, Resetn;
+output [3:0] Q;
+reg [3:0] Q;
+always @(posedge Clock or negedge Resetn)
+    if (Resetn == 0)
+        Q <= 4'b0000;
+    else
+        Q <= D;
+endmodule"
+"default_module","11","FAIL","0","```
+logic [7:0] a;               // variable declaration
+logic [7:0] b;
+logic [7:0] c;
+  initial begin
+        a = {8{1'b0}};  // initialization of a
+        b = {8{1'b0}};  // initialization of b
+        c = {8{1'b1}};  // initialization of c
+    end
+```
+
+### Differences
+
+
+### Conclusion:
+
+
+
+### References:
+[1] [Verilog Initialization](https://verilog.as/2018/10/11/verilog-initializations.html)
+[2] [Verilog Initialization](https://www.doulos.com/knowhow/verilog/initialization/)
+[3] [Verilog Initialization](https://github.com/HandsOnOpenSource/Verilog-Coding-Standard/blob/master/Verilog%20Initialization.md)"
+"default_module","12","FAIL","0","module maj3 (a, b, c, y);
+input [3:0] a, b;
+wire  [3:0] c;
+output [3:0] y;
+reg [0:2] im;
+always @(*)
+    begin
+        #100ns im[0] = a;
+        #100ns im[1] = b;
+        #100ns im[2] = c[0];
+    end
+or #(3, 5) (y[0], im[0], im[1], im[2]);
+endmodule
+### Design Error:
+Testbench:
+module tb_maj3;
+reg clk;
+initial clk = 1'b0;
+always #30ns clk =!clk;
+wire [3:0] a, b;
+reg [3:0] c = 4'b0011;
+wire [3:0] y;
+maj3 DUT(a, b, c, y);
+initial begin
+    #0 a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+    #100ns a = 4'b1010;
+    #100ns b = 4'b1010;
+end
+endmodule"
+"default_module","13","FAIL","0","module tst_wand1; //testbench
+reg i1,i2;
+reg [0:1] o; // Added wire declaration
+wand1 ww(i1,i2,o);
+initial
+begin
+i1=0; i2=0; // Drv1=pull0, Drv2=pull0 -> o = pull0 (wand rule)
+end
+initial $monitor($time,""i1=%b,i2=%b,o=%b"",i1,i2,o);
+initial #8 $stop; // Added stop
+endmodule
+
+### Simulation Results:"
+"default_module","14","FAIL","0","module mux24 (
+input wire[23:0] in,
+input wire[4:0] s,
+output reg y // Output must be reg for procedural assignment
+);
+always @(*) // Combinational sensitivity
+case (s)
+5'b00000: y = in[0];
+5'b00001: y = in[1];
+5'b00010: y = in[2];
+5'b00011: y = in[3];
+5'b00100: y = in[4];
+5'b00101: y = in[5];
+5'b00110: y = in[6];
+5'b00111: y = in[7];
+5'b01000: y = in[8];
+5'b01001: y = in["
+"default_module","15","PASS","1","`timescale 1ns/100ps
+module ALU8 (input [7:0] left, right, input [1:0] mode, output reg [7:0] ALUout);
+always_comb begin
+    case (mode)
+        0: ALUout = left + right;
+        1: ALUout = left - right;
+        2: ALUout = left & right;
+        3: ALUout = left | right;
+        default: ALUout = 8'bX;
+    endcase
+end
+endmodule"
+"default_module","16","PASS","1","module mux24b(
+input wire [3:0] a,
+input wire [3:0] b,
+input wire s,
+output reg [3:0] y
+);
+   reg [3:0][3:0] array;
+   always @(*)
+   begin
+      if(s == 0)
+         y = a;
+      else
+         y = b;
+   end
+endmodule"
+"default_module","17","PASS","1","module mux41b (
+input wire [3:0] c,
+input wire [1:0] s,
+output wire z
+);
+assign z = c[s];
+endmodule"
+"default_module","18","PASS","1","`timescale 1ns/100ps
+module maj3_p (input a, b, c, output y);
+wire im1, im2, im3;
+parameter
+    tplh1=2, tphl1=4,
+    tplh2=3, tphl2=5;
+and #(tplh1, tphl1)
+    (im1, a, b),
+    (im2, b, c),
+    (im3, c, a);
+or #(tplh2, tphl2) (y, im1, im2, im3);
+endmodule"
+"default_module","19","FAIL","0","module counter (
+    input wire clk, rst,
+    output reg [3:0] count
+);
+reg [3:0] count_array [0:7];
+wire [3:0] result;
+initial result = count_array[0][1:0] | count_array[2][1:0] | count_array[4][1:0] | count_array[6][1:0] | count_array[0][3] | count_array[2][3] | count_array[4][3] | count_array[6][3];
+always @(posedge clk or posedge rst) begin
+    if (rst) count <= 4'b0000;
+    else count <= count + 1;
+end
+endmodule
+### Testbench Code:
+module tb_counter ();
+wire clk, rst;
+wire [3:0] count;
+counter counter_0(clk, rst, count);
+always #5 clk = ~clk;
+initial begin
+    $dumpfile(""dump.vcd"");
+    $dumpvars(0, tb_counter);
+    $monitor(""%b"", count);
+end
+initial begin
+    clk = 1'b0;
+    rst = 1'b1;
+    #10 rst = 1'b0;
+end
+endmodule"
+"default_module","20","FAIL","0","module Chap1Counter (Clk, Reset, Count);
+input Clk, Reset;
+output [3:0] Count;
+reg [3:0] Count;
+always @(posedge Clk) begin
+     if(Reset) Count = 0;
+     else Count = Count + 1;
+end
+assign Count[3:1] = {1'b1,Count[3:2]};
+endmodule
+### Variation Explanation:
+The procedural assignment within a final block causes a synthesis error."
+"default_module","21","FAIL","0","module tst_nm_in();
+  reg in; wire out;
+  NMOSinv nmv(out,in); // Instantiate NMOS inverter
+  initial
+  begin   
+    in =1'b1; // Start with input high -> output low
+  end
+/*
+  always @(in) 
+  begin
+    case(in)
+      1'b0:  in =1'b1;
+      1'b1:  in =1'b0;
+    endcase
+  end
+  */
+  always
+    #10 in =1'b1; // Repeat this every 10 units of time
+  always
+  initial 
+    $monitor($time, "" in = %b, output = %b "",in,out);
+  initial 
+  #15 $stop; // Stop simulation
+endmodule
+### Simulation Result:
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+Time  in  = 1, output = 0
+### Analysis:
+The code runs as expected, but with the case statement I see that the logic in the inverter is reversed.  
+After the first iteration which is in = 1, out = 0, I see that the first iteration where in =1, out = 0 then in =0, out =1.  The second iteration is in = 0, out = 1, then in =1, out = 0. This is not what I want, I want to create a delay after the first iteration to see the next iteration's change, so at least one more iteration of the case statement is needed.  
+The always statement runs every 10 time units which is the time needed to change the input, but the if statement is only triggered by changes in the input and doesn't run before the first 10 time units which means the output doesn't change for 10 time units.
+### Fix:
+Replace the always statement with an if statement to trigger on changes in the input.  This will run the code once, then run it continuously until the simulation is stopped."
+"default_module","22","FAIL","0","module nil;
+reg [3:0] a, b;
+always @(a[2]) begin
+if (a[2]) b = 4'b1000;
+else b = 4'b0100;
+end
+initial
+begin
+a = 4'b1010;
+$display (""t=%0t display: a = %b, b = %b"", $time, a, b); // Added time
+end
+initial
+$monitor(""t=%0t monitor: a = %b, b = %b"", $time, a, b);
+// Monitor triggers at t=0, t=1, t=2, t=3
+endmodule
+### Test Scenarios:
+#### Test Scenario 1:
+#### Test Scenario 2:
+### Results:
+#### Results 1:
+#### Results 2:"
+"default_module","23","FAIL","0","module RAM (output[7:0] Obus, input[7:0] Ibus, input[3:0] Adr, input Clk, Read);
+reg[7:0] Storage[15:0];
+reg[7:0] ObusReg;
+assign #1 Obus = ObusReg;
+always @(posedge Clk)
+if (Read==1'b0)
+    Storage[Adr] <= Ibus;
+else begin
+    integer i, idx;
+    idx = Adr;
+    while (1) begin
+        if (idx > -1 && idx < 16)
+            ObusReg <= Storage[idx];
+        break;
+    end
+end
+endmodule
+###"
+"default_module","24","FAIL","0","module tst_dff_p_c();
+  reg di,clk; wire do;
+  dff_p d1(do,di,clk);
+  initial begin clk=0; di=1'b0; #35 $stop; end
+  always #3 clk=~clk;
+  always #5 di=~di;
+  initial begin $display (""%m: Top-level testbench module"");
+    $monitor($time,"" clk=%b, di=%b, do=%b"",clk,di,do);
+    $monitor($time,"" clk=%b, di=%b, do=%b"",clk,di,do);
+  end
+endmodule"
+"default_module","25","FAIL","0","module example7_5(x1, x2, x3, Clock, f, g);
+input x1, x2, x3, Clock;
+output f, g;
+reg f, g;
+always @(posedge Clock)
+begin
+    f = x1 & x2;
+    g = f | x3;
+    case (i)
+        1 : f = x1 & x2;
+        2 : g = f | x3;
+    endcase
+end
+endmodule"
+"default_module","26","FAIL","0","module example16(clk, rst, q);
+input clk, rst;
+output"
+"default_module","27","FAIL","0","module aoi_gate(o,a1,a2,b1,b2);
+  //input a1,a2,b1,b2;// a1,a2,b1,b2 form the input ports of the module
+  //output o;//o is the single output port of the module
+  //wire o1,o2;//o1 and o2 are intermediate signals within the module
+  //and g1(o1,a1,a2); //The AND gate primitive has two instantiations with assigned names g1 & g2.
+  //nor g3(o,o1,o2);//The nor gate has one instantiation with assigned name g3.
+
+  //packed array
+  logic [31:0] arr[10];
+  //assigning values to packed array
+  initial begin
+    arr[3] = 32'd10;
+    arr[7] = 32'd11;
+    arr[2] = 32'd20;
+    arr[5] = 32'd21;
+    arr[6] = 32'd22;
+    arr[0] = 32'd23;
+  end
+
+  logic [31:0] arr1[10];
+
+  //assigning values to packed array
+  initial begin
+    arr1[3] = 32'd10;
+    arr1[7] = 32'd11;
+    arr1[2] = 32'd20;
+    arr1[5] = 32'd21;
+    arr1[6] = 32'd22;
+    arr1[0] = 32'd23;
+  end
+
+  logic [31:0] arr2[10];
+
+  //assigning values to packed array
+  initial begin
+    arr2[3] = 32'd10;
+    arr2[7] = 32'd11;
+    arr2[2] = 32'd20;
+    arr2[5] = 32'd21;
+    arr2[6] = 32'd22;
+    arr2[0] = 32'd23;
+  end
+
+  logic [31:0] arr3[10];
+
+  //assigning values to packed array
+  initial begin
+    arr3[3] = 32'd10;
+    arr3[7] = 32'd11;
+    arr3[2] = 32'd20;
+    arr3[5] = 32'd21;
+    arr3[6] = 32'd22;
+    arr3[0] = 32'd23;
+  end
+
+  logic [31:0] arr4[10];
+
+  //assigning values to packed array
+  initial begin
+    arr4[3] = 32'd10;
+    arr4[7] = 32'd11;
+    arr4[2] = 32'd20;
+    arr4[5] = 32'd21;
+    arr4[6] = 32'd22;
+    arr4[0] = 32'd23;
+  end
+
+  logic [31:0] arr5[10];
+
+  //assigning values to packed array
+  initial begin
+    arr5[3] = 32'd10;
+    arr5[7] = 32'd11;
+    arr5[2] = 32'd20;
+    arr5[5] = 32'd21;
+    arr5[6] = 32'd22;
+    arr5[0] = 32'd23;
+  end
+
+  logic [31:0] arr6[10];
+
+  //assigning values to packed array
+  initial begin
+    arr6[3] = 32'd10;
+    arr6[7] = 32'd11;
+    arr6[2] = 32'd20;
+    arr6[5] = 32'd21;
+    arr6[6] = 32'd22;
+    arr6[0] = 32'd23;
+  end
+
+  logic [31:0] arr7[10];
+
+  //assigning values to packed array
+  initial begin
+    arr7[3] = 32'd10;
+    arr7[7] = 32'd11;
+    arr7[2] = 32'd20;
+    arr7[5] = 32'd21;
+    arr7[6] = 32'd22;
+    arr7[0] = 32'd23;
+  end
+
+  logic [31:0] arr8[10];
+
+  //assigning values to packed array
+  initial begin
+    arr8[3] = 32'd10;
+    arr8[7] = 32'd11;
+    arr8[2] = 32'd20;
+    arr8[5] = 32'd21;
+    arr8[6] = 32'd22;
+    arr8[0] = 32'd23;
+  end
+
+  logic [31:0] arr9[10];
+
+  //assigning values to packed array
+  initial begin
+    arr9[3] = 32'd10;
+    arr9[7] = 32'd11;
+    arr9[2] = 32'd20;
+    arr9[5] = 32'd21;
+    arr9[6] = 32'd22;
+    arr9[0] = 32'd23;
+  end
+
+  logic [31:0] arr10[10];
+
+  //assigning values to packed array
+  initial begin
+    arr10[3] = 32'd10;
+    arr10[7] = 32'd11;
+    arr10[2] = 32'd20;
+    arr10[5] = 32'd21;
+    arr10[6] = 32'd22;
+    arr10[0] = 32'd23;
+  end
+
+  logic [31:0] arr11[10];
+
+  //assigning values to packed array
+  initial begin
+    arr11[3] = 32'd10;
+    arr11[7] = 32'd11;
+    arr11[2] = 32'd20;
+    arr11[5] = 32'd21;
+    arr11[6] = 32'd22;
+    arr11[0] = 32'd23;
+  end
+
+  logic [31:0] arr12[10];
+
+  //assigning values to packed array
+  initial begin
+    arr12[3] = 32'd10;
+    arr12[7] = 32'd11;
+    arr12[2] = 32'd20;
+    arr12[5] = 32'd21;
+    arr12[6] = 32'd22;
+    arr12[0] = 32'd23;
+  end
+
+  logic [31:0] arr13[10];
+
+  //assigning values to packed array
+  initial begin
+    arr13[3] = 32'd10;
+    arr13[7] = 32'd11;
+    arr13[2] = 32'd20;
+    arr13[5] = 32'd21;
+    arr13[6] = 32'd22;
+    arr13[0] = 32'd23;
+  end
+
+  logic [31:0] arr14[10];
+
+  //assigning values to packed array
+  initial begin
+    arr14[3] = 32'd10;
+    arr14[7] = 32'd11;
+    arr14[2] = 32'd20;
+    arr14[5] = 32'd21;
+    arr14[6] = 32'd22;
+    arr14[0] = 32'd23;
+  end
+
+  logic [31:0] arr15["
+"default_module","28","FAIL","0","module aoi22beh(o,a,b); // Mixed initial procedural behavioral AOI
+output o;
+input[1:0]a,b;
+assign o = ~(a[1:0] || b[1:0]);
+
+endmodule"
+"default_module","29","FAIL","0","module muxdff(D0, D1, Sel, Clock, Q);
+input D0, D1, Sel, Clock;
+output Q;
+reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D0;
+    else
+        Q <= D1;
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module muxdff(D[0], D[1], Sel, Clock, Q);
+input [1:0] D;
+input Sel, Clock;
+output reg Q;
+always @(posedge Clock)
+    if (!Sel)
+        Q <= D[0];
+    else
+        Q <= D[1];
+endmodule
+
+module m"
+"default_module","30","PASS","1","module dff_with_reset(data, clock, r, out);
+input clock, r, data;
+output out;
+reg out;
+always @(posedge clock or posedge r)
+begin
+if (r)
+out = 0;
+else
+begin
+if (data inside {0, 1})
+out = data;
+end
+end
+endmodule"
+"default_module","31","FAIL","0","module EventCtlPart (output xPart, yPart, input a, b, c);
+reg xReg, yReg;
+assign xPart = xReg;
+assign yPart = yReg;
+always @(a, b)
+begin: PartList
+    xReg <= a && b && c;
+    yReg <= (b || c) ^ a;
+end
+endmodule"
+"default_module","32","FAIL","0","module dff(do,di,clk); // Data Flip-Flop
+output reg do;
+input di,clk;
+initial
+do=1'b0;
+always@(posedge clk) // Positive clock edge
+begin
+case({di}) inside
+{[0 : 0] : 1'b1} : do = 1'b1;
+default : do = 1'b0;
+endcase
+end
+endmodule
+### Verilog Code:
+// Toggle D 3 Times
+module dff(do,di,clk); // Data Flip-Flop
+output do;
+input di,clk;
+reg do; // Output must be reg for procedural assignment
+initial
+do=1'b0; // Initialize output
+always@(posedge clk) // Positive clock edge
+begin
+do = di;
+end
+endmodule"
+"default_module","33","FAIL","0","module tst_CMOSsw1();
+  reg in,con; wire out;
+  CMOSsw1 cmsw(out,in,con); // Instantiate CMOS switch
+  initial begin in=1'b0; con=1'b1; end // Start enabled
+  always #5 in =~in; // Toggle data
+  always #3 con=~con; // Toggle control
+  initial $monitor($time, ""in = %b, con = %b, output = %b "",in,con,out);
+  initial #20 $stop; // Stop simulation
+endmodule"
+"default_module","34","FAIL","0","module gates4_top (
+input wire [3:0] sw,
+output wire [2:0] ld
+);
+gates4 U1 // Assuming 'gates4' provides and4_, or4_, xor4_ outputs from input 'x'
+(
+.x(sw),
+.and4_(ld[2]),
+.or4_(ld[1]),
+.xor4_(ld[0])
+);
+endmodule"

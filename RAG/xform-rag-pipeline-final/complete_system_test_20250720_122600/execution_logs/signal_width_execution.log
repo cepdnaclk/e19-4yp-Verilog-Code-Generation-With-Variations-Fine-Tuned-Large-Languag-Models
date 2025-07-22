@@ -1,0 +1,7 @@
+Command: D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\venv\Scripts\python.exe D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122600\fixed_transformations\signal_width_fixed.py D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122600\test_verilog_input\signal_processor.v D:\Projects\FYP\Repo\e19-4yp-Verilog-Code-Generation-With-Variations-Fine-Tuned-Large-Languag-Models\RAG\xform-rag-pipeline-final\complete_system_test_20250720_122600\test_verilog_output\signal_width_signal_processor_output.v --signal buffer_signal --width 16
+Return Code: 0
+STDOUT:
+Template transformation for signal_width
+
+STDERR:
+

@@ -1,0 +1,39 @@
+Prompt 1: Fixed range array in `medium_fifo.v`
+Command: python3 7_xform_range_mda.py medium_fifo.v medium_codes/1_medium_fifo_range.v --signal mem --ranges 7:0 0:3
+Description: Explicitly declares the `mem` array with fixed ranges `[7:0][0:3]`, reinforcing its current structure.
+
+Prompt 2: Dynamic array in `medium_fifo.v`
+Command: python3 8_xform_dynamic_mda.py medium_fifo.v medium_codes/2_medium_fifo_dynamic.v --signal mem --dimensions 2
+Description: Converts `mem` to a dynamic array with two dimensions (e.g., `reg [7:0] mem[][]`), enabling runtime resizing.
+
+Prompt 3: Queue array in `medium_array_proc.v`
+Command: python3 9_xform_queue_mda.py medium_array_proc.v medium_codes/3_medium_array_proc_queue.v --signal data_array --dimensions 1 --bounded --bound-size 8
+Description: Changes `data_array` to a bounded queue (`reg [7:0] data_array[$:7]`) with a maximum size of 8.
+
+Prompt 4: Associative array in `medium_array_proc.v`
+Command: python3 11_xform_associative_mda.py medium_array_proc.v medium_codes/4_medium_array_proc_assoc.v --signal data_array --key-type int
+Description: Converts `data_array` to an associative array with integer keys (e.g., `reg [7:0] data_array[int]`).
+
+Prompt 5: Mixed array in `medium_shift_matrix.v`
+Command: python3 15_xform_mixed_mda.py medium_shift_matrix.v medium_codes/5_medium_shift_matrix_mixed.v --signal matrix --mda-spec fixed:3:0 assoc:integer queue
+Description: Transforms `matrix` to a mixed array with fixed, associative, and queue dimensions (e.g., `reg [3:0] matrix[3:0][integer][$]`).
+
+Prompt 6: Associative array key type in `medium_shift_matrix.v`
+Command: python3 16_xform_associative_mda_key_type.py medium_shift_matrix.v medium_codes/6_medium_shift_matrix_assoc_key.v --signal matrix --key-type integer
+Description: Changes `matrix` to an associative array with integer keys (e.g., `reg [3:0] matrix[integer][0:3]`).
+
+Prompt 7: Array base type in `medium_counter_array.v`
+Command: python3 17_xform_array_base_type.py medium_counter_array.v medium_codes/7_medium_counter_array_base.v --signal counters --base-type int
+Description: Changes `counters` base type to `int` (e.g., `int counters[0:7]`), using SystemVerilog’s 32-bit integer.
+
+Prompt 8: Structure type in `medium_counter_array.v`
+Command: python3 18_xform_structure_type.py medium_counter_array.v medium_codes/8_medium_counter_array_struct.v --signal counters --struct-type packed
+Description: Converts `counters` to a packed struct (e.g., `struct packed { logic [7:0] value; } counters[0:7]`).
+
+Prompt 9: Inside operator with array in `medium_data_buffer.v`
+Command: python3 19_xform_inside_op_array.py medium_data_buffer.v medium_codes/9_medium_data_buffer_inside_array.v --signal buffer --test-type array_slice
+Description: Adds an `inside` operator test for a slice of `buffer` (e.g., `buffer[0][3:0] inside {value_set}`).
+
+Prompt 10: Inside operator with context in `medium_data_buffer.v`
+Command: python3 20_xform_inside_op_context.py medium_data_buffer.v medium_codes/10_medium_data_buffer_inside_context.v --signal buffer --context if_statement
+Description: Adds an `inside` operator test for `buffer` in an `if` statement (e.g., `if (buffer[ptr] inside {value_set})`).

@@ -1,0 +1,4 @@
+Test: port_addition
+Description: Add a new input port called debug_enable to a Verilog module
+Error: Missing some input keys: {'e'}
+Timestamp: 2025-07-19T13:57:29.096898

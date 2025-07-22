@@ -1,0 +1,5 @@
+timestamp: 2025-07-19T13:55:45.090952
+test_type: Priority 1 Enhanced RAG Pipeline
+embedding_model: microsoft/codebert-base (with fallback)
+model_type: ollama
+model_name: codellama

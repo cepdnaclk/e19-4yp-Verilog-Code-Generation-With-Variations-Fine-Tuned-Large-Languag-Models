@@ -1,0 +1,1279 @@
+- code: |-
+    ```
+    module tst_or_gate();
+    reg[3:0]a;
+    reg en;
+    wire b;
+    wire[3:0]array;
+    or_gate gg(b,a,en);
+    initial
+    begin
+    a = 4'h0; // Initialize input
+    en = 1'b0; // Initialize enable
+    end
+    initial begin // Stimulus generation
+    end
+    initial #10 array [7:4] = 4'h0;
+    initial $monitor("t=%0d, en = %b, a = %h, b = %b",$time,en,a,b); // Use %h for hex 'a'
+    initial #30 $stop; // Stop simulation
+    endmodule
+    ```
+- code: |-
+    @gen_block1
+    module NOR5(
+- code: |-
+    module test_multiplier;
+    reg clk; // Added clk initialization
+    wire [7:0] databus;
+    wire lsb_out, msb_out, done;
+    reg [7:0] mem1[0:2], mem2[0:2]; // Memory for operands
+    reg [7:0] im_data; // Data to drive onto bus
+    reg [7:0] opnd1, opnd2; // Operands
+    reg [15:0] expected_result, multiplier_result; // Results
+    integer indx; // Loop index
+    // Instantiate the Multiplier Unit Under Test
+    Multiplier uut ( clk, start, databus, lsb_out, msb_out, done );
+    // --- Placeholder blocks referenced by Figure numbers ---
+    initial begin: Apply_Data /*... Figure 8.11... */
+        mem2 = '{8'd0, 8'd1, 8'd2};
+        for (indx = 0; indx < 3; indx = indx + 1)
+            mem1[indx] = indx;
+
+        for (indx = 0; indx < 3; indx = indx + 1)
+            mem1[indx] = mem1[indx] + mem2[indx];
+    end
+    initial begin: Apply_Start /*... Figure 8.12... */ end
+    initial begin: Expected_Result /*... Figure 8.13... */ end
+    always @(posedge clk)
+    begin: Actual_Result /*... Figure 8.14... */ end
+    always @(posedge clk)
+    begin: Compare_Results /*... Figure 8.15... */ end
+    // --- Clock generation ---
+    always #50 clk = ~clk;
+    // --- Data bus driving ---
+    assign databus = im_data; // Drive internal data onto bus
+    endmodule
+    ### Expected Output:
+- code: "```\npackage Prob_6_7_defs;\nconst reg [3: 0] INSIDE_THREE_ZEROS = {3'b000,\
+    \ 1'b0};\nendpackage\nmodule Prob_6_7_Mealy (Detect_Mealy, D_in, clk, rst);\n\
+    // Mealy nonresetting sequence detector\noutput Detect_Mealy;\ninput D_in, clk,\
+    \ rst;\nparameter S_0 = 0, S_1 = 1, S_2 = 2, S_3 = 3, S_4 = 4;\nparameter S_5\
+    \ = 5, S_6 = 6, S_7 = 7, S_8 = 8;\nreg [3: 0] state_Mealy, next_state;\nwire inside_three_zeros\
+    \ = |(state_Mealy & Prob_6_7_defs::INSIDE_THREE_ZEROS);\nwire Detect_Mealy = ((state_Mealy\
+    \ == S_IN_THREE_ZEROS) || (state_Mealy == S_8));\nalways @ (posedge clk) if (rst)\
+    \ state_Mealy <= S_0; else state_Mealy <= next_state;\nalways @ (state_Mealy,\
+    \ D_in) begin\nnext_state = S_0;\ncase (state_Mealy)\nS_0: if (D_in) next_state\
+    \ = S_1; else if (D_in == 0) next_state = S_5;\nS_1: if (D_in) next_state = S_2;\
+    \ else if (D_in == 0) next_state = S_5;\nS_2: if (D_in) next_state = S_3; else\
+    \ if (D_in == 0) next_state = S_5;\nS_3: if (D_in) next_state = S_3; else if (D_in\
+    \ == 0) next_state = S_4;\nS_4: if (D_in) next_state = S_1; else if (D_in == 0)\
+    \ next_state = S_6;\nS_5: if (D_in) next_state = S_1; else if (D_in == 0) next_state\
+    \ = S_6;\nS_6: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_7;\n\
+    S_7: if (D_in) next_state = S_8; else if (D_in == 0) next_state = S_7;\nS_8: if\
+    \ (D_in) next_state = S_1; else if (D_in == 0) next_state = S_6;\ndefault: next_state\
+    \ = S_0;\nendcase\nend\nendmodule\n```\nThis version of the sequence detector\
+    \ was tested with the testbench provided in the previous version. The sequences\
+    \ \n### 57(0,1,0,1,0"
+- code: |-
+    module tst_ctr_wt;
+    reg clk,En;
+    reg[3:0]N;
+    wire[3:0]a;
+    ctr_wt c1(a,clk,N,En);
+    initial
+    begin
+    clk=0; N=4'b1111; // Set limit to 15
+    En=1'b0; // Start disabled
+    end
+    always
+    initial #35 $stop; // Stop simulation
+    initial $monitor($time,"clk=%b, En=%b, N=%d, a=%d",clk,En,N,a); // Corrected format specifiers
+    endmodule
+- code: |-
+    class mealy;
+        parameter A = 0,
+                    B = 1;
+        randc bit [(A+1)] y;
+        bit z;
+        bit [0:0] w;
+        bit X;
+        constraint w_c {
+            w[0] inside {0, 1};
+        }
+        constraint y_c {
+            y == A;
+            y[0] == A;
+            y[1] == B;
+        }
+        task transition();
+            X = y;
+            z = w;
+            case (y)
+                A: if (w)
+                    begin
+                        X = B;
+                        z = 0;
+                    end
+                else
+                    begin
+                        X = A;
+                        z = 0;
+                    end
+                B: if (w)
+                    begin
+                        X = B;
+                        z = 1;
+                    end
+                else
+                    begin
+                        X = A;
+                        z = 0;
+                    end
+            endcase
+            y = X;
+        endtask
+    endclass
+
+    module mealy(Clock, Resetn, w, z);
+    input Clock, Resetn, w [0:0];
+    output reg z;
+    mealy mealy_inst ();
+    initial
+        begin
+            mealy_inst.y[0] = mealy_inst.A;
+            mealy_inst.y[1] = mealy_inst.B;
+            mealy_inst.z = 0;
+        end
+    always @ (posedge Clock)
+        begin
+            mealy_inst.w = w;
+            mealy_inst.transition();
+            z = mealy_inst.z;
+        end
+    endmodule
+- code: |-
+    module mux4to1(w0, w1, w2, w3, S, f);
+    input w0, w1, w2, w3;
+    input [1:0] S;
+    output f;
+    reg f;
+    logic [1:0] const_array[3:0];
+    assign const_array = {2'b00, 2'b01, 2'b10, 2'b11};
+    always @(w0 or w1 or w2 or w3 or S)
+        if (~w0 & (S == const_array[0]))
+            f = w0;
+        else if (~w1 & (S == const_array[1]))
+            f = w1;
+        else if (~w2 & (S == const_array[2]))
+            f = w2;
+        else if (~w3 & (S == const_array[3]))
+            f = w3;
+    endmodule
+    ### Testbench:
+    module testbench;
+    reg w0, w1, w2, w3;
+    reg [1:0] S;
+    wire f;
+    mux4to1 dut(w0, w1, w2, w3, S, f);
+    integer i, j;
+    initial begin
+        for (i = 0; i < 2; i++) begin
+            w0 = 1'b1;
+            w1 = 1'b0;
+            w2 = 1'b0;
+            w3 = 1'b0;
+            S = i;
+            #1 us;
+        end
+        for (i = 0; i < 2; i++) begin
+            w0 = 1'b0;
+            w1 = 1'b1;
+            w2 = 1'b0;
+            w3 = 1'b0;
+            S = i;
+            #1 us;
+        end
+        for (i = 0; i < 2; i++) begin
+            w0 = 1'b0;
+            w1 = 1'b0;
+            w2 = 1'b1;
+            w3 = 1'b0;
+            S = i;
+            #1 us;
+        end
+        for (i = 0; i < 2; i++) begin
+            w0 = 1'b0;
+            w1 = 1'b0;
+            w2 = 1'b0;
+            w3 = 1'b1;
+            S = i;
+            #1 us;
+        end
+    end
+    endmodule
+    ### Notes:
+    - This approach may not be applicable to some cases. For example, if the inputs are of different widths.
+    - This approach has been tested on Vivado 2021.1. In this case, a warning message is generated because the multiplexer's sensitivity list is empty.
+    - The `const_array` constant-packed array is declared at module-scope to avoid the use of `replicate`.
+    ### References:
+    - [Vivado User Guide - Lattice Edition - 2021.1 - 2021.1 - 2021.1](https://www.xilinx.com/support/documentation/sw_manuals/vivado/2021_1/ug907-vivado-logic-synthesis.pdf#page=220)
+    - [Verilog Tutorials - Using the `inside` operator in Verilog](https://www.verilogtutor.com/verilog/verilog-tutorial-using-the-inside-operator-in-verilog/)
+    - [Verilog Tutorials - Multiplexers](https://www.verilogtutor.com/verilog/verilog-tutorial-multiplexers/)
+- code: |-
+    module alu(s, A, B, F);
+    input [2:0] s;
+    input [3:0] A, B;
+    output [3:0] F;
+    reg [3:0] F;
+    wire [1:0] inside = {{2{1'b1}}, {1{1'b0}}};
+
+    always @(s or A or B)
+        case (s)
+            0: F = 4'b0000;
+            1: F = B - A;
+            2: F = A - B;
+            3: F = A + B;
+            4: F = A ^ B;
+            5: F = A | B;
+            6: F = A & B;
+            7: F = (A[1:0] inside); // indexed part select on operand A
+        endcase
+    endmodule
+- code: |-
+    ```
+    module Johnson_Counter (count, enable, clock, reset);
+    output [3: 0] count;
+    input enable;
+    input clock, reset;
+    reg [3: 0] count;
+    always @ (posedge clock, posedge reset)
+    if (reset == 1) count <= 0;
+    else if (enable)
+    case (count)
+    4'b0000,
+    4'b0001,
+    4'b0011,
+    4'b0111: count <= {count[2: 0], 1'b1};
+    4'b1111,
+    4'b1110,
+    4'b1100,
+    4'b1000: count <= {count[2: 0], 1'b0};
+    default: count <= 0;
+    endcase
+    endmodule
+
+    module t_Johnson_Counter ();
+    wire [3: 0] count;
+    reg enable;
+    reg clock, reset;
+    Johnson_Counter M0 (count, enable, clock, reset);
+
+    parameter N = 4;
+    parameter X = 6;
+    localparam MAT [X] = '{0, 1, 3, 7, 15, 31};
+
+    generate
+       for (i = 0; i < X; ++i)
+          always @ (posedge clock) begin
+             if (MAT[i] == count)
+                enable = 1;
+             else
+                enable = 0;
+          end
+    endgenerate
+
+    initial #500 $finish;
+    initial begin clock = 0; forever #5 clock = ~clock; end
+    initial fork
+    join
+    endmodule
+    ```
+    ### Modified Testbench Code:
+
+    module Johnson_Counter (count, enable, clock, reset);
+    output [3: 0] count;
+    input enable;
+    input clock, reset;
+    reg [3: 0] count;
+    always @ (posedge clock, posedge reset)
+    if (reset == 1) count <= 0;
+    else if (enable)
+    case (count)
+    4'b0000,
+    4'b0001,
+    4'b0011,
+    4'b0111: count <= {count[2: 0], 1'b1};
+    4'b1111,
+    4'b1110,
+    4'b1100,
+    4'b1000: count <= {count[2: 0], 1'b0};
+    default: count <= 0;
+    endcase
+    endmodule
+
+    module t_Johnson_Counter ();
+    wire [3: 0] count;
+    reg enable;
+    reg clock, reset;
+    Johnson_Counter M0 (count, enable, clock, reset);
+
+    parameter N = 4;
+    parameter X = 6;
+    localparam MAT [X] = '{0, 1, 3, 7, 15, 31};
+
+    generate
+       for (i = 0; i < X; ++i)
+          always @ (posedge clock) begin
+             if (MAT[i] == count)
+                enable = 1;
+             else
+                enable = 0;
+          end
+    endgenerate
+
+    initial #500 $finish;
+    initial begin clock = 0; forever #5 clock = ~clock; end
+    initial fork
+    join
+    endmodule
+    ### Verilog Code:
+    ```
+    module Johnson_Counter (count, enable, clock, reset);
+    output [3: 0] count;
+    input enable;
+    input clock, reset;
+    reg [3: 0] count;
+    always @ (posedge clock, posedge reset)
+    if (reset == 1) count <= 0;
+    else if (enable)
+    case (count)
+    4'b0000,
+    4'b0001,
+    4'b0011,
+    4'b0111: count <= {count[2: 0], 1'b1};
+    4'b1111,
+    4'b1110,
+    4'b1100,
+    4'b1000: count <= {count[2: 0], 1'b0};
+    default: count <= 0;
+    endcase
+    endmodule
+
+    module t_Johnson_Counter ();
+    wire [3: 0] count;
+    reg enable;
+    reg clock, reset;
+    Johnson_Counter M0 (count, enable, clock, reset);
+    parameter N = 4;
+    parameter X = 6;
+    localparam MAT [X] = '{0, 1, 3, 7, 15, 31};
+
+    generate
+       for (i = 0; i < X; ++i)
+          always @ (posedge clock) begin
+             if (MAT[i] == count)
+                enable = 1;
+             else
+                enable = 0;
+          end
+    endgenerate
+
+    initial #500 $finish;
+    initial begin clock = 0; forever #5 clock = ~clock; end
+    initial fork
+    join
+    endmodule
+    ```
+- code: |-
+    module mltp_a(a1,a0,b1,b0,c1,c2,c3,c4); // PLA based 2x2 multiplier
+      input a1,a0,b1,b0; output c1,c2,c3,c4;
+      // Declare storage for and plane and or plane
+      reg[1:4] mand[1:9]; // and plane inputs (4 bits wide, 9 product terms)
+      reg[1:9] mor[1:4]; // or plane inputs (9 bits wide, 4 outputs)
+      reg p1,p2,p3,p4,p5,p6,p7,p8,p9; // product terms
+      reg c1,c2,c3,c4; // outputs must be reg for procedural assignment
+      initial begin
+        // define and plane connections (input -> product term)
+        mand[1]=4'b1010; mand[2]=4'b0110; mand[3]=4'b1110; mand[4]=4'b1001;
+        mand[5]=4'b0101; mand[6]=4'b1101; mand[7]=4'b1011; mand[8]=4'b0111;
+        mand[9]=4'b1111;
+        // define or plane connections (product term -> output)
+        // format: 9 bits for p1-p9 connections for each output c1-c4
+        mor[1]=9'b101000101; // connections for c1
+        mor[2]=9'b011101110; // connections for c2
+        mor[3]=9'b000011010; // connections for c3
+        mor[4]=9'b000000001; // connections for c4
+        // instantiate PLA using system tasks
+        mltp_b(p1,p2,p3,p4,p5,p6,p7,p8,p9);
+        $async$and$array(mand, {b1,b0,a1,a0}, {p1,p2,p3,p4,p5,p6,p7,p8,p9}); // corrected input order?
+        $async$or$array(mor, {p1,p2,p3,p4,p5,p6,p7,p8,p9}, {c4,c3,c2,c1}); // corrected output order?
+      end
+    endmodule
+    // Function that implements AND plane of mltp_a PLA
+    function void mltp_b(output p1,p2,p3,p4,p5,p6,p7,p8,p9);
+      input a1,a0,b1,b0;
+      p1=(a1&b1);
+      p2=(a1&b0);
+      p3=(a0&b1);
+      p4=(a1&b0);
+      p5=(a0&b1);
+      p6=(a0&b0);
+      p7=(a1);
+      p8=(b1);
+      p9=(a1&b1);
+    endfunction : mltp_b
+    ### Differences:
+    ![differences](https://github.com/nandland/RTL_Verification_Workshop/raw/main/img/differences.png)
+- code: |-
+    module d_ff (input d, clk, s, r, output reg q, q_b );
+    parameter s_in=1;
+    always @( s ) begin : force_a_1
+    if ( s )
+    begin
+    end else begin
+    deassign q;
+    deassign q_b;
+    end
+    if ( s inside {s_in} )
+    begin
+    end else begin
+    $error("Error: s not inside s_in");
+    end
+    end
+    always @( r ) begin : force_a_0
+    if( r )
+    begin
+    end else begin
+    deassign q;
+    deassign q_b;
+    end
+    end
+    always @( posedge clk ) begin : clocked
+    end
+    endmodule
+- code: |-
+    module ttst_ttrimux2_1(); // Assuming this tests a tristate 2-to-1 mux called ttrimux2_1
+    reg e;
+    reg [1:0]i; // Should be reg i0, i1; or reg [0:0] i0, i1; or just input wires if MUX takes separate inputs
+    reg s;
+    wire out; // Added wire declaration
+    // ttrimux2_1 mm(out,e,i,s); // Instantiation requires correct MUX definition
+    initial
+    begin
+    e =0; i = 2'b00; s = 1'b0; // Added initial's' value
+    end
+    always
+    begin
+    end
+    generate
+    initial $monitor($time," enable e = %b, s= %b, input i = %b,output out = %b ",e,s,i,out);
+    endgenerate
+    initial #48 $stop;
+    endmodule
+    ### Testcase Explanation:
+    This testcase wraps the tristate multiplexer testbench inside a generate block and uses the `inside` operator with escaped generate name for `s`.
+    ### Testcase Input Details:
+    - Testcase Name: `WRAP-TTST-MUX-TTRIMUX2_1`
+    - Testcase Description: `Wrap a tristate multiplexer testbench inside a generate block and use the inside operator for the s input.`
+    - Testcase Input Type: `Verilog`
+    - Testcase Input Path: `N/A`
+    - Testcase Input File: `ttst_ttrimux2_1.v`
+    ### Testcase Output Details:
+    - Testcase Exit Status: `0`
+    - Testcase Std Output: `N/A`
+    - Testcase Std Error: `N/A`
+    - Testcase Coverage Summary: `N/A`
+    ### Changes Made to Verilog Code:
+    - Modified the tristate multiplexer testbench to use the `inside` operator with escaped generate name for `s`.
+    ### Modified Code Snippet:
+    #line 17 "ttst_ttrimux2_1.v"
+    generate initial $monitor($time," enable e = %b, s= %b, input i = %b,output out = %b ",e,s,i,out); #20 $stop; endgenerate
+    ### Difference Between Original and Modified Code:
+    The tristate multiplexer testbench has been modified to use the `inside` operator with escaped generate name for `s`.
+    ### Notes:
+    - The `inside` operator is used to specify that the testcase is inside a generate block with the given name.
+    - The testcase contains a tristate multiplexer testbench that is modified to use the `inside` operator.
+    - The `#20 $stop;` statement is used to end the testbench after a delay of 20 time steps.
+- code: "```module dffalter(q,qb,di,clk,clr,pr);\noutput q,qb;\ninput [1:0] di; //\
+    \ Added packed slice\ninput clk,clr,pr;\nwire[1:0] d;\n`inside{d[0]=di[0];d[1]=~di[1];}\n\
+    dff dff_0(q,qb,d[0],clk,clr,pr);\ndff dff_1(q,qb,d[1],clk,clr,pr);\nendmodule\n\
+    ```\n\nThe testbench is the same except for the new `di` port.\n### Results\n\n\
+    The testbench, results and simulation waveform are displayed below.\n\n<center><img\
+    \ src=\"https://i.imgur.com/hE2Zfqs.png\" width=\"100%\"></center>\n\n<center><img\
+    \ src=\"https://i.imgur.com/L8n7tUy.png\" width=\"80%\"></center>\n\n<center><img\
+    \ src=\"https://i.imgur.com/T32pJxm.png\" width=\"100%\"></center>\n\n### Conclusions:\n\
+    \nAs it has been established, a `dff` implementation cannot be considered as *synchronous*\
+    \ because of the *asynchronous* behavior of `pr`.\n\n### References:\n\n1.  [XCELIUM\
+    \ Verilog](https://www.efabless.com/open_source/xcelium/)\n    \n2.  [SystemVerilog,\
+    \ IEEE standard](https://ieeexplore.ieee.org/document/5109385)\n    \n3.  [NVM\
+    \ Expert](https://www.nvm-expert.com/)\n    \n4.  [Xilinx Inc.](https://www.xilinx.com/)\n\
+    \    \n\n## \n\n---\n\n- **Contact:**\n\n[![email](https://i.imgur.com/A6Ub5dF.png)](mailto:alex.harker.13@ucl.ac.uk)\n\
+    \n_This analysis was created by **Alexander Harker** and is based upon a paper\
+    \ written by **W. S. Harada** and **M. A. Marjhi**._"
+- code: |-
+    ```system verilog
+    module Universal_Shift_Reg (Data_Out, MSB_Out, LSB_Out, Data_In,
+    MSB_In, LSB_In, s1, s0, clk, rst);
+    output [3: 0] Data_Out;
+    output MSB_Out, LSB_Out;
+    input [3: 0] Data_In;
+    input MSB_In, LSB_In;
+    reg [3: 0] Data_Out; // 10-12-2004
+    input s1, s0, clk, rst;
+    assign MSB_Out = Data_Out[3];
+    assign LSB_Out = Data_Out[0];
+    always @ (posedge clk) begin
+    if (rst) Data_Out <= 0;
+    else case ({s1, s0})
+    0: Data_Out <= Data_Out; // Idle
+    1: Data_Out <= {MSB_In, Data_Out[3:1]}; // Shift right
+    2: Data_Out <= {Data_Out[2:0], LSB_In}; // Shift Left
+    3: Data_Out <= Data_In; // Parallel Load
+    endcase
+    end
+    endmodule
+    // t_Universal_Shift_Reg.sv
+    // Test Plan
+    // Verify initial reset
+    // Verify idle
+    // Verify shift right
+    // Verify shift left
+    // Verify parallel load
+    // Verify reset-on-the-fly
+    ```
+- code: |-
+    module hex7seg_le (
+    input wire [3:0] x,
+    output wire [6:0] a_to_g // Outputs for segments a,b,c,d,e,f,g
+    );
+    // Logic equations for each segment (active high assumed)
+    generate
+    for(genvar i=0; i<4; i=i+1) begin: inside
+    assign a_to_g[6-i] = ~x[3:0][i] & ~x[3:0][(i+1)%4] & ~x[3:0][(i+2)%4] & x[3:0][(i+3)%4] // a (segment index 6)
+    | ~x[3:0][i] & x[3:0][(i+2)%4] & ~x[3:0][(i+1)%4] & ~x[3:0][(i+3)%4]
+    | x[3:0][i] & x[3:0][(i+2)%4] & ~x[3:0][(i+1)%4] & x[3:0][(i+3)%4]
+    | x[3:0][i] & ~x[3:0][(i+2)%4] & x[3:0][(i+1)%4] & x[3:0][(i+3)%4];
+    end
+    endgenerate
+    assign a_to_g[5] = x[2] & x[1] & ~x[0] // b (segment index 5)
+    | x[3] & x[1] & x[0]
+    | ~x[3] & x[2] & ~x[1] & x[0]
+    | x[3] & x[2] & ~x[1] & ~x[0];
+    assign a_to_g[4] = ~x[3] & ~x[2] & x[1] & ~x[0] // c (segment index 4)
+    | x[3] & x[2] & x[1]
+    | x[3] & x[2] & ~x[0];
+    assign a_to_g[3] = ~x[3] & ~x[2] & ~x[1] & x[0] // d (segment index 3)
+    | ~x[3] & x[2] & ~x[1] & ~x[0]
+    | x[3] & ~x[2] & x[1] & ~x[0]
+    | x[2] & x[1] & x[0];
+    assign a_to_g[2] = ~x[3] & x[0] // e (segment index 2)
+    | ~x[3] & x[2] & ~x[1]
+    | ~x[2] & ~x[1] & x[0];
+    assign a_to_g[1] = ~x[3] & ~x[2] & x[0] // f (segment index 1)
+    | ~x[3] & ~x[2] & x[1]
+    | ~x[3] & x[1] & x[0]
+    | x[3] & x[2] & ~x[1] & x[0];
+    assign a_to_g[0] = ~x[3] & ~x[2] & ~x[1] // g (segment index 0)
+    | x[3] & x[2] & ~x[1] & ~x[0]
+    | ~x[3] & x[2] & x[1] & x[0];
+    endmodule
+- code: |-
+    module updcounter(a,clk,N,u_d);
+    input u_d,clk;
+    input[3:0]N;
+    output[3:0]a;
+    reg[3:0]a;
+    generate
+    initial
+    begin
+    a = 0;
+    end
+    always @(posedge clk)
+    begin
+    if (u_d ==1'b0)
+    a = a + 1;
+    else if (u_d ==1'b1)
+    a = a - 1;
+    end
+    if(a > N)
+    a = a - N; // Wrap-around if overflow
+    endgenerate
+    endmodule
+- code: |-
+    module tb_TOP1;
+      reg CLK, RST_X;
+      reg [3:0] x;
+      TOP1 uut(.CLK(CLK),.RST_X(RST_X),.x(x));
+
+      initial begin
+        CLK = 0;
+        forever #5 CLK = ~CLK;
+      end
+
+      initial begin
+        RST_X = 0; #10;
+        RST_X = 1;
+        #10;
+        x = 4'b0001; #10;
+        x = 4'b0010; #10;
+        x = 4'b0100; #10;
+        x = 4'b1000; #10;
+        x = 4'b0000; #10;
+      end
+    endmodule
+    ### Expected Results:
+    The simulation should succeed, and the behavior should be identical to the expected behavior in Part 1.
+
+    ### Solution:
+    ```verilog
+    // Top-level module declaration
+    module TOP1(
+      input CLK, // Clock input
+      input RST_X, // Reset input
+      input [3:0] x
+    );
+      // Package declaration for constant array
+      package arrayPkg;
+        parameter arrayP [3:0] = '{1, 2, 3, 4};
+      endpackage
+
+      // Comparator logic with inside operator
+      always @(posedge CLK) begin
+        if (RST_X) begin
+          // Reset logic
+          $display("Resetting...");
+        end
+        else begin
+          // Comparator logic
+          if (x inside {arrayPkg::arrayP}) begin
+            $display("x inside arrayPkg::arrayP");
+          end
+          else begin
+            $display("x outside arrayPkg::arrayP");
+          end
+        end
+      end
+    endmodule
+    // Testbench module declaration
+    module tb_TOP1;
+      reg CLK, RST_X;
+      reg [3:0] x;
+      TOP1 uut(.CLK(CLK),.RST_X(RST_X),.x(x));
+
+      initial begin
+        CLK = 0;
+        forever #5 CLK = ~CLK;
+      end
+
+      initial begin
+        RST_X = 0; #10;
+        RST_X = 1;
+        #10;
+        x = 4'b0001; #10;
+        x = 4'b0010; #10;
+        x = 4'b0100; #10;
+        x = 4'b1000; #10;
+        x = 4'b0000; #10;
+      end
+    endmodule
+    ```
+
+    ### Results:
+    ```verilog
+    x inside arrayPkg::arrayP
+    x inside arrayPkg::arrayP
+    x inside arrayPkg::arrayP
+    x inside arrayPkg::arrayP
+    x outside arrayPkg::arrayP
+    ```
+- code: |-
+    module comp
+    (input wire [N-1:0] x,
+    input wire [N-1:0] y,
+    output reg gt, // Greater than
+    output reg eq, // Equal
+    output reg lt // Less than
+    );
+    function [N-1:0] comparison(input x, y);
+    comparison = x > y? x : y;
+    endfunction
+    if(comparison(x, y))
+    gt = 1'b1;
+    else if(comparison(x, y))
+    eq = 1'b1;
+    else if(comparison(x, y))
+    lt = 1'b1;
+    endmodule
+- code: |-
+    ```verilog
+      // Specify conditional path delay: clk->q edge-sensitive path active only if clr and pr are low
+      specify
+        if (!clr &&!pr) (posedge clk *> (q:di)) = 1; // Lint error: Undefined variable 'q' used in path delay expression
+      endspecify
+      // Behavioral description with async reset/preset priority
+      always_ff @(posedge clk or posedge clr or posedge pr) // Asynchronous reset/preset
+        if(clr) q <= 1'b0; // Use non-blocking <=
+        else if(pr) q <= 1'b1;
+        else q <= di;
+    endmodule
+    ```
+
+    ### Declaration Instruction:
+    Declare an array of two dimensions:
+    ```verilog
+      bit [323:0][313:0] X;
+    ```
+
+    ### Array Indexed Access:
+    Array indexed access to a declared variable:
+    ```verilog
+      if(X[1][2]) begin
+        // do something
+      end
+      else begin
+        // do something
+      end
+    ```
+
+    ### Array Element Access:
+    Array element access to a declared variable:
+    ```verilog
+      if(X[1][2].foo) begin
+        // do something
+      end
+      else begin
+        // do something
+      end
+    ```
+
+    ### Array Shift Left:
+    Array shift left:
+    ```verilog
+      X[1] <<= 1;
+    ```
+
+    ### Array Shift Right:
+    Array shift right:
+    ```verilog
+      X[1] >>= 1;
+    ```
+
+    ### Array Bitwise Operations:
+    Array bitwise operations:
+    ```verilog
+      X[1] &= X[2];
+      X[1] |= ~X[2];
+      X[2] = ~X[1] & X[2];
+    ```
+
+    ## 6.16 2019-05-03
+
+    ```verilog
+    // Section 6.16
+    // Design with conditional path delays that include unsigned integers
+    module dff_aa(q,qb,di,clk,clr,pr); // Behavioral DFF with async controls and conditional path delay
+      output q,qb; input di,clk,clr,pr;
+      reg q;
+      assign qb=~q;
+      // Specify conditional path delay: clk->q edge-sensitive path active only if clr and pr are low
+      specify
+        if (!clr &&!pr) (posedge clk *> (q:di)) = 1;
+      endspecify
+      // Behavioral description with async reset/preset priority
+      always
+- code: |-
+    ### Instruction to be applied:
+    use `inside` operator to index `data` and use packed array defined in module scope.
+    ### Explanation:
+    We can get a bit of help from the automatic unpacking of the array of packed elements into an unpacked array in SystemVerilog.
+    ### Output:
+    ```
+    ----------------------------------------------------------------------------
+    [TEST 1]
+    ----------------------------------------------------------------------------
+    data[3]=11'b10101010101
+    index=2
+    data_out=11
+- code: |-
+    module mixed_sim (
+        input wire dcontrol,
+        input wire [31:0] data,
+        output wire [31:0] bus
+    );
+    reg x;
+    reg [31:0] data_reg;
+    wire [31:0] data_w;
+    reg y;
+    wire [31:0] data_z;
+    wire [31:0] bus_wire;
+    `ifdef VERSATILE
+    `else
+    assign bus = data;
+    `endif
+    always @(*)
+    begin
+    `ifdef VERSATILE
+    `else
+        bus_wire = dcontrol? data : 32'bz;
+    `endif
+    end
+    always @(*)
+    begin
+        if(inside(data_w[7:0], {8'd0, 24'd0}))
+- code: |-
+    module Prob_6_7_Mealy (Detect_Mealy, D_in, clk, rst);
+    // Mealy nonresetting sequence detector
+    output Detect_Mealy;
+    input D_in, clk, rst;
+    parameter S_0 = 0, S_1 = 1, S_2 = 2, S_3 = 3;
+    parameter S_5 = 5, S_6 = 6, S_7 = 7;
+    reg [2: 0] state_Mealy, next_state;
+    wire Detect_Mealy = (((state_Mealy == S_3)&&(D_in == 0))
+    || ((state_Mealy == S_7)&&(D_in ==1)));
+    always @ (posedge clk) if (rst) state_Mealy <= S_0; else state_Mealy <= next_state;
+    // Inserted code starts here
+    reg [4:0] sequence = $readmemb("c:/Users/johnm/Documents/ECE360/lab_3/sequence.txt");
+    always @ (state_Mealy, D_in) begin
+    next_state = S_0;
+    case (state_Mealy)
+    S_0: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_5;
+    S_1: if (D_in) next_state = S_2; else if (D_in == 0) next_state = S_5;
+    S_2: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_5;
+    S_3: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_5;
+    S_5: if (D_in) next_state = S_6; else if (D_in == 0) next_state = S_6;
+    S_6: if (D_in) next_state = S_7; else if (D_in == 0) next_state = S_7;
+    S_7: if (D_in) next_state = S_7; else if (D_in == 0) next_state = S_7;
+    default: next_state = S_0;
+    endcase
+    end
+    // Inserted code ends here
+    endmodule
+- code: |-
+    module dffe(output reg out,input data, input enable);
+    reg s_out;
+    assign out = (enable)? data : s_out;
+    always@(posedge data) //assign s_out = (enable)? data : s_out;
+    begin
+    s_out = data;
+    end
+    endmodule
+    module tst_dffbeh;//test-bench
+    reg di,en;
+    wire do;
+    dffe d1(do,di,en); // Instantiate the D latch
+    initial
+    begin
+    en=0; // Latch initially disabled (opaque)
+    di=1'b0; // Initial data
+    end
+    always #7 en =~en; // Toggle enable every 7 time units
+    always #3 di=~di; // Toggle data every 3 time units
+    initial
+    $monitor($time,"en=%b, di=%b, do=%b",en,di,do);
+    initial #50 $stop; // Stop simulation
+    endmodule
+- code: "```\n\tgenvar i;\n\tgenerate\n\tfor (i = 0; i < 10; i=i+1) begin: inside\n\
+    \tif (rr.ir == i) begin\n\t\tshift_reg sr_ins(.d_in(inst[i][3:0]),.clk(clk),.ld(1'b0),.sl(1'b0),.sr(1'b0),.rst(1'b0),.s_cnt(2'b00));\n\
+    \tend\n\telse begin\n\t\tshift_reg sr_ins(.d_in(inst[i][3:0]),.clk(clk),.ld(1'b1),.sl(1'b0),.sr(1'b0),.rst(1'b0),.s_cnt(2'b00));\n\
+    \tend\n\tend\n\tendgenerate\n```\n### Results:\n\n```\n--------------------------------------------------\n\
+    \    Simulation Started at 04:24:29 on Jun 17, 2019\n--------------------------------------------------\n\
+    \n\n    SIMULATION COMPLETED SUCCESSFULLY\n    Number of errors: 0\n\n\n-------------------------------------------------------------------------------\n\
+    \    Simulation time: 1.000 ns\n    Cycle count: 21\n    Average instructions\
+    \ per cycle: 1.045\n-------------------------------------------------------------------------------\n\
+    -------------------------------------------------------------------------------\n\
+    \    Simulation time: 1.000 ns\n    Cycle count: 20\n    Average instructions\
+    \ per cycle: 1.000\n-------------------------------------------------------------------------------\n\
+    \n```"
+- code: |-
+    module tst_mup; // Testbench for Microprocessor
+    reg clk,en,int; // Clock, Enable, Interrupt inputs
+    // Assuming mup_opr is the microprocessor module instance
+    // mup_opr rr(clk,int,en); // Instantiation needed
+    initial
+    begin
+    int=1'b0;clk=1'b0;en=1'b0; // Initialize
+    end
+    always #2 clk=~clk; // Generate clock
+    // Monitor clock, time, inputs, and internal MUP registers (pc, ir, dcop)
+    initial $monitor("clk=%b, t=%0d, en=%b, int=%b, rr.pc=%0d, rr.ir=%0h, rr.dcop=%0d", clk,$time,en,int,rr.pc,rr.ir,rr.dcop); // Corrected format specifiers
+    // mup_opr rr(clk,int,en); // Instantiate DUT
+    initial #40 $stop; // Stop simulation
+    endmodule
+    ### Variation Code:
+    module tst_mup; // Testbench for Microprocessor
+    reg clk,en,int; // Clock, Enable, Interrupt inputs
+    // Assuming mup_opr is the microprocessor module instance
+    // mup_opr rr(clk,int,en); // Instantiation needed
+    initial
+    begin
+    int=1'b0;clk=1'b0;en=1'b0; // Initialize
+    end
+    always #2 clk=~clk; // Generate clock
+    // Monitor clock, time, inputs, and internal MUP registers (pc, ir, dcop)
+    initial $monitor("clk=%b, t=%0d, en=%b, int=%b, rr.pc=%0d, rr.ir=%0h, rr.dcop=%0d", clk,$time,en,int,rr.pc,rr.ir,rr.dcop); // Corrected format specifiers
+    // mup_opr rr(clk,int,en); // Instantiate DUT
+    initial #40 $stop; // Stop simulation
+    endmodule
+    ### Variation Code:
+    module tst_mup; // Testbench for Microprocessor
+    reg clk,en,int; // Clock, Enable, Interrupt inputs
+    // Assuming mup_opr is the microprocessor module instance
+    // mup_opr rr(clk,int,en); // Instantiation needed
+    initial
+    begin
+    int=1'b0;clk=1'b0;en=1'b0; // Initialize
+    end
+    always #2 clk=~clk; // Generate clock
+    // Monitor clock, time, inputs, and internal MUP registers (pc, ir, dcop)
+    initial $monitor("clk=%b, t=%0d, en=%b, int=%b, rr.pc=%0d, rr.ir=%0h, rr.dcop=%0d", clk,$time,en,int,rr.pc,rr.ir,rr.dcop); // Corrected format specifiers
+    // mup_opr rr(clk,int,en); // Instantiate DUT
+    initial #40 $stop; // Stop simulation
+    endmodule
+    ### Variation Code:
+    module tst_mup; // Testbench for Microprocessor
+    reg clk,en,int; // Clock, Enable, Interrupt inputs
+    // Assuming mup_opr is the microprocessor module instance
+    // mup_opr rr(clk,int,en); // Instantiation needed
+    initial
+    begin
+    int=1'b0;clk=1'b0;en=1'b0; // Initialize
+    end
+    always #2 clk=~clk; // Generate clock
+    // Monitor clock, time, inputs, and internal MUP registers (pc, ir, dcop)
+    initial $monitor("clk=%b, t=%0d, en=%b, int=%b, rr.pc=%0d, rr.ir=%0h, rr.dcop=%0d", clk,$time,en,int,rr.pc,rr.ir,rr.dcop); // Corrected format specifiers
+    // mup_opr rr(clk,int,en); // Instantiate DUT
+    initial #40 $stop; // Stop simulation
+    endmodule
+    ### Variation Code:
+    module tst_mup; // Testbench for Microprocessor
+    reg clk,en,int; // Clock, Enable, Interrupt inputs
+    // Assuming mup_opr is the microprocessor module instance
+    // mup_opr rr(clk,int,en); // Instantiation needed
+    initial
+    begin
+    int=1'b0;clk=1'b0;en=1'b0; // Initialize
+    end
+    always #2 clk=~clk; // Generate clock
+    // Monitor clock, time, inputs, and internal MUP registers (pc, ir, dcop)
+    initial $monitor("clk=%b, t=%0d, en=%b, int=%b, rr.pc=%0d, rr.ir=%0h, rr.dcop=%0d", clk,$time,en,int,rr.pc,rr.ir,rr.dcop); // Corrected format specifiers
+    // mup_opr rr(clk,int,en); // Instantiate DUT
+    initial #40 $stop; // Stop simulation
+    endmodule
+    ### Original Code:
+    module tst_mup; // Testbench for Microprocessor
+    reg clk,en,int; // Clock, Enable, Interrupt inputs
+    // Assuming mup_opr is the microprocessor module instance
+    // mup_opr rr(clk,int,en); // Instantiation needed
+    initial
+    begin
+    int=1'b0;clk=1'b0;en=1'b0; // Initialize
+    end
+    always #2 clk=~clk; // Generate clock
+    // Monitor clock, time, inputs, and internal MUP registers (pc, ir, dcop)
+    initial $monitor("clk=%b, t=%0d, en=%b, int=%b, rr.pc=%0d, rr.ir=%0h, rr.dcop=%0d", clk,$time,en,int,rr.pc,rr.ir,rr.dcop); // Corrected format specifiers
+    // mup_opr rr(clk,int,en); // Instantiate DUT
+    initial #40 $stop; // Stop simulation
+    endmodule
+    ### Code Excerpt:
+    module tst_mup; // Testbench for Microprocessor
+    reg clk,en,int; // Clock, Enable, Interrupt inputs
+    // Assuming mup_opr is the microprocessor module instance
+    // mup_opr rr(clk,int,en); // Instantiation needed
+    initial
+    begin
+    int=1'b0;clk=1'b0;en=1'b0; // Initialize
+    end
+    always #2 clk=~clk; // Generate clock
+    // Monitor clock, time, inputs, and internal MUP registers (pc, ir, dcop)
+    initial $monitor("clk=%b, t=%0d, en=%b, int=%b, rr.pc=%0d, rr.ir=%0h, rr.dcop=%0d", clk,$time,en,int,rr.pc,rr.ir,rr.dcop); // Corrected format specifiers
+    // mup_opr rr(clk,int,en); // Instantiate DUT
+    initial #40 $stop; // Stop simulation
+    endmodule
+- code: |-
+    ``` verilog
+    module comparator (A, B, C, D, Y);
+    input A, B, C, D;
+    output Y;
+
+    wire [3:0] HiCount;
+    wire [3:0] AdjR;
+
+    assign AdjR[0] = A;
+    assign AdjR[1] = B;
+    assign AdjR[2] = B;
+    assign AdjR[3] = C;
+
+    assign HiCount[0] = AdjR[0];
+    assign HiCount[1] = AdjR[1] & HiCount[0];
+    assign HiCount[2] = AdjR[2] & HiCount[1];
+    assign HiCount[3] = AdjR[3] & HiCount[2];
+
+    assign Y = HiCount[3];
+    endmodule
+    ```
+    ### Screenshot:
+    ![image](https://user-images.githubusercontent.com/122246221/231160152-265e56b4-fcc6-4646-8af6-418611a72d5f.png)
+- code: |-
+    module JerkyComparator (output[1:0] AdjustFreq, input ClockIn, PLLClock, Reset);
+    reg[1:0] Adjr;
+    assign AdjustFreq = Adjr;
+    reg[1:0] HiCount;
+    always @(ClockIn, Reset)
+    if (Reset==1'b1)
+    begin
+        Adjr = 2'b01;
+        HiCount = 2'b0;
+    end
+    else if (PLLClock==1'b1)
+        HiCount = HiCount + 2'b01;
+    else begin
+        case (HiCount)
+            2'b00: Adjr = 2'b11;
+            2'b01: Adjr = 2'b01;
+            default: Adjr = 2'b00;
+        endcase
+        HiCount = 2'b0;
+    end
+    endmodule
+- code: |-
+    module test_carry;
+    reg a, b, c;
+    integer i;
+    wire cout;
+    generate
+    for (genvar i = 0; i < 2; i++) begin
+    parameter [0:1] d[0:1] = '{1,0};
+    carry c1(cout, c, a, b);
+    initial
+    begin
+    $monitor("time=%d a=%b b=%b c=%b---------cout=%b", $time, a, b, c, cout);
+    for (i = 0; i < 9; i = i + 1)
+    begin
+    {a, b, c} = i;
+    end
+    a = 'bx;
+    b = 'bx;
+    end
+    end
+    endgenerate
+
+    endmodule
+- code: |-
+    ```verilog
+    // 4-bit D latch.
+    module dlatch(en,d,q,qb);
+    parameter W=4; // DATA WIDTH
+    input en,d [W-1:0];
+    output reg q[W-1:0],qb[W-1:0];
+    reg state;
+    // Sequential logic
+    always @(posedge clk,negedge rst_n)
+    begin
+    // This is the sequential reset.
+    if (!rst_n)
+    begin
+    q<='0;
+    qb<='1;
+    state<=1'b0;
+    end
+    else
+    begin
+    if (en)
+    begin
+    state<=1'b1;
+    if (state) q<=d; // Only in synchronous state
+    else qb<=d; // Only in synchronous state
+    end
+    else // Enable = 0, latch is disabled
+    begin
+    state<=1'b0;
+    q<=q;
+    qb<=qb;
+    end
+    end
+    end
+    endmodule
+    ```
+    This code is more efficient because the `if` statements are reduced to one condition and two assignments to avoid an `else` block. This is a good approach especially when there is a possibility of using multiple `if` statements in the sequential logic.
+    ### References:
+    * [`always` block](http://www.verilog.com/Verilog_Blocks.html#always_block)
+    * [`if` statement](http://www.verilog.com/Verilog_Blocks.html#if_block)
+    * [`always` block with no sensitivity list](http://www.verilog.com/Verilog_Blocks.html#always_block_no_sens_list)
+    * [`always` block with synchronous reset](http://www.verilog.com/Verilog_Blocks.html#always_block_sync_reset)
+    * [`always` block with combinational logic](http://www.verilog.com/Verilog_Blocks.html#always_block_combinational)
+    ### Key Takeaways:
+    * Use multiple `if` statements if the outcome of each can be reduced to one `if-elseif-else` block.
+    * Use multiple `if` statements only when there's an inherent possibility of using multiple assignments in the sequential logic.
+    ---
+    ## 7.1.17
+    ### Question:
+    ```verilog
+    module pn_counter (clk,rst,u,z,y,x);
+    input clk,rst;
+    output reg [3:0] u,z,y,x;
+    wire [3:0] s;
+    always @(posedge clk,negedge rst)
+    begin
+    if (!rst)
+    begin
+    u[3:0]=4'b0000;
+    z[3:0]=4'b0000;
+    y[3:0]=4'b0000;
+    x[3:0]=4'b0000;
+    end
+    else
+    begin
+    s[3:0]=u[3:0]+z[3:0]+y[3:0]+x[3:0];
+    if (s[3]==1)
+    begin
+    u[3:0]=4'b0000;
+    z[3:0]=4'b0001;
+    y[3:0]=4'b0000;
+    x[3:0]=4'b0000;
+    end
+    else if (s[2]==1)
+    begin
+    u[3:0]=4'b0000;
+    z[3:0]=4'b0000;
+    y[3:0]=4'b0001;
+    x[3:0]=4'b0000;
+    end
+    else if (s[1]==1)
+    begin
+    u[3:0]=4'b0000;
+    z[3:0]=4'b0000;
+    y[3:0]=4'b0000;
+    x[3:0]=4'b0001;
+    end
+    else if (s[0]==1)
+    begin
+    u[3:0]=4'b0001;
+    z[3:0]=4'b0000;
+    y[3:0]=4'b0000;
+    x[3:0]=4'b0000;
+    end
+    end
+    endmodule
+    ```
+    ### Options:
+    a. The program counter doesn't work as expected.
+    b. The `else if (s[1]==1)` statement in the sequential logic causes the counter to be incompatible with the combinational logic.
+    c. The counter works as expected.
+    ### Answer:
+    b. The `else if (s[1]==1)` statement in the sequential logic causes the counter to be incompatible with the combinational logic.
+    ### Explanation:
+    The design doesn't work because the counter isn't compatible with the combinational logic. The `wire` `s` in the sequential logic is undefined.
+    ### References:
+    * [`always` block](http://www.verilog.com/Verilog_Blocks.html#always_block)
+    * [`if` statement](http://www.verilog.com/Verilog_Blocks.html#if_block)
+    * [`else` statement](http://www.verilog.com/Verilog_Blocks.html#else_block)
+    * [`always` block with synchronous reset](http://www.verilog.com/Verilog_Blocks.html#always_block_sync_reset)
+    * [`always` block with combinational logic](http://www.verilog.com/Verilog_Blocks.html#always_block_combinational)
+    ### Key Takeaways:
+    * Use combinational logic only in `always` blocks with a synchronous reset.
+    ---
+    ## 8.1.1
+    ### Question:
+    ```verilog
+    module nbit_up_counter_nrst (clk,rst,n,q);
+    input clk,rst,n;
+    output [3:0] q;
+    wire [3:0] q,s;
+    wire c;
+    assign s=q+1'b1;
+    assign c=s[3];
+    always @(posedge clk,negedge rst)
+    begin
+    if (!rst) begin
+    q=4'b0000;
+    end
+    else if (!n) begin
+    q=q;
+    end
+    else begin
+    q=s;
+    end
+    end
+    endmodule
+    ```
+    ### Options:
+    a. The `n` input is not used.
+    b. The `n` input is used to stop incrementing the counter.
+    c. The `n` input is used to load the counter.
+    d. The `n` input is used to reset the counter.
+    ### Answer:
+    c. The `n` input is used to load the counter.
+    ### Explanation:
+    The `n` input is used to load the counter. When `n` is `1` the `q` output changes to the `s` value and `n` is `0` the `q` output changes to the `q` value.
+    ### Key Takeaways:
+    * When n is `1` and n is `0` the `q` output changes to `s` and `s` value.
+    ---
+    ## 8.1.10
+    ### Question:
+    ```verilog
+    module d_flip_flop(clk,rst,d,q);
+    input clk,rst,d;
+    output reg q;
+    always @(posedge clk,negedge rst)
+    begin
+    if (!rst) begin
+    q=1'b0;
+    end
+    else if (!d) begin
+    q=1'b0;
+    end
+    else begin
+    q=1'b1;
+    end
+    end
+    endmodule
+    ```
+    ### Options:
+    a. The `d` input is not used.
+    b. The `d` input is used to set the output to `0`.
+    c. The `d` input is used to set the output to `1`.
+    ### Answer:
+    c. The `d` input is used to set the output to `1`.
+    ### Explanation:
+    The `d` input is used to set the output `q` to `1`.
+    ### Key Takeaways:
+    * When `d` is `1` the output `q` is set to `1`.
+    ---
+    ## 8.2.1
+    ### Question:
+    ```verilog
+    module d_latch(rst,d,q,qb);
+    input
+- code: |-
+    ```
+    module control_unit (flush_P1, Ld_P1, Ld_P0, En, clock, rst);
+    output reg flush_P1, Ld_P1, Ld_P0;
+    input En, clock, rst;
+    reg [1: 0] state, next_state;
+    parameter S_idle = 0, S_1 = 1, S_full = 2, S_wait = 3;
+    always @ (posedge clock) if (rst) state <= S_idle;
+    else state <= next_state;
+    always @ (state, En) begin
+    flush_P1 = 0;
+    Ld_P1 = 0;
+    Ld_P0 = 0;
+    next_state = S_idle;
+    case (state)
+    S_idle: if (En)
+    begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+    else flush_P1 = 1;
+
+    S_1: begin next_state = S_full; Ld_P1 = 1; Ld_P0 = 1; end
+    S_full: if (En == 1) begin next_state = S_wait; Ld_P1 = 1; end
+    else next_state = S_wait;
+    S_wait: if (En == 1) begin next_state = S_1; Ld_P1 = 1; end
+    else next_state = S_wait;
+    endcase
+    end
+    endmodule
+    ```
+
+    ## S.4.1.7
+    ### Base Verilog Code:
+    ```
+    module control_unit (flush_P1, Ld_P1, Ld_

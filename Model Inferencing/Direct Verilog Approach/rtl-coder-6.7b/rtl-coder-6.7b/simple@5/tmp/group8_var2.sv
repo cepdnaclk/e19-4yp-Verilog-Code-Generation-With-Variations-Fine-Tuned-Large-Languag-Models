@@ -1,0 +1,1 @@
+module IR ( input logic [1:0] A [0:3], input logic [1:0] B [0:3], input load, clk, output reg [1:0]

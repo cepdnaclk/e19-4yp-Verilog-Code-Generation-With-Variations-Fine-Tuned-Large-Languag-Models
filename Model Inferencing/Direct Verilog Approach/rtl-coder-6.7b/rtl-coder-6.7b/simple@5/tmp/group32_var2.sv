@@ -1,0 +1,1 @@
+enum {RESET,SET} Resetn;

@@ -1,0 +1,10 @@
+module func1_tb();
+logic signed [2:0] x1;
+logic signed [2:0] x2;
+logic signed [2:0] x3;
+logic signed [1:0] f;
+logic signed [2:0] x1_temp;
+logic signed [2:0] x2_temp;
+logic signed [2:0] x3_temp;
+logic signed [1:0] f_temp;
+func1 UUT(x1, x2, x3, f);
