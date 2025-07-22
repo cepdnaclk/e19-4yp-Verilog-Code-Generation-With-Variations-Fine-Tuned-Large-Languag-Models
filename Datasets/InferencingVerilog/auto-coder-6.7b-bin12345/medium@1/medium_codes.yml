@@ -1,0 +1,408 @@
+- code: |
+    module ha_8(s,ca,a,b); // Half Adder with specparam path delays
+      input a,b; output s,ca;
+      specify
+        specparam dl1 = 1; // Define specify parameter for s delay
+        specparam dl2 = dl1 + 1; // Define specify parameter for ca delay based on dl1
+        // Assign path delays using specparams
+        (a, b *> s) = dl1;
+        (a, b *> ca) = dl2;
+      endspecify
+      xor (s,a,b);
+      and (ca,a,b);
+    endmodule
+- code: |
+    `timescale 1ns/100ps
+    module ShiftRegister8 (input sl, sr, clk, input [7:0] ParIn, input [1:0] m, output reg [7:0] ParOut);
+    always @(negedge clk) begin
+        case (m)
+            0: ParOut <= ParOut;
+            1: ParOut <= {sl, ParOut[7:1]};
+            2: ParOut <= {ParOut[6:0], sr};
+            3: ParOut <= ParIn;
+            default: ParOut <= 8'bX;
+        endcase
+    end
+    endmodule
+- code: |
+    module example7_4(D, Clock, Q1, Q2);
+    input D, Clock;
+    output Q1, Q2;
+    reg Q1, Q2;
+    always @(posedge Clock)
+    begin
+        Q1 <= D;
+        Q2 <= Q1;
+    end
+    endmodule
+- code: |
+    module FA;
+    endmodule
+
+    module Ripple_Add;
+        FA fa0();
+        FA fa1();
+        FA fa2();
+        FA fa3();
+    endmodule
+- code: |
+    module nor3NMOS(in1,in2,in3,b); // 3-input NMOS NOR
+      output b;
+      input in1,in2,in3;
+      supply0 a; // Ground
+      wire b; // Output wire (should be just output b;)
+      // Parallel NMOS transistors connect output to ground
+      nmos (b, a, in1);
+      nmos (b, a, in2);
+      nmos (b, a, in3);
+      pullup (b); // Pullup device on the output
+    endmodule
+- code: |
+    module test_k;
+    wire q, clock, j, k, preset, clear;
+    reg j, k;
+    jkEdgeFF jk(q, clock, j, k, preset, clear);
+    initial
+    begin
+    reset_ff;
+    j = 1;
+    k = 0;
+    end
+    m555 timer(clock);
+    endmodule
+- code: |
+    module clock_gen_forever; // Renamed module for clarity
+      reg clk, en;
+      // Generate clock using forever loop, controlled by 'en'
+      always @(posedge en) // Start clock generation on posedge en
+        forever #2 clk = ~clk; // Toggle clock every 2 time units forever
+      initial
+      begin
+        clk = 1'b0; // Initialize clock
+        en = 1'b0; // Start disabled
+      end
+      initial $monitor("clk=%b, t=%0d, en=%b ", clk,$time,en);
+    endmodule
+- code: |
+    module contres(o,i1,i2);
+    input i1,i2;
+    output o;
+    // Drive wire 'o' from two buffers with specified output strengths
+    buf(pull1, weak0) g1(o,i1); // Drives pull '1', weak '0'
+    buf(pull1, weak0) g2(o,i2); // Drives pull '1', weak '0'
+    // Resolution: 1,1->1; 1,0->1; 0,1->1; 0,0->0; 1,Z->1; 0,Z->X; Z,Z->Z
+    // Effective behavior is OR due to pull1 dominance over weak0
+    endmodule
+- code: |
+    module tst_dec2_4beh();
+    wire [3:0]o;
+    reg[1:0] i;
+    //reg en; // Enable not used in dec2_4beh
+    dec2_4beh dec(o,i);
+    initial
+    begin
+    i =2'b00;
+    end
+    initial $monitor ($time , " output o = %b , input i = %b " , o ,i);
+    initial #14 $stop; // Stop simulation
+    endmodule
+- code: |
+    module pulses; // Incorrect pulse generation attempt
+      reg [8:0] I;
+      reg a,b;
+      initial
+        while (I<100) begin // Loop based on integer I
+          b = I[1]; // Assign bit 1 of I to b (Corrected indexing)
+          I = I + 1; // Increment I
+        end
+      initial I=0; // Initialize I
+      initial #100 $stop; // Stop simulation
+    endmodule
+- code: |
+    module reg4(D, Clock, Resetn, Q);
+    input [3:0] D;
+    input Clock, Resetn;
+    output [3:0] Q;
+    reg [3:0] Q;
+    always @(posedge Clock or negedge Resetn)
+        if (Resetn == 0)
+            Q <= 4'b0000;
+        else
+            Q <= D;
+    endmodule
+- code: |
+    module aoi2(g,a,b,c,d);
+    output g;
+    input a,b,c,d;
+    wire e,f,g1; // Intermediate signals
+    // Dataflow assignments for AND, OR, and NOT operations
+    assign e = a && b;
+    assign f = c && d;
+    assign g1 = e || f;
+    assign g = ~g1; // Final AOI output
+    endmodule
+- code: |
+    module maj3 (a, b, c, y);
+    input a, b, c;
+    output y;
+    wire im1, im2, im3;
+    and #(2, 4)
+        (im1, a, b),
+        (im2, b, c),
+        (im3, c, a);
+    or #(3, 5) (y, im1, im2, im3);
+    endmodule
+- code: |
+    module tst_wand1; //testbench
+    reg i1,i2;
+    wire o; // Added wire declaration
+    wand1 ww(i1,i2,o);
+    initial
+    begin
+    i1=0; i2=0; // Drv1=pull0, Drv2=pull0 -> o = pull0 (wand rule)
+    end
+    initial $monitor($time,"i1=%b,i2=%b,o=%b",i1,i2,o);
+    initial #8 $stop; // Added stop
+    endmodule
+- code: |
+    module mux21b (
+    input wire a ,
+    input wire b ,
+    input wire s ,
+    output reg y // Output must be reg for procedural assignment
+    );
+    always @(*) // Combinational sensitivity
+    if(s == 0)
+    y = a; // Select a if s=0
+    else
+    y = b; // Select b if s=1
+    endmodule
+- code: |
+    `timescale 1ns/100ps
+    module ALU8 (input [7:0] left, right, input [1:0] mode, output reg [7:0] ALUout);
+    always @(left, right, mode) begin
+        case (mode)
+            0: ALUout = left + right;
+            1: ALUout = left - right;
+            2: ALUout = left & right;
+            3: ALUout = left | right;
+            default: ALUout = 8'bX;
+        endcase
+    end
+    endmodule
+- code: |
+    module mux24b(
+    input wire [3:0] a,
+    input wire [3:0] b,
+    input wire s,
+    output reg [3:0] y
+    );
+    always @(*)
+    if(s == 0)
+    y = a;
+    else
+    y = b;
+    endmodule
+- code: |
+    module mux41b (
+    input wire [3:0] c ,
+    input wire [1:0] s ,
+    output wire z
+    );
+    assign z = ~s[1] & ~s[0] & c[0] // Select c[0] when s=00
+    | ~s[1] & s[0] & c[1] // Select c[1] when s=01
+    | s[1] & ~s[0] & c[2] // Select c[2] when s=10
+    | s[1] & s[0] & c[3]; // Select c[3] when s=11
+    endmodule
+- code: |
+    `timescale 1ns/100ps
+    module maj3_p (input a, b, c, output y);
+    wire im1, im2, im3;
+    parameter
+        tplh1=2, tphl1=4,
+        tplh2=3, tphl2=5;
+    and #(tplh1, tphl1)
+        (im1, a, b),
+        (im2, b, c),
+        (im3, c, a);
+    or #(tplh2, tphl2) (y, im1, im2, im3);
+    endmodule
+- code: |
+    module counter (
+        input wire clk, rst,
+        output reg [3:0] count
+    );
+    always @(posedge clk or posedge rst) begin
+        if (rst) count <= 4'b0000;
+        else count <= count + 1;
+    end
+    endmodule
+- code: |
+    module Chap1Counter (Clk, Reset, Count);
+    input Clk, Reset;
+    output [3:0] Count;
+    reg [3:0] Count;
+    always @(posedge Clk) begin
+        if(Reset) Count = 0;
+        else Count = Count + 1;
+    end
+    endmodule
+- code: |
+    module tst_nm_in();
+      reg in; wire out;
+      NMOSinv nmv(out,in); // Instantiate NMOS inverter
+      initial
+        in =1'b1; // Start with input high -> output low
+      always
+      initial $monitor($time , " in = %b, output = %b ",in,out);
+      initial #15 $stop; // Stop simulation
+    endmodule
+- code: |
+    module nil;
+    reg a, b;
+    initial
+    begin
+    a = 1'b0;
+    b = 1'b0;
+    $display ("t=%0t display: a = %b, b = %b", $time, a, b); // Added time
+    end
+    initial
+    $monitor("t=%0t monitor: a = %b, b = %b", $time, a, b);
+    // Monitor triggers at t=0, t=2, t=5, t=6
+    endmodule
+- code: |
+    module RAM (output[7:0] Obus, input[7:0] Ibus, input[3:0] Adr, input Clk, Read);
+    reg[7:0] Storage[15:0];
+    reg[7:0] ObusReg;
+    assign #1 Obus = ObusReg;
+    always @(posedge Clk)
+    if (Read==1'b0)
+        Storage[Adr] <= Ibus;
+    else
+        ObusReg <= Storage[Adr];
+    endmodule
+- code: |
+    module tst_dff_p_b();
+      reg di,clk; wire do;
+      dff_p d1(do,di,clk); // Instantiate the DFF
+      initial begin clk=0; di=1'b0; #35 $stop; end // Initialize & stop
+      always #3 clk=~clk; // Generate clock
+      always #5 di=~di; // Toggle data
+      initial $display ("%m: Top-level testbench module"); // Display testbench name
+      initial $monitor($time," clk=%b, di=%b, do=%b",clk,di,do);
+    endmodule
+- code: |
+    module example7_5(x1, x2, x3, Clock, f, g);
+    input x1, x2, x3, Clock;
+    output f, g;
+    reg f, g;
+    always @(posedge Clock)
+    begin
+        f = x1 & x2;
+        g = f | x3;
+    end
+    endmodule
+- code: |
+    module example5(x1, x2, x3, f);
+    input x1, x2, x3;
+    output f;
+    reg f;
+    always @(x1 or x2 or x3)
+        if (x2 == 1)
+            f = x1;
+        else
+            f = x3;
+    endmodule
+- code: |
+    module aoi_gate(o,a1,a2,b1,b2);
+    input a1,a2,b1,b2;// a1,a2,b1,b2 form the input
+    //ports of the module
+    output o;//o is the single output port of the module
+    wire o1,o2;//o1 and o2 are intermediate signals
+    //within the module
+    and g1(o1,a1,a2); //The AND gate primitive has two
+    and g2(o2,b1,b2);// instantiations with assigned
+    //names g1 & g2.
+    nor g3(o,o1,o2);//The nor gate has one instantiation
+    //with assigned name g3.
+    endmodule
+- code: |
+    module aoibeh2(o,a,b); // Mixed structural/behavioral AOI
+    output o;
+    input[1:0]a,b;
+    wire a1,b1; // Outputs of AND gates
+    reg o; // Behavioral output must be reg
+    // Structural AND gates using primitives
+    and g1(a1,a[1],a[0]), g2(b1,b[1],b[0]);
+    // Behavioral NOR logic sensitive to AND outputs
+    always@(a1 or b1)
+    o = ~(a1 || b1);
+    endmodule
+- code: |
+    module muxdff(D0, D1, Sel, Clock, Q);
+    input D0, D1, Sel, Clock;
+    output Q;
+    reg Q;
+    always @(posedge Clock)
+        if (!Sel)
+            Q <= D0;
+        else
+            Q <= D1;
+    endmodule
+- code: |
+    module dff_with_reset(data, clock, r, out);
+    input clock, r, data;
+    output out;
+    reg out;
+    always @(posedge clock or posedge r)
+    begin
+    if (r)
+    out = 0;
+    else
+    out = data;
+    end
+    endmodule
+- code: |
+    module EventCtlPart (output xPart, yPart, input a, b, c);
+    reg xReg, yReg;
+    assign xPart = xReg;
+    assign yPart = yReg;
+    always @(a, b)
+    begin: PartList
+        xReg <= a & b & c;
+        yReg <= (b | c) ^ a;
+    end
+    endmodule
+- code: |
+    module dff(do,di,clk); // Behavioral D Flip-Flop
+    output do;
+    input di,clk;
+    reg do; // Output must be reg for procedural assignment
+    initial
+    do=1'b0; // Initialize output
+    // Assign input 'di' to output 'do' on negative clock edge
+    always@(negedge clk) do = di; // Use non-blocking <= for sequential logic
+    endmodule
+- code: |
+    module tst_CMOSsw1();
+      reg in,con; wire out;
+      CMOSsw1 cmsw(out,in,con); // Instantiate CMOS switch
+      initial begin in=1'b0; con=1'b1; end // Start enabled
+      always #5 in =~in; // Toggle data
+      always #3 con=~con; // Toggle control
+      initial $monitor($time , "in = %b , con = %b , output = %b " ,in,con,out);
+      initial #20 $stop; // Stop simulation
+    endmodule
+- code: |
+    module gates4_top (
+    input wire [3:0] sw ,
+    output wire [2:0] ld
+    );
+    gates4 U1 // Assuming 'gates4' provides and4_, or4_, xor4_ outputs from input 'x'
+    (
+    .x(sw),
+    .and4_(ld[2]),
+    .or4_(ld[1]),
+    .xor4_(ld[0])
+    );
+    endmodule

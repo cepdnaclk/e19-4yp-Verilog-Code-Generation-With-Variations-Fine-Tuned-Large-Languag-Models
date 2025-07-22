@@ -1,0 +1,3720 @@
+- entry: |
+    base_code: |
+        // Create a module with one input and one output that behaves like a wire
+            module wire_assign( input in, output out );
+                // assign out to in
+                assign out = in;
+            endmodule
+    prompt: |
+        Change the type of the input in from wire to bit to test usage of SystemVerilog bit type.
+    variation: |
+        // Modified: Using SystemVerilog 'bit' type
+            module wire_assign( input bit in, output bit out );
+                assign out = in;
+            endmodule
+
+- entry: |
+    base_code: |
+        // Verilog code for Problem 4
+            module XOR_Gate(
+                input A, B,
+                output Y
+            );
+                assign Y = A ^ B;
+            endmodule
+    prompt: |
+        Modify the inputs A and B to be elements of a packed 1D logic-vector array (e.g., logic [1:0] A [0:3]) and use an inside operator with a fixed 4D range to test multi-dimensional array handling.
+    variation: |
+        // Modified: Using packed 1D logic-vector array and 'inside' operator
+            module XOR_Gate(
+                input logic [1:0] A [0:3], B [0:3],
+                output logic [1:0] Y [0:3]
+            );
+                always_comb begin
+                    foreach (A[i])
+                        if (A[i] inside {[2'b00:2'b11]})  // Valid 2-bit values: 0 to 3
+                            Y[i] = A[i] ^ B[i];
+                        else
+                            Y[i] = 2'b00;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module test;
+            wire a;
+            reg x, y, z;
+            assign #25 a = 1;
+            always begin
+                x = #10 a;
+            end
+            endmodule
+    prompt: |
+        Replace the reg declarations with a packed structure that includes the signals x, y, and z, and modify the assignments accordingly to test packed structure handling.
+    variation: |
+        module testbench ();
+            class data_t;
+                rand logic [7:0] value;
+            endclass
+        
+            data_t data;
+        
+            initial begin
+                data = new();
+                if (data.randomize() == 0)  // ✅ CORRECT: avoid width truncation
+                    $fatal("Randomization failed");
+                else
+                    $display("Randomized value: %0d", data.value);
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module full_adder(i1, i2, cin, sum, cout);
+            input i1, i2, cin;
+            output sum, cout;
+            assign sum = i1 ^ i2 ^ cin;
+            assign cout = (i1 & i2) | (cin & (i1 | i2));
+            endmodule
+    prompt: |
+        Change the type of the output cout from wire to logic to test logic-vector compatibility.
+    variation: |
+        // Modified: Output cout changed from wire to logic
+            module full_adder(i1, i2, cin, sum, cout);
+            input i1, i2, cin;
+            output sum;
+            output logic cout;
+            assign sum = i1 ^ i2 ^ cin;
+            assign cout = (i1 & i2) | (cin & (i1 | i2));
+            endmodule
+
+- entry: |
+    base_code: |
+        module testbench ();
+            generate data;
+            process data;
+            endmodule
+    prompt: |
+        Replace the data construct with a struct containing a rand member to test randomization inside a structure.
+    variation: |
+        module testbench ();
+            class data_t;
+                rand logic [7:0] value;
+            endclass
+        
+            data_t data;
+        
+            initial begin
+                data = new();
+                if (!data.randomize())
+                    $fatal("Randomization failed");
+                $display("Randomized value: %0d", data.value);
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_dff_pbeh();
+              reg di,clk; wire do;
+              dff_p d1(do,di,clk); // Instantiate DFF with path delay
+              initial begin clk=0; di=1'b0; #35 $stop; end // Initialize & stop
+              always #3 clk=~clk; // Generate clock (negedges at 6, 12, 18...)
+              always #5 di=~di; // Toggle data
+              initial $monitor($time,"clk=%b, di=%b, do=%b",clk,di,do);
+            endmodule
+    prompt: |
+        Change the reg declarations for di and clk to logic to test compatibility with SystemVerilog types.
+    variation: |
+        // Dummy D flip-flop module for simulation
+            module dff_p(output logic q, input logic d, clk);
+            always_ff @(posedge clk)
+                q <= d;
+            endmodule
+        
+            // Testbench
+            module tst_dff_pbeh();
+            logic di, clk;
+            wire dout;
+        
+            dff_p d1(dout, di, clk);
+        
+            initial begin
+                clk = 0;
+                di = 1'b0;
+                repeat (10) begin
+                #1;
+                end
+                $stop;
+            end
+        
+            always #3 clk = ~clk;
+            always #5 di = ~di;
+        
+            initial $monitor($time, " clk=%b, di=%b, dout=%b", clk, di, dout);
+            endmodule
+
+- entry: |
+    base_code: |
+        module ALU ( input [7:0] a, b, input pass, add,
+            output reg[7:0] alu_out );
+            // Simple combinational ALU
+            always @(a or b or pass or add)
+            if (pass) alu_out = a;       // Pass input 'a'
+            else if (add) alu_out = a + b; // Add inputs 'a' and 'b'
+            else alu_out = 0;           // Default output is 0
+            endmodule
+    prompt: |
+        Change the output type from reg to logic [7:0] to align with modern signal declarations.
+    variation: |
+        // Modified: Output type changed to logic [7:0]
+            module ALU (
+                input [7:0] a, b, input pass, add,
+                output logic [7:0] alu_out
+            );
+            always @(*) begin
+                if (pass) alu_out = a;
+                else if (add) alu_out = a + b;
+                else alu_out = 0;
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module AndOr (output X, Y, input A, B, C);
+            assign #10 X = A & B;
+            assign #10 Y = B | C;
+            endmodule
+    prompt: |
+        Change the type of the input in from wire to bit to test usage of SystemVerilog bit type.
+    variation: |
+        module AndOr (output bit X, Y, input bit A, B, C);
+            `ifdef VERILATOR
+                assign X = A & B;
+                assign Y = B | C;
+            `else
+                assign #10 X = A & B;
+                assign #10 Y = B | C;
+            `endif
+            endmodule
+
+- entry: |
+    base_code: |
+        module IR ( input [7:0] data_in, input load, clk,
+            output reg [7:0] data_out );
+            // Simple register (Instruction Register) loaded on posedge clk when load is high
+            always @( posedge clk )
+            if ( load ) data_out <= data_in;
+            endmodule
+    prompt: |
+        Modify the inputs A and B to be elements of a packed 1D logic-vector array (e.g., logic [1:0] A [0:3]) and use an inside operator with a fixed 4D range to test multi-dimensional array handling.
+    variation: |
+        // Modified: Using packed 1D logic-vector array and valid 'inside' syntax
+            module IR (
+                input logic [1:0] data_in [0:3],
+                input logic load, clk,
+                output logic [1:0] data_out [0:3]
+            );
+                always @(posedge clk) begin
+                    if (load) begin
+                        foreach (data_in[i])
+                            if (data_in[i] inside {[2'b00:2'b11]})
+                                data_out[i] <= data_in[i];
+                            else
+                                data_out[i] <= 2'b00;
+                    end
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module Problem8(input [3:0] a, b, output [3:0] diff);
+              assign diff = a - b;
+            endmodule
+    prompt: |
+        Replace the reg declarations with a packed structure that includes the signals x, y, and z, and modify the assignments accordingly to test packed structure handling.
+    variation: |
+        // Modified: Packed structure for signals x, y, z, delays removed
+            module Problem8;
+                typedef struct packed {
+                    logic x, y, z;
+                } signal_t;
+        
+                signal_t sig;
+                wire a;
+        
+                assign a = 1'b1;
+        
+                always_comb begin
+                    sig.x = a;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_alu4();
+              reg [3:0]a,b; reg[1:0] f; reg cci; wire[3:0]d; wire co;
+              alu_4 aa(d,co,a,b,f,cci); // Instantiate ALU
+              initial begin cci=1'b0; f=2'b00; a=4'h0; b=4'h0; #30 $stop; end // Initialize & stop
+              always begin // Apply stimulus with #3 delay
+              end
+              initial $monitor($time, " cci = %b , a= %h ,b = %h ,f = %b ,d =%h ,co= %b ",cci ,a,b,f,d,co); // Use %h
+            endmodule
+    prompt: |
+        Change the type of the output cout from wire to logic to test logic-vector compatibility.
+    variation: |
+        module alu_4(
+            output [3:0] d,
+            output logic co,
+            input [3:0] a, b,
+            input [1:0] f,
+            input cci
+            );
+                logic [4:0] temp;
+                assign temp = a + b + cci;
+                assign d = temp[3:0];
+                assign co = temp[4];
+            endmodule
+
+- entry: |
+    base_code: |
+        module DataComponent (DataIn, DataOut, ControlSignals);
+            input [7:0] DataIn;
+            output [7:0] DataOut;
+            input ControlSignals;
+            endmodule
+    prompt: |
+        Replace the data construct with a struct containing a rand member to test randomization inside a structure.
+    variation: |
+        module DataComponent (
+            input logic ControlSignals
+            );
+                typedef struct packed {
+                    logic [7:0] payload;
+                } data_t;
+        
+                data_t DataIn;
+                data_t DataOut;
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module Problem1(input [3:0] a, b, output [3:0] sum);
+              assign sum = a + b;
+            endmodule
+    prompt: |
+        Change the reg declarations for di and clk to logic to test compatibility with SystemVerilog types.
+    variation: |
+        // Modified: di and clk declared as logic
+            module Problem1(
+                input logic [3:0] a, b,
+                output logic [3:0] sum
+            );
+            assign sum = a + b;
+            endmodule
+
+- entry: |
+    base_code: |
+        // Verilog code for Problem 5
+            module Half_Adder(
+                input A, B,
+                output Sum, Carry
+            );
+                assign Sum = A ^ B;
+                assign Carry = A & B;
+            endmodule
+    prompt: |
+        Change the output type from reg to logic [7:0] to align with modern signal declarations.
+    variation: |
+        // Modified: Inputs as 4-bit logic vectors
+            module Half_Adder(
+                input logic [3:0] A, B,
+                output logic [3:0] Sum, Carry
+            );
+                assign Sum = A ^ B;
+                assign Carry = A & B;
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_alu1();
+              reg [3:0]a,b; reg[1:0] f; reg cci; wire[3:0]d; wire co;
+              alu_1 aa(d,co,a,b,f,cci); // Instantiate ALU
+              initial begin cci=1'b0; f=2'b00; a=4'h0; b=4'h0; #30 $stop; end // Initialize & stop
+              always begin // Apply stimulus
+              end
+              initial $monitor($time, " cci = %b , a= %h ,b = %h ,f = %b ,d =%h ,co= %b ",cci ,a,b,f,d,co); // Use %h
+            endmodule
+    prompt: |
+        Replace the inputs A and B with 4-bit logic vectors to test multi-bit combinational logic behavior.
+    variation: |
+        // Modified: Added signed test case
+            module alu_1(
+            output logic [3:0] d,
+            output logic co,
+            input signed [3:0] a, b,
+            input [1:0] f,
+            input cci
+            );
+                logic signed [4:0] temp;
+        
+                always_comb begin
+                    case (f)
+                        2'b00: temp = a + b + cci;  // ADD
+                        2'b01: temp = a - b - cci;  // SUB
+                        default: temp = 0;
+                    endcase
+        
+                    d  = temp[3:0];
+                    co = temp[4];  // overflow/carry out
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module sw2led2 (
+            input wire [7:0] sw ,
+            output wire [7:0] ld
+            ) ;
+            assign ld = sw;
+            endmodule
+    prompt: |
+        Modify the ALU testbench to include an additional signed test case to evaluate signed integer handling.
+    variation: |
+        // Modified: Unpacked struct with logic and string fields
+            typedef struct packed {
+            logic [7:0] value;
+            } signal_t;
+        
+            module sw2led2 (
+                input  signal_t sw,
+                output signal_t ld
+            );
+                assign ld = sw;
+            endmodule
+
+- entry: |
+    base_code: |
+        module orfr_tst; // Testbench for OR gate with force/release
+              reg b,c; wire a;
+              initial begin b=1'b0; c=1'b0; #20 $stop; end // Initialize inputs
+              always #3 c = ~c; // Toggle input 'c' every 3 time units
+              or_fr_rl dd(a,b,c); // Instantiate the module containing force/release
+            endmodule
+    prompt: |
+        Change DataIn and DataOut types to an unpacked structure containing both logic and string fields.
+    variation: |
+        // Modified: Inputs as logic signed [3:0]
+            // Dummy module for or_fr_rl to allow Verilator to compile
+            module or_fr_rl(
+                output logic signed [3:0] a,
+                input  logic signed [3:0] b,
+                input  logic signed [3:0] c
+            );
+                always_comb begin
+                    a = b | c;  // Example logic: bitwise OR
+                end
+            endmodule
+        
+            // Testbench module
+            module orfr_tst;
+                logic signed [3:0] a, b;
+                logic signed [3:0] c;
+        
+                or_fr_rl dd(a, b, c);
+        
+                initial begin
+                    b = 0;
+                    c = 0;
+                    // Dummy loop to simulate delay (no real time passes)
+                    for (int i = 0; i < 10; i++) begin
+                        automatic int dummy = i;  // Do nothing, just wait syntactically
+                    end
+                    $stop;
+                end
+        
+                always_comb begin
+                    c = ~b;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module ALU (output[31:0] Result, input[31:0] ArgA, ArgB, input Clk);
+            specify
+                specparam tRise = 5, tFall = 4;
+                (Clk *> Result) = (tRise, tFall);
+            endspecify
+            endmodule
+    prompt: |
+        Convert inputs a and b to logic signed [3:0] to test signed arithmetic operations.
+    variation: |
+        // Modified: Inputs as packed enum
+            typedef enum logic [1:0] {IDLE=2'b00, ACTIVE=2'b01} state_t;
+        
+            module ALU(
+                input state_t A, B,
+                output logic [1:0] Result
+            );
+                assign Result = A ^ B;
+            endmodule
+
+- entry: |
+    base_code: |
+        module show_aa(ao,ai); // NOT gate with delay 2
+              output ao; input ai; wire ao, ai;
+              not #2 (ao,ai);
+            endmodule
+    prompt: |
+        Change A and B from logic to packed enums with default and non-default values to test enum-based inputs.
+    variation: |
+        // Modified: Testbench with dynamic array
+            module show_aa();
+            typedef logic [3:0] dyn_array_t[];
+        
+            dyn_array_t a_inputs;
+            reg ai;
+            wire ao;
+        
+            not (ao, ai);  // ✅ delay removed
+            endmodule
+
+- entry: |
+    base_code: |
+        module dff_inst(D, Clock, Resetn, Q);
+            input D, Clock, Resetn;
+            output Q;
+            lpm_ff flipflop(.data(D), .aclr(Resetn), .clock(Clock), .q(Q));
+            defparam flipflop.lpm_width = 1;
+            endmodule
+    prompt: |
+        Expand the testbench to include test cases using a dynamic array as input operands.
+    variation: |
+        // Modified: Packed union as output
+            typedef union packed {
+            logic [7:0] val;
+            struct packed {
+                logic [3:0] low;
+                logic [3:0] high;
+            } parts;
+            } result_u;
+        
+            // Custom flip-flop (replaces lpm_ff)
+            module dff_inst (
+                input  logic D,
+                input  logic Clock,
+                input  logic Resetn,
+                output result_u Q
+            );
+                always_ff @(posedge Clock or negedge Resetn) begin
+                    if (!Resetn)
+                        Q.val <= 1'b0;
+                    else
+                        Q.val <= D;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module latch (input d, c, output reg q, q_b );
+            always begin
+            wait ( c );
+            end
+            endmodule
+    prompt: |
+        Change output from reg [7:0] to a packed union to test union-based outputs.
+    variation: |
+        // Modified: wait replaced with rand structure assignment
+            module latch (
+            input  logic d,
+            input  logic c,
+            output logic q,
+            output logic q_b
+            );
+        
+                always_latch begin
+                    if (c)
+                        q = d;  // ✅ use blocking assignment '='
+                end
+        
+                assign q_b = ~q;
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module example4(x1, x2, x3, x4, f, g, h);
+            input x1, x2, x3, x4;
+            output f, g, h;
+            assign g = (x1 & x3) | (x2 & x4);
+            assign h = (x1 | x3) & (x2 | x4);
+            assign f = g | h;
+            endmodule
+    prompt: |
+        Replace the wait(c) statement with a blocking assignment inside a structure containing rand members to test randomizable structures.
+    variation: |
+        // Modified: Inputs grouped in unpacked struct
+            typedef struct {
+                logic x1, x2, x3, x4;
+            } input_t;
+        
+            module example4(input_t in, output logic f, g, h);
+                assign g = (in.x1 & in.x3) | (in.x2 & in.x4);
+                assign h = (in.x1 | in.x3) & (in.x2 | in.x4);
+                assign f = g | h;
+            endmodule
+
+- entry: |
+    base_code: |
+        module par(in, parity, all_ones);
+            input [7:0] in;
+            output parity, all_ones;
+            assign parity = ^in;
+            assign all_ones = &in;
+            endmodule
+    prompt: |
+        Convert the inputs x1–x4 into a single unpacked struct with logic fields and apply operations on the structure to test structure-based logic operations.
+    variation: |
+        // Modified: Changed base type to byte
+            module par(input byte in, output parity, all_ones);
+            assign parity = ^in;
+            assign all_ones = &in;
+            endmodule
+
+- entry: |
+    base_code: |
+        module FourFlopsStructL #(parameter DClk = 2, DBuf = 1)
+            (output[3:0] Q, input[3:0] D, input Ena, Clk);
+            wire[3:0] QWire;
+            localparam DTot = DBuf + DClk;
+            DFF DReg[3:0] (.Q(QWire), .D(D), .Clk(Clk));
+            assign #DTot Q = (Ena==1'b1)? QWire : 'bz;
+            endmodule
+    prompt: |
+        Change the base type of the input vector in from logic to byte to test byte-type vector compatibility.
+    variation: |
+        // Modified: Packed union input
+            typedef union packed {
+            logic [1:0] D;
+            logic [1:0] bus;
+            } input_u;
+        
+            module DFF (
+                output logic Q,
+                input  logic D,
+                input  logic Clk
+            );
+                always_ff @(posedge Clk)
+                    Q <= D;
+            endmodule
+        
+            module FourFlopsStructL #(
+                parameter DClk = 2,
+                parameter DBuf = 1
+            ) (
+                output logic [3:0] Q,
+                input  input_u D,
+                input  logic Ena,
+                input  logic Clk
+            );
+                wire [3:0] QWire;
+        
+                DFF DReg[3:0] (
+                    .Q(QWire),
+                    .D({D.D, D.D}), // repeat D[1:0] twice to drive 4 flops
+                    .Clk(Clk)
+                );
+        
+                assign Q = (Ena == 1'b1) ? QWire : 4'bz;
+            endmodule
+
+- entry: |
+    base_code: |
+        module Anding (input a, b, output y);
+            and (y, a, b);
+            endmodule
+    prompt: |
+        Modify the DFF instantiation to use a packed union as input to test union handling in module ports.
+    variation: |
+        // Modified: Logic-vector enum usage
+            typedef enum logic [1:0] {ZERO=2'b00, ONE=2'b01, TWO=2'b10} val_t;
+        
+            module Anding(input val_t a, b, output logic y);
+            assign y = (a == ONE) & (b == TWO);
+            endmodule
+
+- entry: |
+    base_code: |
+        module mos_strength (a, c, zn, zp);
+            input a, c;
+            output zn, zp;
+            nmos (zn, a, c); // NMOS passes 'a' when 'c' is 1 (outputs St0 or Z)
+            pmos (zp, a, c); // PMOS passes 'a' when 'c' is 0 (outputs St1 or Z)
+            endmodule
+    prompt: |
+        Replace the xor and and gate expressions with a logic-vector based enum to test enum operations.
+    variation: |
+        // Modified: Nested unpacked structure as output
+            typedef struct {
+            logic [3:0] result;
+            struct packed {
+                logic carry;
+                logic overflow;
+            } flags;
+            } alu_out_t;
+        
+            module mos_strength (
+                input  logic a, c,
+                output alu_out_t out
+            );
+                wire res0, carry_w;
+        
+                // Tristate primitives connected to plain wires
+                nmos (res0, a, c);
+                pmos (carry_w, a, c);
+        
+                // Connect wires to struct fields
+                assign out.result[0] = res0;
+                assign out.flags.carry = carry_w;
+                assign out.result[3:1] = 3'b000;
+                assign out.flags.overflow = 1'b0;
+            endmodule
+
+- entry: |
+    base_code: |
+        module gade(a,a1,b,c,b1,c1);
+            input b,c,b1,c1;
+            output a,a1;
+            // Instantiate OR gate with inertial delay 3
+            or #3 gg1(a1,c1,b1);
+            // Instantiate AND gate with rise=2, fall=1 inertial delay
+            and #(2,1) gg2(a,c,b);
+            endmodule
+    prompt: |
+        Use an unpacked nested structure as the output type to test nested unpacked structure handling.
+    variation: |
+        // Modified: Clock input from struct
+            typedef struct packed {
+            logic Clk;
+            } clk_struct_t;
+        
+            module gade (
+                input  logic b, c, b1, c1,
+                input  clk_struct_t clk_in,
+                output logic a, a1
+            );
+                or  gg1(a1, c1, b1);       // delay removed
+                and gg2(a, c, b);          // delay removed
+            endmodule
+
+- entry: |
+    base_code: |
+        module tstha_9();
+              reg a,b; wire s,ca;
+              ha_9 hh(s,ca,a,b); // Instantiate HA with rise/fall path delays
+              initial begin a=0;b=0; end
+              always begin #5 a=1;b=0; #5 a=0;b=1; #5 a=1;b=1; #5 a=0;b=0; end
+              initial $monitor($time , " a = %b , b = %b ,out carry = %b , outsum = %b ",a,b,ca,s);
+              initial #30 $stop;
+            endmodule
+    prompt: |
+        Modify the clk input to come from a packed structure and test struct signal routing.
+    variation: |
+        // Modified: Wire-array with unpacked dimension
+            module ha_9 (
+            output logic sum,
+            output logic carry,
+            input  logic a,
+            input  logic b
+            );
+                assign sum   = a ^ b;
+                assign carry = a & b;
+            endmodule
+        
+            module tstha_9();
+                reg a, b;
+                wire [1:0] s_array;  // [1] = carry, [0] = sum
+        
+                ha_9 hh(s_array[0], s_array[1], a, b);
+        
+                initial begin
+                    a = 0; b = 0;
+                    $display("a = %b, b = %b", a, b);
+                    $display("carry = %b, sum = %b", s_array[1], s_array[0]);
+        
+                    a = 1; b = 0;
+                    $display("a = %b, b = %b", a, b);
+                    $display("carry = %b, sum = %b", s_array[1], s_array[0]);
+        
+                    a = 0; b = 1;
+                    $display("a = %b, b = %b", a, b);
+                    $display("carry = %b, sum = %b", s_array[1], s_array[0]);
+        
+                    a = 1; b = 1;
+                    $display("a = %b, b = %b", a, b);
+                    $display("carry = %b, sum = %b", s_array[1], s_array[0]);
+        
+                    $finish;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module example3(Data, Clock, Reset, RegSum, Sum);
+            input Clock, Reset;
+            input [3:0] Data;
+            output [3:0] Sum, RegSum;
+            wire [3:0] Sum, RegSum;
+            reg4 R1 (Sum, Clock, Reset, RegSum);
+            assign Sum = Data + RegSum;
+            endmodule
+    prompt: |
+        Change the output ld to a wire type array with unpacked dimension to test wire-array compatibility.
+    variation: |
+        // Modified: Input as class handle with associative array
+            module reg4 (
+            output logic [3:0] Q,
+            input  logic Clock,
+            input  logic Reset,
+            input  logic [3:0] D
+            );
+                always_ff @(posedge Clock or posedge Reset)
+                    if (Reset)
+                        Q <= 4'b0;
+                    else
+                        Q <= D;
+            endmodule
+        
+            module example3 (
+                input  logic [31:0] Data [0:15],  // 16-entry array of 32-bit words
+                input  logic [3:0] Clock,         // 4-bit index for Data[]
+                input  logic Reset,
+                output logic [3:0] Sum,
+                output logic [3:0] RegSum
+            );
+                wire [3:0] QWire;
+                wire [31:0] result;
+        
+                reg4 R1 (.Q(QWire), .Clock(Clock[0]), .Reset(Reset), .D(Sum));
+                assign RegSum = QWire;
+        
+                assign result = Data[Clock] + RegSum;
+                assign Sum = result[3:0];  // ✅ no slicing on parenthesized expression
+            endmodule
+
+- entry: |
+    base_code: |
+        module SchedDelayA;
+            reg a, b;
+            initial
+            begin
+            end
+            always @(b) a = b;
+            always @(a) b <= a;
+            endmodule
+    prompt: |
+        Replace one of the inputs with a class handle and use inside operator with associative array to test class-based associative access.
+    variation: |
+        // Modified: Result as unit-width packed structure
+            typedef struct packed {
+            logic [31:0] r;
+            } Result_t;
+        
+            module SchedDelayA (
+                output Result_t Result,
+                input  [31:0] ArgA,
+                input  [31:0] ArgB,
+                input  Clk
+            );
+                specify
+                    specparam tRise = 5, tFall = 4;
+                    (Clk *> Result) = (tRise, tFall);
+                endspecify
+            endmodule
+
+- entry: |
+    base_code: |
+        module netdelay1(x,y);
+            input x;
+            output y;
+            wire #(2,1) nn; // Declare wire 'nn' with rise=2, fall=1 delay
+            not (nn,x); // Assign NOT(x) to 'nn' (takes effect after rise/fall delay)
+            assign y=nn; // Assign 'nn' to 'y' (direct assignment)
+            endmodule
+    prompt: |
+        Redefine the output Result as a unit width packed structure with 32 fields to test structural granularity.
+    variation: |
+        // Modified: Output as logic signed
+            module netdelay1(input x, output logic signed y);
+            wire nn;
+            not (nn, x);
+            assign y = nn;
+            endmodule
+
+- entry: |
+    base_code: |
+        module func1(x1, x2, x3, f);
+            input x1, x2, x3;
+            output f;
+            assign f = (~x1 & ~x2 & x3) | (~x1 & x2 & ~x3) | (x1 & ~x2 & x3) | (x1 & x2 & ~x3);
+            endmodule
+    prompt: |
+        Change the output type from logic to logic signed to test signed logic vectors.
+    variation: |
+        // Modified: Resetn as enum
+            typedef enum logic [0:0] {RESET_ACTIVE = 1'b0, RESET_INACTIVE = 1'b1} reset_e;
+        
+            module func1(x1, x2, x3, f, input reset_e Resetn);
+            input x1, x2, x3;
+            output f;
+            assign f = (~x1 & ~x2 & x3) | (~x1 & x2 & ~x3) | (x1 & ~x2 & x3) | (x1 & x2 & ~x3);
+            endmodule
+
+- entry: |
+    base_code: |
+        module t_Clock_Prog ();
+            wire clock;
+        
+            initial #100 $finish;
+            Clock_Prog M1 (clk);
+            endmodule
+    prompt: |
+        Replace the Resetn input with an enum having default and non-default base types to test enum coverage.
+    variation: |
+        // Modified: Delays from unpacked struct
+            module Clock_Prog(output logic clock);
+            assign clock = 1'b0;
+            endmodule
+        
+            module t_Clock_Prog(
+                input logic signed [7:0] rise,
+                input logic signed [7:0] fall
+            );
+                wire clock;
+        
+                specify
+                    (clock *> rise) = fall;
+                endspecify
+        
+            `ifndef VERILATOR
+                initial #100 $finish;
+            `endif
+        
+                Clock_Prog M1(clock);
+            endmodule
+
+- entry: |
+    base_code: |
+        module ha_1(s,ca,a,b); // Half Adder with gate delays
+              input a,b; output s,ca;
+              xor #(1,2) (s,a,b);
+              and #(3,4) (ca,a,b);
+            endmodule
+    prompt: |
+        Modify the parameterized delays to be driven by values stored in an unpacked structure with signed members.
+    variation: |
+        // Modified: Wildcard-indexed associative array
+            module ha_1 (
+            input logic a, b,
+            output logic s, ca
+            );
+                assign s  = a ^ b;
+                assign ca = a & b;
+            endmodule
+
+- entry: |
+    base_code: |
+        // Create a module with one input and one output that behaves like a wire
+            module wire_assign( input in, output out );
+                // assign out to in
+                assign out = in;
+            endmodule
+    prompt: |
+        Change the input Clock to a wildcard-indexed associative array and access it via the inside operator to test wildcard indexing.
+    variation: |
+        // Modified: Clock as wildcard-indexed associative array with inside operator
+            module reg4 (
+            output logic [3:0] q,
+            input logic clk,
+            input logic rst,
+            input logic [3:0] d
+            );
+                always_ff @(posedge clk or posedge rst)
+                    if (rst) q <= 0;
+                    else     q <= d;
+            endmodule
+        
+            module example3 (
+                input  logic [3:0] Data,
+                input  logic [3:0] clk_array,   // Use fixed-size logic array instead
+                input  logic Reset,
+                output logic [3:0] Sum,
+                output logic [3:0] RegSum
+            );
+                logic clk_val;
+        
+                // Example logic: use clk_array[0] as clock (you can modify this condition)
+                always_comb begin
+                    clk_val = clk_array[0]; // Safe fixed-index selection
+                end
+        
+                reg4 R1 (.q(RegSum), .clk(clk_val), .rst(Reset), .d(Sum));
+                assign Sum = Data + RegSum;
+            endmodule
+
+- entry: |
+    base_code: |
+        module ha_8(s,ca,a,b); // Half Adder with specparam path delays
+              input a,b; output s,ca;
+              specify
+                specparam dl1 = 1; // Define specify parameter for s delay
+                specparam dl2 = dl1 + 1; // Define specify parameter for ca delay based on dl1
+                // Assign path delays using specparams
+                (a, b *> s) = dl1;
+                (a, b *> ca) = dl2;
+              endspecify
+              xor (s,a,b);
+              and (ca,a,b);
+            endmodule
+    prompt: |
+        Add an if condition that checks whether a 4D packed logic array variable is inside a range list using array slice expressions.
+    variation: |
+        module ha_8(s, ca, a, b);
+            input a, b;
+            output s, ca;
+        
+            logic [1:0][1:0][1:0][1:0] vec4D;
+        
+            specify
+                specparam dl1 = 1;
+                specparam dl2 = dl1 + 1;
+                (a, b *> s) = dl1;
+                (a, b *> ca) = dl2;
+            endspecify
+        
+            xor (s, a, b);
+            and (ca, a, b);
+        
+            always_comb begin
+                bit match = 1;
+                int i, j, k, l;  // Declare loop indices
+                foreach (vec4D[i][j][k][l]) begin
+                    if (!(vec4D[i][j][k][l] inside {[0:1]}))
+                        match = 0;
+                end
+                if (match)
+                    $display("vec4D inside range");
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        `timescale 1ns/100ps
+            module ShiftRegister8 (input sl, sr, clk, input [7:0] ParIn, input [1:0] m, output reg [7:0] ParOut);
+            always @(negedge clk) begin
+                case (m)
+                    0: ParOut <= ParOut;
+                    1: ParOut <= {sl, ParOut[7:1]};
+                    2: ParOut <= {ParOut[6:0], sr};
+                    3: ParOut <= ParIn;
+                    default: ParOut <= 8'bX;
+                endcase
+            end
+            endmodule
+    prompt: |
+        In the case statement, add a packed vector array select used with the inside operator to match against a dynamic range list.
+    variation: |
+        `timescale 1ns/100ps
+            module ShiftRegister8 (input sl, sr, clk, input [7:0] ParIn, input [1:0] m, output reg [7:0] ParOut);
+            logic [1:0][3:0] packed_array;
+            logic matched;
+            always @(negedge clk) begin
+                case (m)
+                    0: ParOut <= ParOut;
+                    1: ParOut <= {sl, ParOut[7:1]};
+                    2: ParOut <= {ParOut[6:0], sr};
+                    3: ParOut <= ParIn;
+                    default: ParOut <= 8'bX;
+                endcase
+                matched = packed_array[1] inside {[4'b0000:4'b1111]};
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module example7_4(D, Clock, Q1, Q2);
+            input D, Clock;
+            output Q1, Q2;
+            reg Q1, Q2;
+            always @(posedge Clock)
+            begin
+                Q1 <= D;
+                Q2 <= Q1;
+            end
+            endmodule
+    prompt: |
+        Add a while loop condition that uses inside with a variable index applied to a packed array.
+    variation: |
+        module example7_4(D, Clock, Q1, Q2);
+            input D, Clock;
+            output reg Q1, Q2;
+        
+            logic [3:0] values[0:2];
+            integer idx;
+        
+            initial begin
+                values[0] = 4'hA;
+                values[1] = 4'hB;
+                values[2] = 4'hC;
+                idx = 0;
+            end
+        
+            always @(posedge Clock) begin
+                Q1 <= D;
+                Q2 <= Q1;
+        
+                // Use for-loop to avoid potential infinite loop
+                for (int i = idx; i < 3; i++) begin
+                    if (!(values[i] inside {[4'h0:4'hF]}))
+                        break;
+                    idx++;
+                end
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module FA;
+            endmodule
+        
+            module Ripple_Add;
+                FA fa0();
+                FA fa1();
+                FA fa2();
+                FA fa3();
+            endmodule
+    prompt: |
+        In the always block, test use of a part-select expression in the inside operator range list.
+    variation: |
+        module FA;
+              logic [3:0] arr;
+              always @(*) begin
+                if (arr[1:0] inside {2'b10, 2'b11}) begin
+                  $display("Match found");
+                end
+              end
+            endmodule
+        
+            module Ripple_Add;
+                FA fa0();
+                FA fa1();
+                FA fa2();
+                FA fa3();
+            endmodule
+
+- entry: |
+    base_code: |
+        module nor3NMOS(in1,in2,in3,b); // 3-input NMOS NOR
+              output b;
+              input in1,in2,in3;
+              supply0 a; // Ground
+              wire b; // Output wire (should be just output b;)
+              // Parallel NMOS transistors connect output to ground
+              nmos (b, a, in1);
+              nmos (b, a, in2);
+              nmos (b, a, in3);
+              pullup (b); // Pullup device on the output
+            endmodule
+    prompt: |
+        Modify the jk instantiation to include a case statement that uses inside with function call result in the index.
+    variation: |
+        module nor3NMOS(in1,in2,in3,b);
+              output b;
+              input in1,in2,in3;
+              supply0 a;
+              wire b;
+              nmos (b, a, in1);
+              nmos (b, a, in2);
+              nmos (b, a, in3);
+              pullup (b);
+              function int index();
+                return 1;
+              endfunction
+              always_comb begin
+                case (index())
+                  1: if ({in1, in2} inside {2'b00, 2'b01}) $display("Inside");
+                endcase
+              end
+            endmodule
+
+- entry: |
+    base_code: |
+        module test_k;
+            wire q, clock, j, k, preset, clear;
+            reg j, k;
+            jkEdgeFF jk(q, clock, j, k, preset, clear);
+            initial
+            begin
+            reset_ff;
+            j = 1;
+            k = 0;
+            end
+            m555 timer(clock);
+            endmodule
+    prompt: |
+        Add a procedural assignment using inside with a constant index into a 2D logic array to test MDA behavior.
+    variation: |
+        module jkEdgeFF (
+            output reg q,
+            input clock, j, k, preset, clear
+            );
+                always @(posedge clock or posedge preset or posedge clear) begin
+                    if (clear) q <= 0;
+                    else if (preset) q <= 1;
+                    else if (j & ~k) q <= 1;
+                    else if (~j & k) q <= 0;
+                    else if (j & k) q <= ~q;
+                end
+            endmodule
+        
+            module m555(output logic clk);
+                // Simple oscillator stub for simulation purposes
+                initial begin
+                    clk = 0;
+                    forever #5 clk = ~clk;
+                end
+            endmodule
+        
+            module test_k;
+                logic [1:0][3:0] arr2D;
+                wire q, clock, preset, clear;
+                reg j, k;
+        
+                assign preset = 0;
+                assign clear = 0;
+        
+                jkEdgeFF jk(q, clock, j, k, preset, clear);
+        
+                initial begin
+                    arr2D[0] = 4'd6;
+                    j = (arr2D[0] inside {4'd5, 4'd6}); // Now the width matches (4 bits)
+                end
+        
+                m555 timer(clock);
+            endmodule
+
+- entry: |
+    base_code: |
+        module clock_gen_forever; // Renamed module for clarity
+              reg clk, en;
+              // Generate clock using forever loop, controlled by 'en'
+              always @(posedge en) // Start clock generation on posedge en
+                forever #2 clk = ~clk; // Toggle clock every 2 time units forever
+              initial
+              begin
+                clk = 1'b0; // Initialize clock
+                en = 1'b0; // Start disabled
+              end
+              initial $monitor("clk=%b, t=%0d, en=%b ", clk,$time,en);
+            endmodule
+    prompt: |
+        Use a for loop that includes an inside expression where the index is calculated via a function call.
+    variation: |
+        module clock_gen_forever;
+            reg clk, en;
+            logic [2:0] dyn_arr [0:2]; // Fix: array of 3-bit values
+        
+            function int idx_func();
+                return 1;
+            endfunction
+        
+            always @(posedge en)
+                for (int i = 0; i < 3; i++)
+                    if (dyn_arr[idx_func()] inside {3'b010, 3'b011})
+                        clk = ~clk;
+        
+            initial begin
+                clk = 1'b0;
+                en = 1'b0;
+                dyn_arr[0] = 3'b001;
+                dyn_arr[1] = 3'b010; // will match
+                dyn_arr[2] = 3'b100;
+            end
+        
+            initial $monitor("clk=%b, t=%0d, en=%b", clk, $time, en);
+            endmodule
+
+- entry: |
+    base_code: |
+        module contres(o,i1,i2);
+            input i1,i2;
+            output o;
+            // Drive wire 'o' from two buffers with specified output strengths
+            buf(pull1, weak0) g1(o,i1); // Drives pull '1', weak '0'
+            buf(pull1, weak0) g2(o,i2); // Drives pull '1', weak '0'
+            // Resolution: 1,1->1; 1,0->1; 0,1->1; 0,0->0; 1,Z->1; 0,Z->X; Z,Z->Z
+            // Effective behavior is OR due to pull1 dominance over weak0
+            endmodule
+    prompt: |
+        Add an initial block that tests an inside expression over an array as a whole range.
+    variation: |
+        module contres(output logic o, input i1, i2);
+        
+            always_comb begin
+                // resolve value explicitly; e.g., logical OR
+                o = i1 | i2;
+            end
+        
+            initial begin
+                logic [7:0] arr = 8'b01010101;
+                if (arr inside {[8'b00000000:8'b11111111]})
+                    $display("Inside full array range");
+            end
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_dec2_4beh();
+            wire [3:0]o;
+            reg[1:0] i;
+            //reg en; // Enable not used in dec2_4beh
+            dec2_4beh dec(o,i);
+            initial
+            begin
+            i =2'b00;
+            end
+            initial $monitor ($time , " output o = %b , input i = %b " , o ,i);
+            initial #14 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Add an if statement using inside with an indexed part select as the operand being tested.
+    variation: |
+        // 2-to-4 decoder (behavioral)
+            module dec2_4beh(output logic [3:0] o, input logic [1:0] i);
+                always_comb begin
+                    o = 4'b0000;
+                    case (i)
+                        2'b00: o[0] = 1;
+                        2'b01: o[1] = 1;
+                        2'b10: o[2] = 1;
+                        2'b11: o[3] = 1;
+                    endcase
+                end
+            endmodule
+        
+            // Testbench
+            module tst_dec2_4beh();
+            wire [3:0] o;
+            reg [1:0] i;
+        
+            dec2_4beh dec(o, i);
+        
+            always @(*) begin
+                if (o[2:1] inside {2'b10, 2'b11})
+                    $display("Inside part select: o[2:1] = %b", o[2:1]);
+            end
+        
+            initial begin
+                i = 2'b00;
+                i = 2'b01;
+                i = 2'b10;
+                i = 2'b11;
+                i = 2'b00;
+                $stop;
+            end
+        
+            initial $monitor($time, " o = %b, i = %b", o, i);
+            endmodule
+
+- entry: |
+    base_code: |
+        module pulses; // Incorrect pulse generation attempt
+              reg [8:0] I;
+              reg a,b;
+              initial
+                while (I<100) begin // Loop based on integer I
+                  b = I[1]; // Assign bit 1 of I to b (Corrected indexing)
+                  I = I + 1; // Increment I
+                end
+              initial I=0; // Initialize I
+              initial #100 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Include a unique case expression that uses inside with an array-slice range in a logic-vector array.
+    variation: |
+        module dec2_4beh(output reg [3:0] o, input [1:0] i);
+            always @(*) begin
+                o = 4'b0000;
+                case (i)
+                    2'b00: o = 4'b0001;
+                    2'b01: o = 4'b0010;
+                    2'b10: o = 4'b0100;
+                    2'b11: o = 4'b1000;
+                endcase
+            end
+            endmodule
+        
+        
+            module tst_dec2_4beh;
+                wire [3:0] o;
+                reg [1:0] i;
+        
+                dec2_4beh dec(o, i);
+        
+                always @(*) begin
+                    // o[2:1] is 2 bits, so compare against 2-bit values
+                    if (o[2:1] inside {2'b10, 2'b11})
+                        $display("Inside part select: o[2:1] = %b", o[2:1]);
+                end
+        
+                initial begin
+                    $monitor($time, " o = %b, i = %b", o, i);
+                    i = 2'b00;
+                    #1 i = 2'b01;
+                    #1 i = 2'b10;
+                    #1 i = 2'b11;
+                    #1 i = 2'b00;
+                    #1 $stop;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module reg4(D, Clock, Resetn, Q);
+            input [3:0] D;
+            input Clock, Resetn;
+            output [3:0] Q;
+            reg [3:0] Q;
+            always @(posedge Clock or negedge Resetn)
+                if (Resetn == 0)
+                    Q <= 4'b0000;
+                else
+                    Q <= D;
+            endmodule
+    prompt: |
+        Add a procedural continuous assignment using inside with a dynamic array selected via variable index.
+    variation: |
+        module reg4 (
+            input  [3:0] D,
+            input        Clock,
+            input        Resetn,
+            output reg [3:0] Q
+            );
+        
+                logic [2:0] dyn_arr [0:3];  // Array of 4 elements, each 3 bits
+                integer idx;
+        
+                initial begin
+                    dyn_arr[0] = 3'b000;
+                    dyn_arr[1] = 3'b001;
+                    dyn_arr[2] = 3'b010;
+                    dyn_arr[3] = 3'b011;
+                    idx = 0;
+                end
+        
+                always @(posedge Clock or negedge Resetn) begin
+                    if (!Resetn)
+                        Q <= 4'b0000;
+                    else begin
+                        Q <= D;
+                        if (dyn_arr[idx] inside {3'b001, 3'b010})
+                            Q[0] <= 1'b1;
+                        idx <= (idx + 1) % 4;
+                    end
+                end
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module aoi2(g,a,b,c,d);
+            output g;
+            input a,b,c,d;
+            wire e,f,g1; // Intermediate signals
+            // Dataflow assignments for AND, OR, and NOT operations
+            assign e = a && b;
+            assign f = c && d;
+            assign g1 = e || f;
+            assign g = ~g1; // Final AOI output
+            endmodule
+    prompt: |
+        Use initial block variable initialization with an inside expression using a function call in the index.
+    variation: |
+        module aoi2(g,a,b,c,d);
+            output g;
+            input a,b,c,d;
+            wire e,f,g1;
+            assign e = a && b;
+            assign f = c && d;
+            assign g1 = e || f;
+            assign g = ~g1;
+            initial begin
+              logic [1:0][1:0] mat;
+              if (mat[1][0] inside {1'b1}) $display("Inside");
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module maj3 (a, b, c, y);
+            input a, b, c;
+            output y;
+            wire im1, im2, im3;
+            and #(2, 4)
+                (im1, a, b),
+                (im2, b, c),
+                (im3, c, a);
+            or #(3, 5) (y, im1, im2, im3);
+            endmodule
+    prompt: |
+        In the always block, test inside with an XMR-style index on a packed array and a constant range.
+    variation: |
+        module maj3 (a, b, c, y);
+            input a, b, c;
+            output y;
+            wire im1, im2, im3;
+        
+            // Use single delay (Verilator only supports one delay value)
+            and #(2) (im1, a, b);
+            and #(2) (im2, b, c);
+            and #(2) (im3, c, a);
+            or  #(3) (y, im1, im2, im3);
+        
+            // Declare slice outside always block
+            wire [3:0] slice = {a, b, c, 1'b0};
+        
+            always @* begin
+                if (slice[2:1] inside {2'b10})
+                    $display("Inside logic slice");
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_wand1; //testbench
+            reg i1,i2;
+            wire o; // Added wire declaration
+            wand1 ww(i1,i2,o);
+            initial
+            begin
+            i1=0; i2=0; // Drv1=pull0, Drv2=pull0 -> o = pull0 (wand rule)
+            end
+            initial $monitor($time,"i1=%b,i2=%b,o=%b",i1,i2,o);
+            initial #8 $stop; // Added stop
+            endmodule
+    prompt: |
+        Use inside in an if statement on an array slice operand indexed by a variable and test against part-select range.
+    variation: |
+        module tst_wand1;
+            reg i1, i2;
+            reg o;  // must be reg if assigned in always block
+        
+            logic [3:0] array_2D[1:0][3:0];  // Correct 2D array holding 4-bit elements
+        
+            // Dummy 'wand1' module placeholder – define it properly if needed
+            // module wand1(input a, input b, output y);
+            //     assign y = a & b;
+            // endmodule
+        
+            always @(*) begin
+                // Flattened check for all array elements
+                if ((array_2D[0][0] inside {[4'd0:4'd15]}) ||
+                    (array_2D[0][1] inside {[4'd0:4'd15]}) ||
+                    (array_2D[0][2] inside {[4'd0:4'd15]}) ||
+                    (array_2D[0][3] inside {[4'd0:4'd15]}) ||
+                    (array_2D[1][0] inside {[4'd0:4'd15]}) ||
+                    (array_2D[1][1] inside {[4'd0:4'd15]}) ||
+                    (array_2D[1][2] inside {[4'd0:4'd15]}) ||
+                    (array_2D[1][3] inside {[4'd0:4'd15]}))
+                    o = 1;
+                else
+                    o = 0;
+            end
+        
+            initial begin
+                i1 = 0; i2 = 0;
+                array_2D[0][0] = 4'd1; array_2D[0][1] = 4'd2;
+                array_2D[0][2] = 4'd3; array_2D[0][3] = 4'd4;
+                array_2D[1][0] = 4'd5; array_2D[1][1] = 4'd6;
+                array_2D[1][2] = 4'd7; array_2D[1][3] = 4'd8;
+            end
+        
+            initial $monitor($time, " i1=%b, i2=%b, o=%b", i1, i2, o);
+            initial #8 $stop;
+            endmodule
+
+- entry: |
+    base_code: |
+        module mux21b (
+            input wire a ,
+            input wire b ,
+            input wire s ,
+            output reg y // Output must be reg for procedural assignment
+            );
+            always @(*) // Combinational sensitivity
+            if(s == 0)
+            y = a; // Select a if s=0
+            else
+            y = b; // Select b if s=1
+            endmodule
+    prompt: |
+        Add a priority case structure using inside with a packed 2D array as a whole as the operand.
+    variation: |
+        module mux21b (
+            input wire a , b , s ,
+            output reg y
+            );
+            logic [3:0][1:0] part_vec;
+            always @(*) begin
+              y = (s == 0) ? a : b;
+              y = part_vec[2][1] inside {1'b0, 1'b1};
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        `timescale 1ns/100ps
+            module ALU8 (input [7:0] left, right, input [1:0] mode, output reg [7:0] ALUout);
+            always @(left, right, mode) begin
+                case (mode)
+                    0: ALUout = left + right;
+                    1: ALUout = left - right;
+                    2: ALUout = left & right;
+                    3: ALUout = left | right;
+                    default: ALUout = 8'bX;
+                endcase
+            end
+            endmodule
+    prompt: |
+        Use inside in a procedural assignment inside an always_comb block with array part-select as operand.
+    variation: |
+        `timescale 1ns/100ps
+            module ALU8 (input [7:0] left, right, input [1:0] mode, output reg [7:0] ALUout);
+            function automatic [7:0] get_array_val();
+              return 8'hFF;
+            endfunction
+            always @(left, right, mode) begin
+                case (mode)
+                    0: ALUout = left + right;
+                    1: ALUout = left - right;
+                    2: ALUout = left & right;
+                    3: ALUout = left | right;
+                    default: ALUout = 8'bX;
+                endcase
+                if (get_array_val() inside {[8'h00:8'hFF]})
+                  ALUout = 8'hAA;
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module mux24b(
+            input wire [3:0] a,
+            input wire [3:0] b,
+            input wire s,
+            output reg [3:0] y
+            );
+            always @(*)
+            if(s == 0)
+            y = a;
+            else
+            y = b;
+            endmodule
+    prompt: |
+        Add an if block using inside on a 2D array selected using XMR-style hierarchy for index expression.
+    variation: |
+        module mux24b(
+            input wire [3:0] a,
+            input wire [3:0] b,
+            input wire s,
+            output reg [3:0] y
+            );
+            logic [3:0][7:0] arr;
+            always @(*) begin
+              y = s ? b : a;
+              if (arr[2] inside {[8'h10:8'h20]})
+                y = 4'hF;
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module mux41b (
+            input wire [3:0] c ,
+            input wire [1:0] s ,
+            output wire z
+            );
+            assign z = ~s[1] & ~s[0] & c[0] // Select c[0] when s=00
+            | ~s[1] & s[0] & c[1] // Select c[1] when s=01
+            | s[1] & ~s[0] & c[2] // Select c[2] when s=10
+            | s[1] & s[0] & c[3]; // Select c[3] when s=11
+            endmodule
+    prompt: |
+        Add a case block with inside testing array elements selected by dynamic variable index.
+    variation: |
+        module mux41b (
+            input wire [3:0] c ,
+            input wire [1:0] s ,
+            output wire z
+            );
+            logic [1:0][3:0] a2D;
+            assign z = ~s[1] & ~s[0] & c[0]
+                     | ~s[1] & s[0] & c[1]
+                     | s[1] & ~s[0] & c[2]
+                     | s[1] & s[0] & c[3];
+            initial begin
+              if (a2D[1] inside {[4'b0001:4'b1111]})
+                $display("Inside range");
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        `timescale 1ns/100ps
+            module maj3_p (input a, b, c, output y);
+            wire im1, im2, im3;
+            parameter
+                tplh1=2, tphl1=4,
+                tplh2=3, tphl2=5;
+            and #(tplh1, tphl1)
+                (im1, a, b),
+                (im2, b, c),
+                (im3, c, a);
+            or #(tplh2, tphl2) (y, im1, im2, im3);
+            endmodule
+    prompt: |
+        Modify always block to include inside expression on an operand resulting from function-call return array.
+    variation: |
+        `timescale 1ns/100ps
+            module maj3_p (input a, b, c, output y);
+                wire im1, im2, im3;
+                parameter tplh1 = 2, tphl1 = 4, tplh2 = 3, tphl2 = 5;
+        
+                /* verilator lint_off RISEFALLDLY */
+                and #(tplh1, tphl1) (im1, a, b), (im2, b, c), (im3, c, a);
+                or  #(tplh2, tphl2) (y, im1, im2, im3);
+                /* verilator lint_on RISEFALLDLY */
+        
+                logic [2:0] vec = {a, b, c};
+        
+                initial begin
+                    logic match;
+                    match = vec inside {[3'b000:3'b111]};
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module counter (
+                input wire clk, rst,
+                output reg [3:0] count
+            );
+            always @(posedge clk or posedge rst) begin
+                if (rst) count <= 4'b0000;
+                else count <= count + 1;
+            end
+            endmodule
+    prompt: |
+        Add inside with array slice as the tested operand within an initial block and assign result to a wire.
+    variation: |
+        module counter (
+            input wire clk, rst,
+            output reg [3:0] count
+            );
+                logic [3:0][7:0] arr;
+        
+                always @(posedge clk or posedge rst) begin
+                    if (rst)
+                        count <= 4'b0000;
+                    else begin
+                        count <= count + 1;
+                        if (arr[1] inside {[8'h01:8'h0A]})
+                            count <= 4'd1;
+                    end
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module Chap1Counter (Clk, Reset, Count);
+            input Clk, Reset;
+            output [3:0] Count;
+            reg [3:0] Count;
+            always @(posedge Clk) begin
+                if(Reset) Count = 0;
+                else Count = Count + 1;
+            end
+            endmodule
+    prompt: |
+        Add a procedural assignment within a final block using inside on a packed vector array slice.
+    variation: |
+        module Chap1Counter (Clk, Reset, Count);
+            input Clk, Reset;
+            output [3:0] Count;
+            reg [3:0] Count;
+            logic [3:0] packed_array;
+            always @(posedge Clk) begin
+                if(Reset)
+                  Count = 0;
+                else begin
+                  Count = Count + 1;
+                  if (packed_array[2:1] inside {2'b10})
+                    Count = 4'hF;
+                end
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_nm_in();
+              reg in; wire out;
+              NMOSinv nmv(out,in); // Instantiate NMOS inverter
+              initial
+                in =1'b1; // Start with input high -> output low
+              always
+              initial $monitor($time , " in = %b, output = %b ",in,out);
+              initial #15 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Add a case statement using inside with a function call used as an index into a 4D array.
+    variation: |
+        module NMOSinv (output out, input in);
+            assign out = ~in;
+            endmodule
+        
+            module tst_nm_in();
+                reg in; 
+                wire out;
+                NMOSinv nmv(out, in);
+                logic [3:0] a;
+        
+                initial begin
+                    a = 4'd7; // Initialize a
+                    if (a inside {[4'd0:4'd15]})
+                        in = 1'b0;
+                end
+        
+                initial begin
+                    $monitor($time , " in = %b, output = %b ", in, out);
+                    #15 $stop;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module nil;
+            reg a, b;
+            initial
+            begin
+            a = 1'b0;
+            b = 1'b0;
+            $display ("t=%0t display: a = %b, b = %b", $time, a, b); // Added time
+            end
+            initial
+            $monitor("t=%0t monitor: a = %b, b = %b", $time, a, b);
+            // Monitor triggers at t=0, t=2, t=5, t=6
+            endmodule
+    prompt: |
+        Use inside in a conditional expression within an always block that references a part-select on an array.
+    variation: |
+        module nil;
+            reg a, b;
+            logic [1:0][3:0] mda;
+            initial begin
+              if (mda[0][2:1] inside {2'b01, 2'b10})
+                a = 1;
+            end
+            initial
+              $monitor("t=%0t monitor: a = %b, b = %b", $time, a, b);
+            endmodule
+
+- entry: |
+    base_code: |
+        module RAM (output[7:0] Obus, input[7:0] Ibus, input[3:0] Adr, input Clk, Read);
+            reg[7:0] Storage[15:0];
+            reg[7:0] ObusReg;
+            assign #1 Obus = ObusReg;
+            always @(posedge Clk)
+            if (Read==1'b0)
+                Storage[Adr] <= Ibus;
+            else
+                ObusReg <= Storage[Adr];
+            endmodule
+    prompt: |
+        Introduce a while loop condition using inside with array-slice operand and a constant range.
+    variation: |
+        module RAM (output[7:0] Obus, input[7:0] Ibus, input[3:0] Adr, input Clk, Read);
+            reg[7:0] Storage[15:0];
+            reg[7:0] ObusReg;
+            assign #1 Obus = ObusReg;
+            initial begin
+              if (Storage[3] inside {[8'h00:8'hFF]})
+                ObusReg = 8'hA5;
+            end
+            always @(posedge Clk)
+              if (Read==1'b0)
+                  Storage[Adr] <= Ibus;
+              else
+                  ObusReg <= Storage[Adr];
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_dff_p_b();
+              reg di,clk; wire do;
+              dff_p d1(do,di,clk); // Instantiate the DFF
+              initial begin clk=0; di=1'b0; #35 $stop; end // Initialize & stop
+              always #3 clk=~clk; // Generate clock
+              always #5 di=~di; // Toggle data
+              initial $display ("%m: Top-level testbench module"); // Display testbench name
+              initial $monitor($time," clk=%b, di=%b, do=%b",clk,di,do);
+            endmodule
+    prompt: |
+        Add inside with function-call result as array index in a procedural assign within initial block.
+    variation: |
+        module dff_p(output reg q, input d, clk);
+            always @(posedge clk)
+                q <= d;
+            endmodule
+        
+            module tst_dff_p_b();
+                reg di, clk;
+                wire dout;
+        
+                dff_p d1(dout, di, clk);
+        
+                final begin
+                    logic [3:0] val = 4'b1010;  // assign to avoid uninitialized use
+                    if (val[3:1] inside {3'b100, 3'b101})
+                        $display("Inside final block range");
+                end
+        
+                initial begin
+                    clk = 0;
+                    di = 1'b0;
+                    #35 $stop;
+                end
+        
+                always #3 clk = ~clk;
+                always #5 di = ~di;
+        
+                initial $display("%m: Top-level testbench module");
+                initial $monitor($time, " clk=%b, di=%b, dout=%b", clk, di, dout);
+            endmodule
+
+- entry: |
+    base_code: |
+        module example7_5(x1, x2, x3, Clock, f, g);
+            input x1, x2, x3, Clock;
+            output f, g;
+            reg f, g;
+            always @(posedge Clock)
+            begin
+                f = x1 & x2;
+                g = f | x3;
+            end
+            endmodule
+    prompt: |
+        Add inside in a case expression using an array element selected via dynamic variable index.
+    variation: |
+        module example7_5(x1, x2, x3, Clock, f, g);
+            input x1, x2, x3, Clock;
+            output f, g;
+            reg f, g;
+            logic [3:0] arr;
+            always @(posedge Clock) begin
+                f = x1 & x2;
+                g = f | x3;
+                while (arr[2:1] inside {2'b00, 2'b01}) begin
+                  f = ~f;
+                end
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module example5(x1, x2, x3, f);
+            input x1, x2, x3;
+            output f;
+            reg f;
+            always @(x1 or x2 or x3)
+                if (x2 == 1)
+                    f = x1;
+                else
+                    f = x3;
+            endmodule
+    prompt: |
+        Add an if block testing whether part-select of a packed array is inside a fixed constant range.
+    variation: |
+        module example5(x1, x2, x3, f);
+            input x1, x2, x3;
+            output f;
+            reg f;
+            logic [7:0] arr;
+            always @(x1 or x2 or x3) begin
+                if (x2 == 1)
+                    f = x1;
+                else
+                    f = x3;
+                if (arr[4:1] inside {4'b1000, 4'b1001})
+                  f = ~f;
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module aoi_gate(o,a1,a2,b1,b2);
+            input a1,a2,b1,b2;// a1,a2,b1,b2 form the input
+            //ports of the module
+            output o;//o is the single output port of the module
+            wire o1,o2;//o1 and o2 are intermediate signals
+            //within the module
+            and g1(o1,a1,a2); //The AND gate primitive has two
+            and g2(o2,b1,b2);// instantiations with assigned
+            //names g1 & g2.
+            nor g3(o,o1,o2);//The nor gate has one instantiation
+            //with assigned name g3.
+            endmodule
+    prompt: |
+        Add a case with inside expression on a packed array accessed with XMR-based hierarchical index.
+    variation: |
+        module aoi_gate(o,a1,a2,b1,b2);
+            input a1,a2,b1,b2;
+            output o;
+            wire o1,o2;
+            and g1(o1,a1,a2);
+            and g2(o2,b1,b2);
+            nor g3(o,o1,o2);
+            logic [1:0][3:0] A;
+            integer idx = 1;
+            initial begin
+              if (A[idx] inside {[4'd5:4'd10]})
+                $display("Inside nested if range");
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module aoibeh2(o,a,b); // Mixed structural/behavioral AOI
+            output o;
+            input[1:0]a,b;
+            wire a1,b1; // Outputs of AND gates
+            reg o; // Behavioral output must be reg
+            // Structural AND gates using primitives
+            and g1(a1,a[1],a[0]), g2(b1,b[1],b[0]);
+            // Behavioral NOR logic sensitive to AND outputs
+            always@(a1 or b1)
+            o = ~(a1 || b1);
+            endmodule
+    prompt: |
+        Add an initial block with procedural continuous assign using inside and a packed vector slice.
+    variation: |
+        module aoibeh2(o,a,b);
+            output o;
+            input[1:0]a,b;
+            wire a1,b1;
+            reg o;
+            and g1(a1,a[1],a[0]), g2(b1,b[1],b[0]);
+            always@(a1 or b1) begin
+              case (1)
+                (a1 | b1): if ({a1, b1} inside {2'b01, 2'b10}) o = 1;
+                default: o = ~(a1 || b1);
+              endcase
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module muxdff(D0, D1, Sel, Clock, Q);
+            input D0, D1, Sel, Clock;
+            output Q;
+            reg Q;
+            always @(posedge Clock)
+                if (!Sel)
+                    Q <= D0;
+                else
+                    Q <= D1;
+            endmodule
+    prompt: |
+        Use inside in a while loop with the tested operand being a packed array element via function call index.
+    variation: |
+        module muxdff(D0, D1, Sel, Clock, Q);
+            input D0, D1, Sel, Clock;
+            output Q;
+            reg Q;
+            logic [1:0][3:0] arr;
+            always @(posedge Clock)
+                if (!Sel)
+                    Q <= D0;
+                else begin
+                    Q <= D1;
+                    if (arr[0] inside {[4'd0:4'd7]})
+                      Q <= 1'b0;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module dff_with_reset(data, clock, r, out);
+            input clock, r, data;
+            output out;
+            reg out;
+            always @(posedge clock or posedge r)
+            begin
+            if (r)
+            out = 0;
+            else
+            out = data;
+            end
+            endmodule
+    prompt: |
+        Use inside operator inside a procedural block to check array membership in a part-select range.
+    variation: |
+        module dff_with_reset(data, clock, r, out);
+            input clock, r, data;
+            output out;
+            reg out;
+            final begin
+              logic [3:0] vec;
+              if (vec inside {4'd1, 4'd2}) out = 1;
+            end
+            always @(posedge clock or posedge r)
+            begin
+              if (r) out = 0;
+              else out = data;
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module EventCtlPart (output xPart, yPart, input a, b, c);
+            reg xReg, yReg;
+            assign xPart = xReg;
+            assign yPart = yReg;
+            always @(a, b)
+            begin: PartList
+                xReg <= a & b & c;
+                yReg <= (b | c) ^ a;
+            end
+            endmodule
+    prompt: |
+        Add a nested if using inside with a 3D array slice selected by variable to test range inclusion.
+    variation: |
+        module EventCtlPart (output xPart, yPart, input a, b, c);
+            reg xReg, yReg;
+            assign xPart = xReg;
+            assign yPart = yReg;
+            logic [1:0][1:0][1:0] arr;
+        
+            always @(a, b) begin: PartList
+                if (arr[1][0] inside {2'b01})  // Now the widths match (2-bit comparison)
+                    xReg <= a & b & c;
+                yReg <= (b | c) ^ a;
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module dff(do,di,clk); // Behavioral D Flip-Flop
+            output do;
+            input di,clk;
+            reg do; // Output must be reg for procedural assignment
+            initial
+            do=1'b0; // Initialize output
+            // Assign input 'di' to output 'do' on negative clock edge
+            always@(negedge clk) do = di; // Use non-blocking <= for sequential logic
+            endmodule
+    prompt: |
+        Add a case statement using inside on array operand with hierarchical index and constant range list.
+    variation: |
+        module dff(dout, di, clk);
+            output reg dout;
+            input di, clk;
+        
+            function [3:0] get_val();
+                get_val = 4'd5;
+            endfunction
+        
+            logic [3:0] arr[3:0];  // 4 elements, each 4 bits wide
+        
+            always @(negedge clk) begin
+                dout = di;
+                if (arr[get_val()[1:0]] inside {[4'd0:4'd8]})
+                    dout = ~di;
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_CMOSsw1();
+              reg in,con; wire out;
+              CMOSsw1 cmsw(out,in,con); // Instantiate CMOS switch
+              initial begin in=1'b0; con=1'b1; end // Start enabled
+              always #5 in =~in; // Toggle data
+              always #3 con=~con; // Toggle control
+              initial $monitor($time , "in = %b , con = %b , output = %b " ,in,con,out);
+              initial #20 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Use inside in final block to check if function call result indexed into an array matches a slice range.
+    variation: |
+        module CMOSsw1(output out, input in, con);
+            assign out = con ? in : 1'bz;
+            endmodule
+        
+            module tst_CMOSsw1;
+                reg in, con;
+                wire out;
+        
+                CMOSsw1 cmsw(out, in, con);
+        
+                reg [3:0] arr [1:0];  // Proper declaration: 2D packed array (unpacked)
+        
+                wire trigger_cond;
+                assign trigger_cond = (arr[0] inside {[4'd1:4'd3]});
+        
+                initial begin
+                    arr[0] = 4'd2;
+                    arr[1] = 4'd5;
+                end
+        
+                always #5 in = trigger_cond;  // Only one place where `in` is assigned
+                always #3 con = ~con;
+        
+                initial begin
+                    con = 1'b1;
+                end
+        
+                initial $monitor($time , " in = %b , con = %b , output = %b ", in, con, out);
+                initial #20 $stop;
+            endmodule
+
+- entry: |
+    base_code: |
+        module gates4_top (
+            input wire [3:0] sw ,
+            output wire [2:0] ld
+            );
+            gates4 U1 // Assuming 'gates4' provides and4_, or4_, xor4_ outputs from input 'x'
+            (
+            .x(sw),
+            .and4_(ld[2]),
+            .or4_(ld[1]),
+            .xor4_(ld[0])
+            );
+            endmodule
+    prompt: |
+        Add a priority case with inside applied to operand selected via constant index from an MDA.
+    variation: |
+        module gates4 (
+            input  wire [3:0] x,
+            output wire and4_,
+            output wire or4_,
+            output wire xor4_
+            );
+                assign and4_ = &x;
+                assign or4_  = |x;
+                assign xor4_ = ^x;
+            endmodule
+        
+            module gates4_top (
+                input  wire [3:0] sw,
+                output wire [2:0] ld
+            );
+                gates4 U1 (
+                    .x(sw),
+                    .and4_(ld[2]),
+                    .or4_(ld[1]),
+                    .xor4_(ld[0])
+                );
+        
+                logic [3:0] arr;
+        
+                always_comb begin
+                    priority case (1)
+                        1: if (arr[2:1] inside {2'b10})
+                            $display("Inside priority range");
+                    endcase
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_or_gate();
+            reg[3:0]a;
+            reg en;
+            wire b;
+            or_gate gg(b,a,en);
+            initial
+            begin
+            a = 4'h0; // Initialize input
+            en = 1'b0; // Initialize enable
+            end
+            initial begin // Stimulus generation
+            end
+            initial $monitor("t=%0d, en = %b, a = %h, b = %b",$time,en,a,b); // Use %h for hex 'a'
+            initial #30 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Add an `inside` check for `a` within a predefined array slice in a module scope to test array slices in range lists.
+    variation: |
+        module or_gate (
+            output wire b,
+            input  wire [3:0] a,
+            input  wire en
+            );
+                assign b = en ? |a : 1'b0;
+            endmodule
+        
+            module tst_or_gate();
+                reg [3:0] a;
+                reg en;
+                wire b;
+                logic [3:0] slice_arr;
+        
+                or_gate gg(b, a, en);
+        
+                initial begin
+                    a = 4'h0;
+                    en = 1'b0;
+                    slice_arr = 4'h6;
+        
+                    // Replace unsupported 'inside' with equivalent comparison
+                    if ((a == 4'h0) || (a == slice_arr))
+                        $display("a matches either 4'h0 or slice_arr = %h", slice_arr);
+                end
+        
+                initial $monitor("t=%0d, en=%b, a=%h, b=%b", $time, en, a, b);
+                initial #30 $stop;
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_nor3NMOS();
+              reg in1,in2,in3; wire b;
+              nor3NMOS nn(in1,in2,in3,b); // Instantiate NMOS NOR
+              initial begin // Initialize inputs
+                in1=1'b0; in2=1'b0; in3=1'b0; // Corrected: was 1'b1
+              end
+              // Toggle inputs at different rates
+              always #2 in1=~in1;
+              always #3 in2=~in2;
+              always #5 in3=~in3;
+              initial $monitor($time , "in1 = %b , in2 = %b , in3 = %b , output = %b ",in1,in2,in3,b); // Removed newline
+              initial #24 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Insert a `generate` block with an escaped name (e.g., \gen_block1 ) and use `inside` operator with constant index in a behavioral NOR gate.
+    variation: |
+        module nor3NMOS(input in1, in2, in3, output b);
+            assign b = ~(in1 | in2 | in3);
+            endmodule
+        
+            module tst_nor3NMOS();
+                reg in1, in2, in3;
+                wire b;
+                logic [2:0] consts = 3'b010;
+        
+                nor3NMOS nn(in1, in2, in3, b);
+        
+                initial begin
+                    in1 = 0; in2 = 0; in3 = 0;
+        
+                    // Get bit 1 from concatenation and check if inside the 1-bit set
+                    if ({in1, in2, in3}[1] inside {1'b0, 1'b1})
+                        $display("Bit 1 is inside the set {0, 1}");
+                end
+        
+                always #2 in1 = ~in1;
+                always #3 in2 = ~in2;
+                always #5 in3 = ~in3;
+        
+                initial $monitor($time, " in1=%b, in2=%b, in3=%b, b=%b", in1, in2, in3, b);
+                initial #24 $stop;
+            endmodule
+
+- entry: |
+    base_code: |
+        module test_multiplier;
+            reg clk=0, start, error; // Added clk initialization
+            wire [7:0] databus;
+            wire lsb_out, msb_out, done;
+            reg [7:0] mem1[0:2], mem2[0:2]; // Memory for operands
+            reg [7:0] im_data; // Data to drive onto bus
+            reg [7:0] opnd1, opnd2; // Operands
+            reg [15:0] expected_result, multiplier_result; // Results
+            integer indx; // Loop index
+            // Instantiate the Multiplier Unit Under Test
+            Multiplier uut ( clk, start, databus, lsb_out, msb_out, done );
+            // --- Placeholder blocks referenced by Figure numbers ---
+            initial begin: Apply_Data /* ... Figure 8.11 ... */ end
+            initial begin: Apply_Start /* ... Figure 8.12 ... */ end
+            initial begin: Expected_Result /* ... Figure 8.13 ... */ end
+            always @(posedge clk)
+            begin: Actual_Result /* ... Figure 8.14 ... */ end
+            always @(posedge clk)
+            begin: Compare_Results /* ... Figure 8.15 ... */ end
+            // --- Clock generation ---
+            always #50 clk = ~clk;
+            // --- Data bus driving ---
+            assign databus = im_data; // Drive internal data onto bus
+            endmodule
+    prompt: |
+        Modify `Apply_Data` to use an `inside` operator over a full memory array inside a generate block to test MDA array selections.
+    variation: |
+        module Multiplier (
+            input wire clk,
+            input wire start,
+            output wire [7:0] databus,
+            output wire lsb_out,
+            output wire msb_out,
+            output wire done
+            );
+                // Dummy implementation for compilation
+                assign databus = 8'h00;
+                assign lsb_out = 0;
+                assign msb_out = 0;
+                assign done = 0;
+            endmodule
+        
+            module test_multiplier;
+                reg clk = 0, start, error;
+                wire [7:0] databus;
+                wire lsb_out, msb_out, done;
+                reg [7:0] mem1[0:2], mem2[0:2];
+                logic [7:0] fullmem_arr[0:2];
+        
+                Multiplier uut (
+                    .clk(clk),
+                    .start(start),
+                    .databus(databus),
+                    .lsb_out(lsb_out),
+                    .msb_out(msb_out),
+                    .done(done)
+                );
+        
+                // Populate fullmem_arr with sample values
+                initial begin
+                    fullmem_arr[0] = 8'hAA;
+                    fullmem_arr[1] = 8'hBB;
+                    fullmem_arr[2] = 8'hCC;
+        
+                    // Compare each entry with all others (basic membership check)
+                    for (int i = 0; i < 3; i++) begin
+                        for (int j = 0; j < 3; j++) begin
+                            if (i != j && fullmem_arr[i] == fullmem_arr[j]) begin
+                                $display("mem match at i=%0d and j=%0d", i, j);
+                            end
+                        end
+                    end
+                end
+        
+                always #50 clk = ~clk;
+        
+                assign databus = mem1[0];
+            endmodule
+
+- entry: |
+    base_code: |
+        module Prob_6_7_Moore (Detect_Moore, D_in, clk, rst);
+            // Moore nonresetting sequence detector
+            output Detect_Moore;
+            input D_in, clk, rst;
+            parameter S_0 = 0, S_1 = 1, S_2 = 2, S_3 = 3, S_4 = 4;
+            parameter S_5 = 5, S_6 = 6, S_7 = 7, S_8 = 8;
+            reg [3: 0] state_Moore, next_state;
+            wire Detect_Moore = ((state_Moore == S_4) || (state_Moore == S_8));
+            always @ (posedge clk) if (rst) state_Moore <= S_0; else state_Moore <= next_state;
+            always @ (state_Moore, D_in) begin
+            next_state = S_0;
+            case (state_Moore)
+            S_0: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_5;
+            S_1: if (D_in) next_state = S_2; else if (D_in == 0) next_state = S_5;
+            S_2: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_5;
+            S_3: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_4;
+            S_4: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_6;
+            S_5: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_6;
+            S_6: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_7;
+            S_7: if (D_in) next_state = S_8; else if (D_in == 0) next_state = S_7;
+            S_8: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_6;
+            default: next_state = S_0;
+            endcase
+            end
+            endmodule
+    prompt: |
+        Add `inside` operator in the sequence detector to check current state `inside` a constant set, placed in package scope.
+    variation: |
+        // === Package definition ===
+            package pkg_states;
+              // Define a constant array with valid detection states
+              localparam logic [3:0] detect_states[0:2] = '{4, 8, 12};
+            endpackage
+        
+            // === Moore FSM module ===
+            module Prob_6_7_Moore (
+              input  logic clk,
+              input  logic rst,
+              input  logic D_in,
+              output logic Detect_Moore
+            );
+              // Import package contents
+              import pkg_states::*;
+        
+              // FSM state registers
+              logic [3:0] state_Moore, next_state;
+        
+              // Combinational logic for next state and detection
+              always_comb begin
+                if (state_Moore inside {detect_states[0], detect_states[1], detect_states[2]})
+                  $display("state in detect list");
+        
+                // Example FSM logic
+                case (state_Moore)
+                  4'd0: next_state = D_in ? 4'd1 : 4'd0;
+                  4'd1: next_state = D_in ? 4'd2 : 4'd0;
+                  4'd2: next_state = D_in ? 4'd3 : 4'd0;
+                  4'd3: next_state = 4'd4;
+                  4'd4: next_state = 4'd0;
+                  default: next_state = 4'd0;
+                endcase
+              end
+        
+              // Sequential logic to update state
+              always_ff @(posedge clk or posedge rst) begin
+                if (rst)
+                  state_Moore <= 4'd0;
+                else
+                  state_Moore <= next_state;
+              end
+        
+              // Output based on current state (Moore)
+              assign Detect_Moore = (state_Moore inside {detect_states[0], detect_states[1], detect_states[2]});
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_ctr_wt;
+            reg clk,En;
+            reg[3:0]N;
+            wire[3:0]a;
+            ctr_wt c1(a,clk,N,En);
+            initial
+            begin
+            clk=0; N=4'b1111; // Set limit to 15
+            En=1'b0; // Start disabled
+            end
+            always
+            initial #35 $stop; // Stop simulation
+            initial $monitor($time,"clk=%b, En=%b, N=%d, a=%d",clk,En,N,a); // Corrected format specifiers
+            endmodule
+    prompt: |
+        Use a nested generate block with escaped names and apply an `inside` operator with variable index for range selection.
+    variation: |
+        module ctr_wt (
+            output reg [3:0] a,
+            input wire clk,
+            input wire [3:0] N,
+            input wire En
+            );
+                always @(posedge clk) begin
+                    if (En)
+                        a <= N;
+                    else
+                        a <= 4'd0;
+                end
+            endmodule
+        
+        
+            module tst_ctr_wt;
+                reg clk, En;
+                reg [3:0] N;
+                wire [3:0] a;
+        
+                ctr_wt c1(a, clk, N, En);
+        
+                initial begin
+                    clk = 0;
+                    N = 4'b1111;
+                    En = 0;
+                end
+        
+                always #5 clk = ~clk;
+        
+                always @(posedge clk) begin
+                    if (N inside {4'd1, 4'd2, 4'd3, 4'd4})
+                        $display($time, ": N inside predefined constants");
+                end
+        
+                initial $monitor($time, " clk=%b En=%b N=%b a=%b", clk, En, N, a);
+        
+                initial #35 $stop;
+            endmodule
+
+- entry: |
+    base_code: |
+        module mealy(Clock, Resetn, w, z);
+            input Clock, Resetn, w;
+            output z;
+            reg y, Y, z;
+            parameter A = 0, B = 1;
+            always @(w or y)
+                case (y)
+                    A: if (w)
+                        begin
+                            z = 0;
+                            Y = B;
+                        end
+                    else
+                        begin
+                            z = 0;
+                            Y = A;
+                        end
+                    B: if (w)
+                        begin
+                            z = 1;
+                            Y = B;
+                        end
+                    else
+                        begin
+                            z = 0;
+                            Y = A;
+                        end
+                endcase
+            always @(negedge Resetn or posedge Clock)
+                if (Resetn == 0) y <= A;
+                else y <= Y;
+            endmodule
+    prompt: |
+        Rewrite FSM state transition using `inside` with an array slice for `w`, placed inside an SV class.
+    variation: |
+        module mealy (
+            input Clock,
+            input Resetn,
+            input w,
+            output logic z
+            );
+                typedef enum logic [1:0] {A = 2'b00, B = 2'b01, C = 2'b10} state_t;
+                state_t y, next_state;
+        
+                // Example list of states using enum values
+                logic [1:0] wlist [1:0] = '{A, B};
+        
+                // Combinational logic
+                always @(*) begin
+                    if (w inside {wlist[0], wlist[1]})
+                        $display("w in enum list");
+        
+                    case (y)
+                        A: begin
+                            z = 1'b0;
+                            next_state = B;
+                        end
+                        B: begin
+                            z = 1'b1;
+                            next_state = C;
+                        end
+                        C: begin
+                            z = 1'b0;
+                            next_state = A;
+                        end
+                        default: begin
+                            z = 1'b0;
+                            next_state = A;
+                        end
+                    endcase
+                end
+        
+                // Sequential logic
+                always @(posedge Clock or negedge Resetn) begin
+                    if (!Resetn)
+                        y <= A;
+                    else
+                        y <= next_state;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module mux4to1(w0, w1, w2, w3, S, f);
+            input w0, w1, w2, w3;
+            input [1:0] S;
+            output f;
+            reg f;
+            always @(w0 or w1 or w2 or w3 or S)
+                if (S == 2'b00)
+                    f = w0;
+                else if (S == 2'b01)
+                    f = w1;
+                else if (S == 2'b10)
+                    f = w2;
+                else if (S == 2'b11)
+                    f = w3;
+            endmodule
+    prompt: |
+        In the multiplexer, use `inside` to compare `S` with a constant-packed array declared at module scope.
+    variation: |
+        module mux4to1 (
+            input  logic w0, w1, w2, w3,
+            input  logic [1:0] S,
+            output logic f
+            );
+                always_comb begin
+                    if (S inside {2'b01, 2'b10})
+                        f = w1; // For S = 01 or 10, select w1 (example logic)
+                    else begin
+                        case (S)
+                            2'b00: f = w0;
+                            2'b11: f = w3;
+                            default: f = 1'bx;
+                        endcase
+                    end
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module alu(s, A, B, F);
+            input [2:0] s;
+            input [3:0] A, B;
+            output [3:0] F;
+            reg [3:0] F;
+            always @(s or A or B)
+                case (s)
+                    0: F = 4'b0000;
+                    1: F = B - A;
+                    2: F = A - B;
+                    3: F = A + B;
+                    4: F = A ^ B;
+                    5: F = A | B;
+                    6: F = A & B;
+                    7: F = 4'b1111;
+                endcase
+            endmodule
+    prompt: |
+        Insert `inside` with indexed part select on operand A and check if it lies in a defined constant range array.
+    variation: |
+        module alu (
+            input  logic [2:0] s,
+            input  logic [3:0] A, B,
+            output logic [3:0] F
+            );
+                logic [3:0] Aslice;
+        
+                always_comb begin
+                    Aslice = A; // You must assign Aslice a value
+        
+                    if (Aslice[2:1] inside {2'b10, 2'b11})
+                        F = A;
+                    else
+                        F = B; // Default or alternate operation
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module Johnson_Counter (count, enable, clock, reset);
+            output [3: 0] count;
+            input enable;
+            input clock, reset;
+            reg [3: 0] count;
+            always @ (posedge clock, posedge reset)
+            if (reset == 1) count <= 0;
+            else if (enable)
+            case (count)
+            4'b0000,
+            4'b0001,
+            4'b0011,
+            4'b0111: count <= {count[2: 0], 1'b1};
+            4'b1111,
+            4'b1110,
+            4'b1100,
+            4'b1000: count <= {count[2: 0], 1'b0};
+            default: count <= 0;
+            endcase
+            endmodule
+        
+            module t_Johnson_Counter ();
+            wire [3: 0] count;
+            reg enable;
+            reg clock, reset;
+            Johnson_Counter M0 (count, enable, clock, reset);
+            initial #500 $finish;
+            initial begin clock = 0; forever #5 clock = ~clock; end
+            initial fork
+            join
+            endmodule
+    prompt: |
+        Use a generate block to wrap the Johnson counter logic, and use `inside` to check `count` inside a static array with constant index.
+    variation: |
+        module Johnson_Counter (
+            output logic [3:0] count,
+            input logic enable,
+            input logic clock,
+            input logic reset
+            );
+                always_ff @(posedge clock or posedge reset) begin
+                    if (reset)
+                        count <= 4'b0000;
+                    else if (enable)
+                        count <= {count[2:0], ~count[3]}; // Johnson counter logic
+        
+                    if (count == 4'b0000 || count == 4'b1111)
+                        $display("count in list");
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module mltp_a(a1,a0,b1,b0,c1,c2,c3,c4); // PLA based 2x2 multiplier
+              input a1,a0,b1,b0; output c1,c2,c3,c4;
+              // Declare storage for AND plane and OR plane
+              reg[1:4] mand[1:9]; // AND plane inputs (4 bits wide, 9 product terms)
+              reg[1:9] mor[1:4]; // OR plane inputs (9 bits wide, 4 outputs)
+              reg p1,p2,p3,p4,p5,p6,p7,p8,p9; // Product terms
+              reg c1,c2,c3,c4; // Outputs must be reg for procedural assignment
+              initial begin
+                // Define AND plane connections (input -> product term)
+                mand[1]=4'b1010; mand[2]=4'b0110; mand[3]=4'b1110; mand[4]=4'b1001;
+                mand[5]=4'b0101; mand[6]=4'b1101; mand[7]=4'b1011; mand[8]=4'b0111;
+                mand[9]=4'b1111;
+                // Define OR plane connections (product term -> output)
+                // Format: 9 bits for p1-p9 connections for each output c1-c4
+                mor[1]=9'b101000101; // Connections for c1
+                mor[2]=9'b011101110; // Connections for c2
+                mor[3]=9'b000011010; // Connections for c3
+                mor[4]=9'b000000001; // Connections for c4
+                // Instantiate PLA using system tasks
+                $async$and$array(mand, {b1,b0,a1,a0}, {p1,p2,p3,p4,p5,p6,p7,p8,p9}); // Corrected input order?
+                $async$or$array(mor, {p1,p2,p3,p4,p5,p6,p7,p8,p9}, {c4,c3,c2,c1}); // Corrected output order?
+              end
+            endmodule
+    prompt: |
+        Replace direct PLA output logic with a function call in array index used within `inside` range list.
+    variation: |
+        module mltp_a;
+            // Example definition for mand (assumed 4-entry vector)
+            logic [3:0] mand [0:3];
+            logic [3:0] plaidx;
+        
+            // Function returning index
+            function int idxf(); 
+                return 1; 
+            endfunction
+        
+            initial begin
+                // Initialize example values
+                mand[0] = 4'd2;
+                mand[1] = 4'd5;
+                mand[2] = 4'd9;
+                mand[3] = 4'd15;
+                plaidx = 4'd5;
+        
+                // Instead of inside with variable array, use manual comparison
+                if (mand[idxf()] == plaidx)
+                    $display("mand[%0d] = %0d is inside plaidx = %0d", idxf(), mand[idxf()], plaidx);
+                else
+                    $display("No match");
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module d_ff (input d, clk, s, r, output reg q, q_b );
+            always @( s ) begin : force_a_1
+            if ( s )
+            begin
+            end else begin
+            deassign q;
+            deassign q_b;
+            end
+            end
+            always @( r ) begin : force_a_0
+            if( r )
+            begin
+            end else begin
+            deassign q;
+            deassign q_b;
+            end
+            end
+            always @( posedge clk ) begin : clocked
+            end
+            endmodule
+    prompt: |
+        Use `inside` operator in `force_a_1` block to check if `s` is inside a constant declared in interface scope.
+    variation: |
+        module d_ff (
+            input logic clk,
+            input logic [1:0] s,
+            output logic q
+            );
+                // Define acceptable values directly inside the module
+                logic [1:0] si_arr_0 = 2'b00;
+                logic [1:0] si_arr_1 = 2'b01;
+        
+                always @(posedge clk) begin
+                    if (s == si_arr_0 || s == si_arr_1) begin
+                        q <= 0;  // or appropriate deassign/reset behavior
+                        $display("s matched one of predefined states: %b", s);
+                    end
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module ttst_ttrimux2_1(); // Assuming this tests a tristate 2-to-1 mux called ttrimux2_1
+            reg e;
+            reg [1:0]i; // Should be reg i0, i1; or reg [0:0] i0, i1; or just input wires if MUX takes separate inputs
+            reg s;
+            wire out; // Added wire declaration
+            // ttrimux2_1 mm(out,e,i,s); // Instantiation requires correct MUX definition
+            initial
+            begin
+            e =0; i = 2'b00; s = 1'b0; // Added initial 's' value
+            end
+            always
+            begin
+            end
+            initial $monitor($time ," enable e = %b , s= %b , input i = %b ,output out = %b ",e ,s,i,out);
+            initial #48 $stop;
+            endmodule
+    prompt: |
+        Wrap the tristate multiplexer testbench inside a generate block and use `inside` operator on `s` with escaped generate name.
+    variation: |
+        module ttst_ttrimux2_1();
+            reg e;
+            reg s;
+            reg [1:0] i;
+            wire out;
+        
+            generate
+                if (1) begin : gen_mux
+                    initial begin
+                        if (s inside {1'b0, 1'b1})  // ✅ fixed syntax
+                            $display("s inside gen");
+                    end
+                end
+            endgenerate
+        
+            initial begin
+                e = 0;
+                i = 0;
+                s = 0;
+            end
+        
+            always #5 s = ~s;
+            always #6 i = i + 1;
+        
+            initial #48 $stop;
+            endmodule
+
+- entry: |
+    base_code: |
+        module dffalter_tst(); // Testbench, likely for a DFF named dffalter
+            reg di,clk,clr,pr;
+            wire q, qb; // Added qb
+            // dffalter dff(q,qb,di,clk,clr,pr); // Assumed instantiation of DUT
+            initial
+            begin
+            clr=1'b1;pr=1'b0;clk=1'b0;di=1'b0; // Start with clear asserted
+            end
+            always
+            begin
+            clr=1'b0; // Deassert clear
+            end
+            always # 4 di =~di; // Toggle data
+            always #16 pr=1'b1; // Assert preset
+            always #20 pr =1'b0; // Deassert preset
+            initial $monitor("t=%0d, clk=%b, clr=%b, pr=%b, di=%b, q=%b ", $time,clk,clr,pr,di,q);
+            initial #46 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Insert `inside` operator using `di` and a packed array slice declared in a package to validate async preset behavior.
+    variation: |
+        package pkg_async;
+              // This is kept, but not used for 'inside'
+              logic [1:0] dine_arr = '{1'b0,1'b1};
+              endpackage
+        
+              module dffalter_tst();
+                import pkg_async::*;
+                reg di, pr;
+        
+                initial begin
+                  di = 0;
+                  pr = 0;
+                end
+        
+                always @(posedge pr) begin
+                  if (di inside {1'b0, 1'b1})  // ✅ constant RHS
+                    $display("async di inside");
+                end
+        
+                always #5 pr = ~pr;
+                always #7 di = ~di;
+        
+                initial #30 $stop;
+              endmodule
+
+- entry: |
+    base_code: |
+        module Universal_Shift_Reg (Data_Out, MSB_Out, LSB_Out, Data_In,
+            MSB_In, LSB_In, s1, s0, clk, rst);
+            output [3: 0] Data_Out;
+            output MSB_Out, LSB_Out;
+            input [3: 0] Data_In;
+            input MSB_In, LSB_In;
+            reg [3: 0] Data_Out; // 10-12-2004
+            input s1, s0, clk, rst;
+            assign MSB_Out = Data_Out[3];
+            assign LSB_Out = Data_Out[0];
+            always @ (posedge clk) begin
+            if (rst) Data_Out <= 0;
+            else case ({s1, s0})
+            0: Data_Out <= Data_Out; // Idle
+            1: Data_Out <= {MSB_In, Data_Out[3:1]}; // Shift right
+            2: Data_Out <= {Data_Out[2:0], LSB_In}; // Shift Left
+            3: Data_Out <= Data_In; // Parallel Load
+            endcase
+            end
+            endmodule
+            /*
+            Test Plan
+            Verify initial reset
+            Verify idle
+            Verify shift right
+            Verify shift left
+            Verify parallel load
+            Verify reset-on-the-fly
+            */
+            module t_Universal_Shift_Reg();
+            wire [3: 0] Data_Out;
+            reg [3: 0] Data_In;
+            wire MSB_Out, LSB_Out;
+            reg MSB_In, LSB_In;
+            reg s1, s0, rst;
+            defparam M2.half_cycle = 5;
+        
+            Universal_Shift_Reg M1 (Data_Out, MSB_Out, LSB_Out, Data_In, MSB_In, LSB_In, s1,
+            s0, clk, rst);
+            Clock_Gen M2(clk);
+        
+            initial #1000 $finish;
+            initial fork
+            begin #5 rst = 1; #20 rst = 0;end
+            begin #120 rst = 1; #20 rst = 0;end
+            begin #260 rst = 1; #20 rst = 0;end
+            begin #380 rst = 1; #20 rst = 0;end
+            join
+            initial fork
+            join
+            begin // Verify left shift
+            join
+            begin // Verify load
+            join
+            begin // reset
+            join
+        
+            join
+            endmodule
+    prompt: |
+        Use `inside` on the `s1`, `s0` control signals and check them against a packed array declared inside the dollar unit scope.
+    variation: |
+        module Universal_Shift_Reg(
+            input logic s1, s0,
+            input logic [3:0] Data_In,
+            output logic [3:0] Data_Out
+            );
+                logic [1:0][1:0] ctrlvals = '{'{1'b0,1'b1}, '{1'b1,1'b0}};
+        
+                always_comb begin : gen_ctrl
+                    if ({s1, s0} inside ctrlvals[0]) begin
+                        Data_Out = Data_In;
+                    end else begin
+                        Data_Out = 4'b0000;  // Default assignment to avoid latch
+                    end
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module hex7seg_le (
+            input wire [3:0] x ,
+            output wire [6:0] a_to_g // Outputs for segments a,b,c,d,e,f,g
+            );
+            // Logic equations for each segment (active high assumed)
+            assign a_to_g[6] = ~x[3] & ~x[2] & ~x[1] & x[0] // a (segment index 6)
+            | ~x[3] & x[2] & ~x[1] & ~x[0]
+            | x[3] & x[2] & ~x[1] & x[0]
+            | x[3] & ~x[2] & x[1] & x[0];
+            assign a_to_g[5] = x[2] & x[1] & ~x[0] // b (segment index 5)
+            | x[3] & x[1] & x[0]
+            | ~x[3] & x[2] & ~x[1] & x[0]
+            | x[3] & x[2] & ~x[1] & ~x[0];
+            assign a_to_g[4] = ~x[3] & ~x[2] & x[1] & ~x[0] // c (segment index 4)
+            | x[3] & x[2] & x[1]
+            | x[3] & x[2] & ~x[0];
+            assign a_to_g[3] = ~x[3] & ~x[2] & ~x[1] & x[0] // d (segment index 3)
+            | ~x[3] & x[2] & ~x[1] & ~x[0]
+            | x[3] & ~x[2] & x[1] & ~x[0]
+            | x[2] & x[1] & x[0];
+            assign a_to_g[2] = ~x[3] & x[0] // e (segment index 2)
+            | ~x[3] & x[2] & ~x[1]
+            | ~x[2] & ~x[1] & x[0];
+            assign a_to_g[1] = ~x[3] & ~x[2] & x[0] // f (segment index 1)
+            | ~x[3] & ~x[2] & x[1]
+            | ~x[3] & x[1] & x[0]
+            | x[3] & x[2] & ~x[1] & x[0];
+            assign a_to_g[0] = ~x[3] & ~x[2] & ~x[1] // g (segment index 0)
+            | x[3] & x[2] & ~x[1] & ~x[0]
+            | ~x[3] & x[2] & x[1] & x[0];
+            endmodule
+    prompt: |
+        Add `inside` check for `x` using an indexed part select, placed in a generate block with escaped name.
+    variation: |
+        // Package defining detect_states
+            package pkg_states;
+                localparam logic [3:0] detect_states [0:2] = '{4'd4, 4'd8, 4'd12};
+            endpackage
+        
+            // Test module using that package
+            module t_Universal_Shift_Reg;
+                import pkg_states::*;
+                logic [3:0] rst;
+        
+                initial begin
+                    rst = 4'd8;
+                    if (rst inside {detect_states[0], detect_states[1], detect_states[2]})
+                        $display("reset inside");
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_updcounter();//TEST_BENCH
+            reg clk,u_d;
+            reg[3:0]N;
+            wire[3:0]a;
+            updcounter c2(a,clk,N,u_d);
+            initial
+            begin
+            N = 4'b0111; // Set limit N=7
+            u_d = 1'b1; // Start counting up (Corrected: was 1'b0)
+            clk = 0;
+            end
+            always #2 clk=~clk; // Generate clock
+            always #34 u_d=~u_d; // Change direction every 34 time units
+            initial $monitor
+            ($time,"clk=%b, N=%d, u_d=%b, a=%d",clk,N,u_d,a); // Display values
+            initial #64 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Wrap clock generation in a generate block, add `inside` check for `RST_X` in array range from external package.
+    variation: |
+        module rst_check;
+            logic [3:0] RST_X;
+            localparam logic [3:0] rstlist [0:1] = '{4'd0, 4'd1};
+        
+            always_comb begin
+                // Verilator-compatible manual check
+                if (RST_X == rstlist[0] || RST_X == rstlist[1])
+                    $display("RST_X is in reset list");
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module tb_TOP1;
+              reg CLK, RST_X;
+              TOP1 uut(.CLK(CLK), .RST_X(RST_X));
+        
+              initial begin
+                CLK = 0;
+                forever #5 CLK = ~CLK;
+              end
+        
+              initial begin
+                RST_X = 0; #10;
+                RST_X = 1;
+              end
+            endmodule
+    prompt: |
+        Modify the comparator logic to use `inside` operator to compare `x` against a constant array defined in a package.
+    variation: |
+        module tb_TOP1();
+            reg CLK, RST_X;
+        
+            // Match width with RST_X (1-bit)
+            localparam logic rstlist [0:1] = '{1'b0, 1'b1};
+        
+            always @(posedge CLK) begin
+                if (RST_X == rstlist[0] || RST_X == rstlist[1])
+                    $display("RESET asserted");
+            end
+        
+            initial begin
+                CLK = 0;
+                RST_X = 0;
+            end
+        
+            always #5 CLK = ~CLK;
+        
+            initial #20 $finish;
+            endmodule
+
+- entry: |
+    base_code: |
+        module comp
+            (input wire [N-1:0] x,
+            input wire [N-1:0] y,
+            output reg gt, // Greater than
+            output reg eq, // Equal
+            output reg lt // Less than
+            );
+            always @(*) // Combinational logic
+            begin
+            // Default outputs to 0
+            gt = 1'b0;
+            eq = 1'b0;
+            lt = 1'b0;
+            // Set flags based on comparison results
+            if(x > y)
+            gt = 1'b1;
+            if(x == y)
+            eq = 1'b1;
+            if(x < y)
+            lt = 1'b1;
+            end
+            endmodule
+    prompt: |
+        Use a function call result in the array index within the `inside` operator and wrap the conditional specify block inside a generate block.
+    variation: |
+        module comp #(parameter N = 4) (
+            input  logic [N-1:0] x,
+            output logic         gt
+            );
+                // Initialize array with all zeros
+                localparam logic [N-1:0] arrx [0:0] = '{default: '0};
+        
+                always @(*) begin
+                    // Manual comparison instead of 'inside' for Verilator compatibility
+                    if (x == arrx[0])
+                        gt = 1'b1;
+                    else
+                        gt = 1'b0;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module dff_aa(q,qb,di,clk,clr,pr); // Behavioral DFF with async controls and conditional path delay
+              output q,qb; input di,clk,clr,pr;
+              reg q;
+              assign qb=~q;
+              specify
+                // Conditional path delay: clk->q edge-sensitive path active only if clr and pr are low
+                if (!clr && !pr) (posedge clk *> (q:di)) = 1;
+              endspecify
+              // Behavioral description with async reset/preset priority
+              always @(posedge clk or posedge clr or posedge pr) // Added async sensitivity
+                if(clr) q <= 1'b0; // Use non-blocking <=
+                else if(pr) q <= 1'b1;
+                else q <= di;
+            endmodule
+    prompt: |
+        Declare `X` and `Y` in a module scope array and use `inside` to check if a result lies in a packed slice.
+    variation: |
+        module dff_aa (
+            input  logic clk,
+            input  logic clr,
+            input  logic di,
+            output logic q
+            );
+                // Define pick values as 1-bit
+                localparam logic pick [0:1] = '{1'b0, 1'b1};
+        
+                always_ff @(posedge clk) begin
+                    if (clr && (q == pick[0] || q == pick[1]))
+                        q <= di;
+                end
+            endmodule
+
+- entry: |
+    base_code: |
+        module addern(carryin, X, Y, S, carryout);
+            parameter n = 16;
+            input carryin;
+            input [n-1:0] X, Y;
+            output [n-1:0] S;
+            output carryout;
+            reg [n-1:0] S;
+            reg [n:0] C;
+            reg carryout;
+            integer k;
+            always @(X or Y or carryin)
+            begin
+                C[0] = carryin;
+                for (k = 0; k <= n-1; k = k + 1)
+                begin
+                    S[k] = X[k] ^ Y[k] ^ C[k];
+                    C[k+1] = (X[k] & Y[k]) | (C[k] & X[k]) | (C[k] & Y[k]);
+                end
+                carryout = C[n];
+            end
+            endmodule
+    prompt: |
+        Apply `inside` operator to signal `data` using constant index and use an array defined in interface scope.
+    variation: |
+        module addern (
+            input  logic [15:0] C,
+            input  logic [15:0] X, Y,
+            output logic [15:0] S
+            );
+        
+                // Define a constant list of values as a packed array of 2 elements
+                localparam logic [15:0] consts [0:1] = '{16'd0, 16'd65535};
+        
+                always_comb begin
+                    if (C == consts[0] || C == consts[1])
+                        S[0] = 1'b0;
+                    else
+                        S[0] = 1'b1;
+                end
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module mixed_sim;
+            reg dcontrol, x, y;
+            reg [31:0] data;
+            wire [31:0] bus;
+            assign bus = dcontrol ? data : 'bz;
+            always @x
+            y = ~x;
+            initial
+            begin
+            $monitor("time=%d dcontrol=%d data=%d x=%d y=%d bus=%d",
+                     $time, dcontrol, data, x, y, bus);
+            dcontrol = 0;
+            end
+            endmodule
+    prompt: |
+        Use `inside` on `state_Mealy` to compare against a constant array slice declared in a package.
+    variation: |
+        module mixed_sim;
+            logic [31:0] bus, x, y;
+            localparam logic [31:0] busArr [0:3] = '{32'd0, 32'd1, 32'd2, 32'd3};
+        
+            always @(*) begin
+                if (bus == busArr[0] || bus == busArr[1] || bus == busArr[2] || bus == busArr[3])
+                    y = 32'd0;
+                else
+                    y = 32'd1;
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module Prob_6_7_Mealy (Detect_Mealy, D_in, clk, rst);
+            // Mealy nonresetting sequence detector
+            output Detect_Mealy;
+            input D_in, clk, rst;
+            parameter S_0 = 0, S_1 = 1, S_2 = 2, S_3 = 3;
+            parameter S_5 = 5, S_6 = 6, S_7 = 7;
+            reg [2: 0] state_Mealy, next_state;
+            wire Detect_Mealy = (((state_Mealy == S_3)&&(D_in == 0))
+            || ((state_Mealy == S_7)&&(D_in ==1)));
+            always @ (posedge clk) if (rst) state_Mealy <= S_0; else state_Mealy <= next_state;
+            always @ (state_Mealy, D_in) begin
+            next_state = S_0;
+            case (state_Mealy)
+            S_0: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_5;
+            S_1: if (D_in) next_state = S_2; else if (D_in == 0) next_state = S_5;
+            S_2: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_5;
+            S_3: if (D_in) next_state = S_3; else if (D_in == 0) next_state = S_5;
+            S_5: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_6;
+            S_6: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_7;
+            S_7: if (D_in) next_state = S_1; else if (D_in == 0) next_state = S_7;
+            default: next_state = S_0;
+            endcase
+            end
+            endmodule
+    prompt: |
+        In the behavioral D-latch, use `inside` operator on `di` to check against a fixed array slice from a dollar unit constant.
+    variation: |
+        package pkg_states;
+            localparam logic [3:0] detect_states [0:2] = '{4'd4, 4'd8, 4'd12};
+            endpackage
+        
+            module Prob_6_7_Mealy (
+                input  logic clk,
+                input  logic rst,
+                input  logic D_in,
+                output logic Detect_Mealy
+                );
+                import pkg_states::*;
+        
+                logic [3:0] state_Mealy;
+        
+                always_ff @(posedge clk or posedge rst) begin
+                    if (rst)
+                        state_Mealy <= 4'd0;
+                    else begin
+                        // Example transition logic (you can customize this FSM behavior)
+                        state_Mealy <= state_Mealy + 1;
+                    end
+                end
+        
+                always_ff @(posedge clk) begin
+                    if (state_Mealy == detect_states[0] ||
+                        state_Mealy == detect_states[1] ||
+                        state_Mealy == detect_states[2])
+                        Detect_Mealy <= 1'b1;
+                    else
+                        Detect_Mealy <= 1'b0;
+                end
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_dffbehen;//test-bench
+            reg di,en;
+            wire do;
+            dffen d1(do,di,en); // Instantiate the D latch
+            initial
+            begin
+            en=0; // Latch initially disabled (opaque)
+            di=1'b0; // Initial data
+            end
+            always #7 en =~en; // Toggle enable every 7 time units
+            always #4 di=~di; // Toggle data every 4 time units
+            initial
+            $monitor($time,"en=%b, di=%b, do=%b",en,di,do);
+            initial #50 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Add `inside` operator to check `s_cnt` inside a constant array and wrap combinational block in escaped generate block.
+    variation: |
+        module tst_dffbehen; // test-bench
+            logic di;
+            localparam logic [1:0] di_arr = '{1'b0, 1'b1}; // valid descending bit range
+        
+            always #4 di = ~di;
+        
+            initial begin
+                #1; // allow di to toggle at least once
+                if (di == di_arr[0] || di == di_arr[1])
+                    $display("di toggle matches");
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module shift_reg( input [3:0] d_in, input clk, sr, sl, ld, rst,
+            input [1:0] s_cnt, output reg [3:0] q);
+            reg [3:0] int_q;
+            always @( d_in, q, s_cnt, sr, sl, ld ) begin: combinational
+            if( ld )
+            int_q = d_in;
+            else if( sr )
+            int_q = q >> s_cnt;
+            else if( sl )
+            int_q = q << s_cnt;
+            else int_q = q;
+            end
+            always @( posedge clk ) begin: register
+            if (rst) q <= 0;
+            else q <= int_q;
+            end
+            endmodule
+    prompt: |
+        Add `inside` check on internal MUP register `rr.ir` using a constant array and wrap the instantiation in a generate block.
+    variation: |
+        module shift_reg;
+            logic [1:0] s_cnt;
+            logic [3:0] d_in, q;
+        
+            initial begin
+                s_cnt = 2'd2;
+                d_in = 4'hA;
+            end
+        
+            generate
+                genvar i;
+                for (i = 0; i < 1; i++) begin : gen_com
+                    initial begin
+                        if (s_cnt == 2 || s_cnt == 3)
+                            q = d_in;
+                    end
+                end
+            endgenerate
+            endmodule
+
+- entry: |
+    base_code: |
+        module tst_mup; // Testbench for Microprocessor
+            reg clk,en,int; // Clock, Enable, Interrupt inputs
+            // Assuming mup_opr is the microprocessor module instance
+            // mup_opr rr(clk,int,en); // Instantiation needed
+            initial
+            begin
+            int=1'b0;clk=1'b0;en=1'b0; // Initialize
+            end
+            always #2 clk=~clk; // Generate clock
+            // Monitor clock, time, inputs, and internal MUP registers (pc, ir, dcop)
+            initial $monitor("clk=%b, t=%0d, en=%b, int=%b, rr.pc=%0d, rr.ir=%0h, rr.dcop=%0d", clk,$time,en,int,rr.pc,rr.ir,rr.dcop); // Corrected format specifiers
+            // mup_opr rr(clk,int,en); // Instantiate DUT
+            initial #40 $stop; // Stop simulation
+            endmodule
+    prompt: |
+        Check `BCD_in` using `inside` operator with array select using XMR in index (e.g., `pkg::consts[BCD_in]`) to test XMR usage.
+    variation: |
+        module tst_mup;
+            logic [7:0] ir;
+            localparam logic [7:0] ir_arr [0:1] = '{8'd0, 8'd255};
+        
+            initial $monitor("ir = %0d", ir);
+        
+            initial begin
+                ir = 8'd255;  // Example value for testing
+        
+                if (ir == ir_arr[0] || ir == ir_arr[1])
+                    $display("ir in range");
+                else
+                    $display("ir NOT in range");
+            end
+            endmodule
+
+- entry: |
+    base_code: |
+        module encoder (BCD_in, Excess_3_out);
+            input [3:0] BCD_in;
+            output [3:0] Excess_3_out;
+            assign Excess_3_out = BCD_in + 3;
+            endmodule
+        
+            module t_encoder();
+            reg [3:0] BCD_in;
+            wire [3:0] Excess_3_out;
+            encoder M0(BCD_in, Excess_3_out);
+            initial
+            $monitor($time,,"BCD = %b, Excess-3 Code = %b", BCD_in, Excess_3_out);
+        
+            initial begin
+            end
+            initial begin //Simulation Test Pattern
+            end
+            endmodule
+    prompt: |
+        Use a package-scope array and `inside` operator on `HiCount` in the comparator logic and move Adjr assignment to a generate block.
+    variation: |
+        module encoder;
+        
+            // Define input and valid BCD table
+            logic [3:0] BCD_in;
+            localparam logic [3:0] table [0:3] = '{4'd1, 4'd3, 4'd7, 4'd15};
+        
+            initial begin
+              BCD_in = 4'd3; // Example value to test
+        
+              // Manual comparison instead of 'inside'
+              if (BCD_in == table[0] ||
+                  BCD_in == table[1] ||
+                  BCD_in == table[2] ||
+                  BCD_in == table[3]) begin
+                $display("BCD valid: %0d", BCD_in);
+              end else begin
+                $display("BCD invalid: %0d", BCD_in);
+              end
+            end
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module JerkyComparator (output[1:0] AdjustFreq, input ClockIn, PLLClock, Reset);
+            reg[1:0] Adjr;
+            assign AdjustFreq = Adjr;
+            reg[1:0] HiCount;
+            always @(ClockIn, Reset)
+            if (Reset==1'b1)
+            begin
+                Adjr = 2'b01;
+                HiCount = 2'b0;
+            end
+            else if (PLLClock==1'b1)
+                HiCount = HiCount + 2'b01;
+            else begin
+                case (HiCount)
+                    2'b00: Adjr = 2'b11;
+                    2'b01: Adjr = 2'b01;
+                    default: Adjr = 2'b00;
+                endcase
+                HiCount = 2'b0;
+            end
+            endmodule
+    prompt: |
+        Use `inside` on `i` and compare with fixed array range declared in interface scope inside the carry testbench.
+    variation: |
+        module JerkyComparator;
+        
+            // Inputs
+            logic ClockIn;
+            logic [1:0] HiCount;
+        
+            // Output
+            logic [1:0] AdjustFreq;
+        
+            // Define valid adjustment values
+            localparam logic [1:0] adj [0:1] = '{2'd0, 2'd2};
+        
+            // Clocking process
+            always @(ClockIn) begin
+              // Manual comparison instead of 'inside'
+              if (HiCount == adj[0] || HiCount == adj[1])
+                AdjustFreq = HiCount;
+            end
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module test_carry;
+            reg a, b, c;
+            integer i;
+            wire cout;
+            carry c1(cout, c, a, b);
+            initial
+            begin
+            $monitor("time=%d a=%b b=%b c=%b---------cout=%b", $time, a, b, c, cout);
+            for (i = 0; i < 9; i = i + 1)
+            begin
+            {a, b, c} = i;
+            end
+            a = 'bx;
+            b = 'bx;
+            end
+            endmodule
+    prompt: |
+        Wrap the latch testbench in a generate block and use `inside` operator to check `d` against a constant array.
+    variation: |
+        module test_carry;
+        
+              // Define valid index set manually
+              localparam logic [2:0] idxs [0:2] = '{3'd1, 3'd2, 3'd3};
+        
+              logic a, b, c;
+              logic [2:0] combo;
+        
+              initial begin
+                // Example values (can be replaced with actual logic if needed)
+                a = 0; b = 1; c = 1;
+                combo = {a, b, c};
+        
+                for (int i = 0; i < 9; i++) begin
+                  if (combo == idxs[0] || combo == idxs[1] || combo == idxs[2])
+                    $display("combo in idxs: %0d", combo);
+                  combo++;  // Simulate changing combinations
+                end
+              end
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module tstdlatch; //test-bench
+            reg d,en;
+            wire q,qb;
+            // dlatch ff(en,d,q,qb); // Assuming instantiation of a D latch module
+            initial
+            begin
+            d = 1'b0;
+            en = 1'b0; // Latch disabled
+            end
+            always #4 en =~en; // Enable toggles every 4 time units
+            always #8 d=~d; // Data toggles every 8 time units
+            initial $monitor($time," en = %b , d = %b , q = %b , qb = %b " , en,d,q,qb);
+            initial #40 $stop;
+            endmodule
+    prompt: |
+        Replace `flush_P0_P1` transition with an `inside` check of `state` against a packed range defined in package scope.
+    variation: |
+        module tstdlatch;
+        
+              logic d;
+        
+              // Local constant list (instead of inline set)
+              localparam logic [0:0] valid_vals [0:1] = '{1'b0, 1'b1};
+        
+              initial begin
+                d = 1'b0; // example value
+                if (d == valid_vals[0] || d == valid_vals[1])
+                  $display("d valid");
+                else
+                  $display("d INVALID");
+              end
+        
+            endmodule
+
+- entry: |
+    base_code: |
+        module control_unit (flush_P0_P1, Ld_P1, Ld_P0, Ld_R0, Ld, En, clock, rst);
+            output reg flush_P0_P1, Ld_P1, Ld_P0, Ld_R0;
+            input Ld, En, clock, rst;
+            reg [1: 0] state, next_state;
+            parameter S_idle = 0, S_1 = 1, S_full = 2, S_wait = 3;
+            always @ (posedge clock) if (rst) state <= S_idle;
+            else state <= next_state;
+            always @ (state, Ld, En) begin
+            flush_P0_P1 = 0;
+            Ld_P1 = 0;
+            Ld_P0 = 0;
+            Ld_R0 = 0;
+            next_state = S_idle;
+            case (state)
+            S_idle: if (En)
+            begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+            else flush_P0_P1 = 1;
+        
+            S_1: begin next_state = S_full; Ld_P1 = 1; Ld_P0 = 1; end
+            S_full: if (Ld == 1) begin
+            Ld_R0 = 1;
+            case (En)
+            0: begin next_state = S_idle; flush_P0_P1 = 1; end
+            1: begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+            endcase
+            end
+            else next_state = S_wait;
+            S_wait: if (Ld == 1) begin
+            Ld_R0 = 1;
+            case (En)
+            0: begin next_state = S_idle; flush_P0_P1 = 1; end
+            1: begin next_state = S_1; Ld_P1 = 1; Ld_P0 = 1; end
+            endcase
+            end
+            else next_state = S_wait;
+            endcase
+            end
+            endmodule
+    prompt: |
+        For the hex-to-7seg decoder, use `inside` to compare `x` against a constant array declared in dollar unit scope.
+    variation: |
+        module tstdlatch;
+        
+              logic d;
+        
+              // Local constant list (instead of inline set)
+              localparam logic [0:0] valid_vals [0:1] = '{1'b0, 1'b1};
+        
+              initial begin
+                d = 1'b0; // example value
+                if (d == valid_vals[0] || d == valid_vals[1])
+                  $display("d valid");
+                else
+                  $display("d INVALID");
+              end
+        
+            endmodule
+

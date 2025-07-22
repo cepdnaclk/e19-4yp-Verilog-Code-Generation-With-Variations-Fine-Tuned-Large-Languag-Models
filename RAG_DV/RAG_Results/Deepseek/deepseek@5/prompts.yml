@@ -1,0 +1,28 @@
+- prompt: Convert the `count` register to a wire, modifying its declaration to `wire [7:0] count`.
+- prompt: Rename the module from `simple_counter` to `advanced_counter`.
+- prompt: Rename the output port `shift_out` to `data_shifted` in the port list and assignments.
+- prompt: Change the reset from active-high (`posedge rst`) to active-low (`negedge rst`).
+- prompt: Expand the `count` signal width from `[7:0]` to `[15:0]`.
+- prompt: Rename the module from `simple_updown_counter` to `advanced_updown_counter`.
+- prompt: Convert the `toggle_reg` register to a wire, changing its declaration to `wire`.
+- prompt: Rename the output port `toggle_out` to `flip_out` in the port list and assignments.
+- prompt: Change the reset from active-high (`posedge rst`) to active-low (`negedge rst`).
+- prompt: Rename the module from `simple_pulse_gen` to `advanced_pulse_gen`.
+- prompt: Explicitly declare the `mem` array with fixed ranges `[7:0][0:3]`, reinforcing its current structure.
+- prompt: Convert `mem` to a dynamic array with two dimensions (e.g., `reg [7:0] mem[][]`), enabling runtime resizing.
+- prompt: Change `data_array` to a bounded queue (`reg [7:0] data_array[$:7]`) with a maximum size of 8.
+- prompt: Convert `data_array` to an associative array with integer keys (e.g., `reg [7:0] data_array[int]`).
+- prompt: Transform `matrix` to a mixed array with fixed, associative, and queue dimensions (e.g., `reg [3:0] matrix[3:0][integer][$]`).
+- prompt: Change `matrix` to an associative array with integer keys (e.g., `reg [3:0] matrix[integer][0:3]`).
+- prompt: Change `counters` base type to `int` (e.g., `int counters[0:7]`), using SystemVerilog’s 32-bit integer.
+- prompt: Convert `counters` to a packed struct (e.g., `struct packed { logic [7:0] value; } counters[0:7]`).
+- prompt: Add an `inside` operator test for a slice of `buffer` (e.g., `buffer[0][3:0] inside {value_set}`).
+- prompt: Add an `inside` operator test for `buffer` in an `if` statement (e.g., `if (buffer[ptr] inside {value_set})`).
+- prompt: Change `matrix` to a dynamic array (`reg [7:0] matrix[][]`) with two dimensions.
+- prompt: Convert `matrix` to an associative array with integer keys (`reg [7:0] matrix[int][0:3]`).
+- prompt: Transform `pipeline` to a mixed array (`reg [7:0] pipeline[7:0][int][$]`) with fixed, associative, and queue dimensions.
+- prompt: Add an `inside` operator test for a slice of `pipeline` (e.g., `pipeline[0][3:0] inside {value_set}`).
+- prompt: Change `array` to an associative array with integer keys (`reg [7:0] array[int]`).
+- prompt: Convert `array` to a packed struct (`struct packed { logic [7:0] value; } array[0:3]`).
+- prompt: Add an `inside` operator test for `queue` in an `if` statement (e.g., `if (queue[head] inside {value_set})`).
+- prompt: Add an `inside` operator test for `queue` at the module scope, possibly as an assertion.

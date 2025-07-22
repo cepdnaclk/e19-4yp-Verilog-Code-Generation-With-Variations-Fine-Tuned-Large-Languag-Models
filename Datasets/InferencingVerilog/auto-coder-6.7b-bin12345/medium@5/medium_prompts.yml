@@ -1,0 +1,35 @@
+- prompt: Add an if condition that checks whether a 4D packed logic array variable is inside a range list using array slice expressions.
+- prompt: In the case statement, add a packed vector array select used with the inside operator to match against a dynamic range list.
+- prompt: Add a while loop condition that uses inside with a variable index applied to a packed array.
+- prompt: In the always block, test use of a part-select expression in the inside operator range list.
+- prompt: Modify the jk instantiation to include a case statement that uses inside with function call result in the index.
+- prompt: Add a procedural assignment using inside with a constant index into a 2D logic array to test MDA behavior.
+- prompt: Use a for loop that includes an inside expression where the index is calculated via a function call.
+- prompt: Add an initial block that tests an inside expression over an array as a whole range.
+- prompt: Add an if statement using inside with an indexed part select as the operand being tested.
+- prompt: Include a unique case expression that uses inside with an array-slice range in a logic-vector array.
+- prompt: Add a procedural continuous assignment using inside with a dynamic array selected via variable index.
+- prompt: Use initial block variable initialization with an inside expression using a function call in the index.
+- prompt: In the always block, test inside with an XMR-style index on a packed array and a constant range.
+- prompt: Use inside in an if statement on an array slice operand indexed by a variable and test against part-select range.
+- prompt: Add a priority case structure using inside with a packed 2D array as a whole as the operand.
+- prompt: Use inside in a procedural assignment inside an always_comb block with array part-select as operand.
+- prompt: Add an if block using inside on a 2D array selected using XMR-style hierarchy for index expression.
+- prompt: Add a case block with inside testing array elements selected by dynamic variable index.
+- prompt: Modify always block to include inside expression on an operand resulting from function-call return array.
+- prompt: Add inside with array slice as the tested operand within an initial block and assign result to a wire.
+- prompt: Add a procedural assignment within a final block using inside on a packed vector array slice.
+- prompt: Add a case statement using inside with a function call used as an index into a 4D array.
+- prompt: Use inside in a conditional expression within an always block that references a part-select on an array.
+- prompt: Introduce a while loop condition using inside with array-slice operand and a constant range.
+- prompt: Add inside with function-call result as array index in a procedural assign within initial block.
+- prompt: Add inside in a case expression using an array element selected via dynamic variable index.
+- prompt: Add an if block testing whether part-select of a packed array is inside a fixed constant range.
+- prompt: Add a case with inside expression on a packed array accessed with XMR-based hierarchical index.
+- prompt: Add an initial block with procedural continuous assign using inside and a packed vector slice.
+- prompt: Use inside in a while loop with the tested operand being a packed array element via function call index.
+- prompt: Use inside operator inside a procedural block to check array membership in a part-select range.
+- prompt: Add a nested if using inside with a 3D array slice selected by variable to test range inclusion.
+- prompt: Add a case statement using inside on array operand with hierarchical index and constant range list.
+- prompt: Use inside in final block to check if function call result indexed into an array matches a slice range.
+- prompt: Add a priority case with inside applied to operand selected via constant index from an MDA.
