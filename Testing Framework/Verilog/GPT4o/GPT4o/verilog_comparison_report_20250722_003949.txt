@@ -1,0 +1,951 @@
+Verilog Code Comparison Report - 2025-07-22 00:39:49
+
+==================================================
+
+Total Problems Compared: 28
+Overall Pass@1 Rate: 17.86%
+
+Detailed Results:
+
+Code Index: 0
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -5,14 +5,25 @@
+   output [7:0] count_out
+ );
+ 
+-  wire [7:0] count;    
++  wire [7:0] count;
+ 
+-  always @(posedge clk or posedge rst) begin
++  reg [7:0] next_count;
++
++  always @(*) begin
+     if (rst) begin
+-      count <= 8'h00;
++      next_count = 8'h00;
+     end else if (enable) begin
+-      count <= count + 1;
++      next_count = count + 1;
++    end else begin
++      next_count = count;
+     end
++  end
++
++  reg [7:0] count_reg;
++  assign count = count_reg;
++
++  always @(posedge clk) begin
++    count_reg <= next_count;
+   end
+ 
+   assign count_out = count;
+
+--------------------------------------------------
+
+Code Index: 1
+Pass: Yes
+
+--------------------------------------------------
+
+Code Index: 2
+Pass: Yes
+
+--------------------------------------------------
+
+Code Index: 3
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -6,7 +6,7 @@
+ );
+   reg [7:0] shift_reg;
+   always @(posedge clk or negedge rst) begin
+-    if(!rst) begin
++    if (!rst) begin
+       shift_reg <= 8'h00;
+     end else begin
+       shift_reg <= {shift_reg[6:0], data_in};
+
+--------------------------------------------------
+
+Code Index: 4
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -2,12 +2,12 @@
+   input        clk,
+   input        rst,
+   input        up_down,
+-  output [7:0] count_out
++  output [15:0] count_out
+ );
+   reg [15:0] count;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      count <= 8'h00;
++      count <= 16'h0000;
+     end else if (up_down) begin
+       count <= count + 1;
+     end else begin
+
+--------------------------------------------------
+
+Code Index: 5
+Pass: Yes
+
+--------------------------------------------------
+
+Code Index: 6
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,13 +4,23 @@
+   input  enable,
+   output toggle_out
+ );
+-  wire toggle_reg;
+-  always @(posedge clk or posedge rst) begin
++  reg toggle_next;
++  reg toggle_storage;
++
++  always @(*) begin
+     if (rst) begin
+-      toggle_reg <= 1'b0;
++      toggle_next = 1'b0;
+     end else if (enable) begin
+-      toggle_reg <= ~toggle_reg;
++      toggle_next = ~toggle_out;
++    end else begin
++      toggle_next = toggle_out;
+     end
+   end
++
++  always @(posedge clk) begin
++    toggle_storage <= toggle_next;
++  end
++
++  wire toggle_reg = toggle_storage;
+   assign toggle_out = toggle_reg;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 7
+Pass: Yes
+
+--------------------------------------------------
+
+Code Index: 8
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -6,7 +6,7 @@
+   reg [1:0] counter;
+   reg pulse;
+   always @(posedge clk or negedge rst) begin
+-    if(!rst) begin
++    if (!rst) begin
+       counter <= 2'b00;
+       pulse <= 1'b0;
+     end else begin
+
+--------------------------------------------------
+
+Code Index: 9
+Pass: Yes
+
+--------------------------------------------------
+
+Code Index: 10
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -8,15 +8,20 @@
+   output       full,
+   output       empty
+ );
+-  reg [7:0] [7:0][0:3] mem;
++  reg [7:0] mem [0:3];  // Original declaration
++  // Modified declaration below:
++  // reg [7:0] mem [0:3]; ==> reg mem [7:0][0:3];
++
++  reg mem [7:0][0:3];
+   reg [1:0] wr_ptr, rd_ptr;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       wr_ptr <= 2'b00;
+       rd_ptr <= 2'b00;
+     end else begin
+       if (write_en && !full) begin
+-        mem[wr_ptr] <= data_in;
++        mem[:,wr_ptr] <= data_in;  // Write each bit to its corresponding plane
+         wr_ptr <= wr_ptr + 1;
+       end
+       if (read_en && !empty) begin
+@@ -24,7 +29,8 @@
+       end
+     end
+   end
+-  assign data_out = mem[rd_ptr];
++
++  assign data_out = mem[:,rd_ptr];  // Read the entire 8-bit vector at rd_ptr
+   assign full = (wr_ptr == rd_ptr + 4);
+   assign empty = (wr_ptr == rd_ptr);
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 11
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -8,15 +8,20 @@
+   output       full,
+   output       empty
+ );
+-  reg [7:0] [][] mem;
++  reg [7:0] mem [][];  // Two-dimensional dynamic array
+   reg [1:0] wr_ptr, rd_ptr;
++
++  initial begin
++    mem = new[4];  // Allocate memory for 4 entries at runtime
++  end
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       wr_ptr <= 2'b00;
+       rd_ptr <= 2'b00;
+     end else begin
+       if (write_en && !full) begin
+-        mem[wr_ptr] <= data_in;
++        mem[wr_ptr] = data_in;
+         wr_ptr <= wr_ptr + 1;
+       end
+       if (read_en && !empty) begin
+@@ -24,6 +29,7 @@
+       end
+     end
+   end
++
+   assign data_out = mem[rd_ptr];
+   assign full = (wr_ptr == rd_ptr + 4);
+   assign empty = (wr_ptr == rd_ptr);
+
+--------------------------------------------------
+
+Code Index: 12
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,18 +4,23 @@
+   input  [7:0] data_in,
+   output [7:0] sum_out
+ );
+-  reg [7:0] [$:8] data_array;
++  reg [7:0] data_array[$:7];  // Bounded queue with max size 8
+   reg [2:0] index;
+   reg [7:0] sum;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       index <= 3'b000;
+       sum <= 8'h00;
++      data_array = {};  // Clear queue
+     end else begin
+-      data_array[index] <= data_in;
+-      index <= index + 1;
+-      sum <= sum + data_in;
++      if (data_array.size() < 8) begin
++        data_array.push_back(data_in);  // Enqueue
++        index <= index + 1;
++        sum <= sum + data_in;
++      end
+     end
+   end
++
+   assign sum_out = sum;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 13
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,18 +4,21 @@
+   input  [7:0] data_in,
+   output [7:0] sum_out
+ );
+-  reg [7:0] [int] data_array;
++  reg [7:0] data_array[int];  // Associative array with integer keys
+   reg [2:0] index;
+   reg [7:0] sum;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       index <= 3'b000;
+       sum <= 8'h00;
++      data_array = '{};  // Clear associative array
+     end else begin
+-      data_array[index] <= data_in;
++      data_array[index] = data_in;
+       index <= index + 1;
+       sum <= sum + data_in;
+     end
+   end
++
+   assign sum_out = sum;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 14
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,17 +4,27 @@
+   input  [3:0] data_in,
+   output [3:0] data_out
+ );
+-  reg [3:0] matrix [0:3][0:3];
++  reg [3:0] matrix[3:0][int][$];  // Mixed array: fixed × associative × queue
+   reg [1:0] row, col;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       row <= 2'b00;
+       col <= 2'b00;
++      // Clear matrix content (simulation only)
++      foreach (matrix[i]) begin
++        foreach (matrix[i][j]) begin
++          matrix[i][j] = {};
++        end
++      end
+     end else begin
+-      matrix[row][col] <= data_in;
++      matrix[row][col].push_back(data_in);  // Push into queue at matrix[row][col]
+       col <= col + 1;
+       if (col == 2'b11) row <= row + 1;
+     end
+   end
+-  assign data_out = matrix[3][3];
++
++  assign data_out = (matrix.exists(3) && matrix[3].exists(3) && matrix[3][3].size() > 0)
++                    ? matrix[3][3][$ - 1]  // Last value inserted in matrix[3][3]
++                    : 4'b0000;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 15
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -1,20 +1,25 @@
+-module medium_shift_matrix (
++module medium_counter_array (
+   input        clk,
+   input        rst,
+-  input  [3:0] data_in,
+-  output [3:0] data_out
++  input  [2:0] select,
++  output [7:0] count_out
+ );
+-  reg [3:0] matrix [0:3][0:3];
+-  reg [1:0] row, col;
++  int counters [0:7];  // 32-bit integer counters
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      row <= 2'b00;
+-      col <= 2'b00;
++      counters[0] <= 0;
++      counters[1] <= 0;
++      counters[2] <= 0;
++      counters[3] <= 0;
++      counters[4] <= 0;
++      counters[5] <= 0;
++      counters[6] <= 0;
++      counters[7] <= 0;
+     end else begin
+-      matrix[row][col] <= data_in;
+-      col <= col + 1;
+-      if (col == 2'b11) row <= row + 1;
++      counters[select] <= counters[select] + 1;
+     end
+   end
+-  assign data_out = matrix[3][3];
++
++  assign count_out = counters[select][7:0];  // Truncate to 8 bits for output
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 16
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,20 +4,26 @@
+   input  [2:0] select,
+   output [7:0] count_out
+ );
+-  reg [7:0] counters [0:7];
++  typedef struct packed {
++    logic [7:0] value;
++  } counter_t;
++
++  counter_t counters [0:7];  // Array of packed structs
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      counters[0] <= 8'h00;
+-      counters[1] <= 8'h00;
+-      counters[2] <= 8'h00;
+-      counters[3] <= 8'h00;
+-      counters[4] <= 8'h00;
+-      counters[5] <= 8'h00;
+-      counters[6] <= 8'h00;
+-      counters[7] <= 8'h00;
++      counters[0].value <= 8'h00;
++      counters[1].value <= 8'h00;
++      counters[2].value <= 8'h00;
++      counters[3].value <= 8'h00;
++      counters[4].value <= 8'h00;
++      counters[5].value <= 8'h00;
++      counters[6].value <= 8'h00;
++      counters[7].value <= 8'h00;
+     end else begin
+-      counters[select] <= counters[select] + 1;
++      counters[select].value <= counters[select].value + 1;
+     end
+   end
+-  assign count_out = counters[select];
++
++  assign count_out = counters[select].value;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 17
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -1,23 +1,27 @@
+-module medium_counter_array (
++module medium_data_buffer (
+   input        clk,
+   input        rst,
+-  input  [2:0] select,
+-  output [7:0] count_out
++  input        write_en,
++  input  [7:0] data_in,
++  output [7:0] data_out
+ );
+-  reg [7:0] counters [0:7];
++  reg [7:0] buffer [0:3];
++  reg [1:0] ptr;
++  logic match;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      counters[0] <= 8'h00;
+-      counters[1] <= 8'h00;
+-      counters[2] <= 8'h00;
+-      counters[3] <= 8'h00;
+-      counters[4] <= 8'h00;
+-      counters[5] <= 8'h00;
+-      counters[6] <= 8'h00;
+-      counters[7] <= 8'h00;
+-    end else begin
+-      counters[select] <= counters[select] + 1;
++      ptr <= 2'b00;
++    end else if (write_en) begin
++      buffer[ptr] <= data_in;
++      ptr <= ptr + 1;
+     end
+   end
+-  assign count_out = counters[select];
++
++  // inside check on lower 4 bits of buffer[0]
++  always @(*) begin
++    match = buffer[0][3:0] inside {4'hA, 4'h5, 4'hF};  // match = 1 if lower nibble is A, 5, or F
++  end
++
++  assign data_out = buffer[ptr];
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 18
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -7,6 +7,8 @@
+ );
+   reg [7:0] buffer [0:3];
+   reg [1:0] ptr;
++  logic match;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       ptr <= 2'b00;
+@@ -15,11 +17,15 @@
+       ptr <= ptr + 1;
+     end
+   end
++
++  // inside check on lower nibble of buffer[0]
++  always @(*) begin
++    match = buffer[0][3:0] inside {4'h1, 4'h3, 4'h7};  // Check if lower nibble is 1, 3, or 7
++    if (match)
++      $display("Match: buffer[0][3:0] is inside {1, 3, 7} -> value = %h", buffer[0][3:0]);
++    else
++      $display("No match: buffer[0][3:0] = %h", buffer[0][3:0]);
++  end
++
+   assign data_out = buffer[ptr];
+-  // Test case for array slice in inside operator
+-  wire test_result;
+-  
+-  // Example test condition: check if part of the array is inside the range
+-  assign test_result = (buffer[2:0] inside {3'b101, 3'b111});
+-
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 19
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -7,6 +7,7 @@
+ );
+   reg [7:0] buffer [0:3];
+   reg [1:0] ptr;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       ptr <= 2'b00;
+@@ -15,27 +16,14 @@
+       ptr <= ptr + 1;
+     end
+   end
+-  assign data_out = buffer[ptr];
+-  // Test case for inside operator in if statement
+-  reg [7:0] test_value;
+-  reg if_result;
+-  
+-  // Example if statement using inside operator
++
+   always @(*) begin
+-    if (test_value inside {8'd0, 8'd10, 8'd20, 8'd30, 8'd40}) begin
+-      if_result = 1'b1;
++    if (buffer[ptr] inside {8'hAA, 8'h55, 8'hF0}) begin
++      $display("buffer[%0d] = %h is inside {AA, 55, F0}", ptr, buffer[ptr]);
+     end else begin
+-      if_result = 1'b0;
+-    end
+-  end
+-  
+-  // Nested if with inside operator
+-  always @(*) begin
+-    if (buffer[0] inside {8'd0, 8'd1}) begin
+-      if (buffer[1] inside {8'd2, 8'd3}) begin
+-        // Nested inside operations
+-      end
++      $display("buffer[%0d] = %h is NOT inside {AA, 55, F0}", ptr, buffer[ptr]);
+     end
+   end
+ 
++  assign data_out = buffer[ptr];
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 20
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,20 +4,34 @@
+   input  [7:0] data_in,
+   output [7:0] sum_out
+ );
+-  reg [7:0] matrix [0:3][0:3];
++  reg [7:0] matrix [][];  // 2D dynamic array
+   reg [1:0] row, col;
+   reg [7:0] sum;
++
++  initial begin
++    matrix = new[4];              // Allocate 4 rows
++    foreach (matrix[i]) begin
++      matrix[i] = new[4];         // Allocate 4 columns per row
++    end
++  end
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       row <= 2'b00;
+       col <= 2'b00;
+       sum <= 8'h00;
++      foreach (matrix[i]) begin
++        foreach (matrix[i][j]) begin
++          matrix[i][j] = 8'h00;   // Clear contents
++        end
++      end
+     end else begin
+-      matrix[row][col] <= data_in;
++      matrix[row][col] = data_in;
+       sum <= sum + data_in;
+       col <= col + 1;
+       if (col == 2'b11) row <= row + 1;
+     end
+   end
++
+   assign sum_out = sum;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 21
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,14 +4,16 @@
+   input  [7:0] data_in,
+   output [7:0] sum_out
+ );
+-  reg [7:0] matrix [0:3][0:3];
++  reg [7:0] matrix [int][0:3];  // Associative array with int keys in first dimension
+   reg [1:0] row, col;
+   reg [7:0] sum;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       row <= 2'b00;
+       col <= 2'b00;
+       sum <= 8'h00;
++      matrix = '{};  // Clear associative array
+     end else begin
+       matrix[row][col] <= data_in;
+       sum <= sum + data_in;
+@@ -19,5 +21,6 @@
+       if (col == 2'b11) row <= row + 1;
+     end
+   end
++
+   assign sum_out = sum;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 22
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,19 +4,36 @@
+   input  [7:0] data_in,
+   output [7:0] data_out
+ );
+-  reg [7:0] pipeline [0:3];
++  // Mixed array: fixed [0:255], associative [int], and queue [$]
++  reg [7:0] pipeline [7:0][int][$];
++
++  reg [7:0] stage0, stage1, stage2, stage3;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      pipeline[0] <= 8'h00;
+-      pipeline[1] <= 8'h00;
+-      pipeline[2] <= 8'h00;
+-      pipeline[3] <= 8'h00;
++      stage0 <= 8'h00;
++      stage1 <= 8'h00;
++      stage2 <= 8'h00;
++      stage3 <= 8'h00;
++      // Clear entire pipeline for simulation
++      foreach (pipeline[i]) begin
++        foreach (pipeline[i][j]) begin
++          pipeline[i][j] = {};
++        end
++      end
+     end else begin
+-      pipeline[0] <= data_in;
+-      pipeline[1] <= pipeline[0] + 1;
+-      pipeline[2] <= pipeline[1] + 2;
+-      pipeline[3] <= pipeline[2] + 3;
++      stage0 <= data_in;
++      stage1 <= stage0 + 1;
++      stage2 <= stage1 + 2;
++      stage3 <= stage2 + 3;
++
++      // Push values into mixed array structure
++      pipeline[0][0].push_back(stage0);
++      pipeline[1][0].push_back(stage1);
++      pipeline[2][0].push_back(stage2);
++      pipeline[3][0].push_back(stage3);
+     end
+   end
+-  assign data_out = pipeline[3];
++
++  assign data_out = (pipeline[3][0].size() > 0) ? pipeline[3][0][$ - 1] : 8'h00;  // Last value of stage3 queue
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 23
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -5,6 +5,8 @@
+   output [7:0] data_out
+ );
+   reg [7:0] pipeline [0:3];
++  logic match;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       pipeline[0] <= 8'h00;
+@@ -18,11 +20,15 @@
+       pipeline[3] <= pipeline[2] + 3;
+     end
+   end
++
++  // inside operator test on lower 4 bits of pipeline[0]
++  always @(*) begin
++    match = pipeline[0][3:0] inside {4'hA, 4'hC, 4'hE};  // Check if lower nibble is in set
++    if (match)
++      $display("pipeline[0][3:0] = %h is inside {A, C, E}", pipeline[0][3:0]);
++    else
++      $display("pipeline[0][3:0] = %h is NOT inside {A, C, E}", pipeline[0][3:0]);
++  end
++
+   assign data_out = pipeline[3];
+-  // Test case for array slice in inside operator
+-  wire test_result;
+-  
+-  // Example test condition: check if part of the array is inside the range
+-  assign test_result = (pipeline[2:0] inside {3'b101, 3'b111});
+-
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 24
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,23 +4,26 @@
+   input  [7:0] data_in,
+   output [7:0] data_out
+ );
+-  reg [7:0] [int] array;
++  reg [7:0] array [int];  // Associative array with integer keys
+   reg [1:0] index;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      array[0] <= 8'h00;
+-      array[1] <= 8'h00;
+-      array[2] <= 8'h00;
+-      array[3] <= 8'h00;
++      array = '{};           // Clear associative array
+       index <= 2'b00;
+     end else begin
+-      array[index] <= data_in;
++      array[index] = data_in;
+       index <= index + 1;
+-      if (index == 2'b11 && array[0] > array[1]) begin
+-        array[0] <= array[1];
+-        array[1] <= array[0];
++
++      // Simple swap logic (only works correctly with temporary storage)
++      if (index == 2'b11 && array.exists(0) && array.exists(1) && array[0] > array[1]) begin
++        reg [7:0] temp;
++        temp = array[0];
++        array[0] = array[1];
++        array[1] = temp;
+       end
+     end
+   end
+-  assign data_out = array[0];
++
++  assign data_out = array.exists(0) ? array[0] : 8'h00;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 25
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,23 +4,33 @@
+   input  [7:0] data_in,
+   output [7:0] data_out
+ );
+-  reg [7:0] array [0:3];
++  typedef struct packed {
++    logic [7:0] value;
++  } entry_t;
++
++  entry_t array [0:3];  // Array of packed structs
+   reg [1:0] index;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      array[0] <= 8'h00;
+-      array[1] <= 8'h00;
+-      array[2] <= 8'h00;
+-      array[3] <= 8'h00;
++      array[0].value <= 8'h00;
++      array[1].value <= 8'h00;
++      array[2].value <= 8'h00;
++      array[3].value <= 8'h00;
+       index <= 2'b00;
+     end else begin
+-      array[index] <= data_in;
++      array[index].value <= data_in;
+       index <= index + 1;
+-      if (index == 2'b11 && array[0] > array[1]) begin
+-        array[0] <= array[1];
+-        array[1] <= array[0];
++
++      // Swap logic using temp variable to avoid overwriting
++      if (index == 2'b11 && array[0].value > array[1].value) begin
++        logic [7:0] temp;
++        temp = array[0].value;
++        array[0].value <= array[1].value;
++        array[1].value <= temp;
+       end
+     end
+   end
+-  assign data_out = array[0];
++
++  assign data_out = array[0].value;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 26
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -10,6 +10,8 @@
+ );
+   reg [7:0] queue [0:7];
+   reg [2:0] head, tail;
++  logic match;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       head <= 3'b000;
+@@ -24,29 +26,17 @@
+       end
+     end
+   end
+-  assign data_out = queue[head];
+-  assign full = (tail == head + 8);
+-  assign empty = (tail == head);
+-  // Test case for inside operator in if statement
+-  reg [7:0] test_value;
+-  reg if_result;
+-  
+-  // Example if statement using inside operator
++
++  // inside test on queue[head]
+   always @(*) begin
+-    if (test_value inside {8'd0, 8'd10, 8'd20, 8'd30, 8'd40}) begin
+-      if_result = 1'b1;
+-    end else begin
+-      if_result = 1'b0;
+-    end
+-  end
+-  
+-  // Nested if with inside operator
+-  always @(*) begin
+-    if (queue[0] inside {8'd0, 8'd1}) begin
+-      if (queue[1] inside {8'd2, 8'd3}) begin
+-        // Nested inside operations
+-      end
+-    end
++    match = queue[head] inside {8'hAA, 8'h55, 8'hF0};  // test if value matches set
++    if (match)
++      $display("queue[%0d] = %h is inside {AA, 55, F0}", head, queue[head]);
++    else
++      $display("queue[%0d] = %h is NOT inside {AA, 55, F0}", head, queue[head]);
+   end
+ 
++  assign data_out = queue[head];
++  assign full  = (tail == head + 8);  // simulate circular overflow logic (not ideal for real wraparound)
++  assign empty = (tail == head);
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 27
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -10,6 +10,7 @@
+ );
+   reg [7:0] queue [0:7];
+   reg [2:0] head, tail;
++
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       head <= 3'b000;
+@@ -24,16 +25,18 @@
+       end
+     end
+   end
++
+   assign data_out = queue[head];
+-  assign full = (tail == head + 8);
++  assign full  = (tail == head + 8);
+   assign empty = (tail == head);
+-  // Test case for inside operator in module scope
+-  reg [7:0] test_value;
+-  reg module_scope_result;
+-  
+-  // Example use of inside operator within module scope
+-  always @(*) begin
+-    module_scope_result = (test_value inside {8'd0, 8'd5, 8'd10});
++
++  // === INSIDE operator check at module scope ===
++  // Example: Assert that the current head value is NOT from a disallowed set
++  // Useful for debug or constraints in formal tools
++  always @(posedge clk) begin
++    if (!rst) begin
++      assert (!(queue[head] inside {8'hDE, 8'hAD, 8'hBE, 8'hEF}))
++        else $error("queue[head] contains forbidden value: %h", queue[head]);
++    end
+   end
+-
+ endmodule
+
+--------------------------------------------------

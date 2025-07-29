@@ -1,0 +1,1 @@
+module dff_with_reset(data, clock, r, out

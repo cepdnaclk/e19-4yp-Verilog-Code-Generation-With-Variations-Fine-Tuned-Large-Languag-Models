@@ -1,0 +1,8 @@
+{
+  "task_name": "wire_to_integer",
+  "generated_file": "22_simple_counter_integer_f.v",
+  "ground_truth_file": "22_simple_counter_integer.v",
+  "is_identical": true,
+  "pass_at_1": 1.0,
+  "errors": []
+}
