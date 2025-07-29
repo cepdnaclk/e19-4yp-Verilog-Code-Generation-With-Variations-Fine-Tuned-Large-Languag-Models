@@ -1,7 +1,7 @@
 # Commands for running transformations using run_pipeline.py
 
 # 1. Change reg variables to wire
-python3 run_pipeline.py --xform-dirs codelama --xform-file codelama/1_xform_reg_to_wire.py --input-file 0_simple_counter.v --output-file 1_simple_counter_wire_f.v --ground-truth-file 1_simple_counter_wire.v --task-name reg_to_wire --complexity simple --output-dir pipeline_results --xform-args target_variable=count
+python3 run_pipeline.py --xform-dirs codelama --xform-file codelama/22_xform_wire_to_integer.py --input-file 1_simple_counter_wire.v --output-file 22_simple_counter_integer_f.v --ground-truth-file 22_simple_counter_integer.v --task-name wire_to_integer --complexity simple --output-dir pipeline_results --xform-args target_variable=count
 
 # 2. Change module name
 python3 run_pipeline.py --xform-dirs codelama --xform-file codelama/2_xform_module_name.py --input-file 0_simple_counter.v --output-file 2_simple_counter_renamed_f.v --ground-truth-file 2_simple_counter_renamed.v --task-name module_name --complexity simple --output-dir pipeline_results --xform-args from_name=simple_counter to_name=advanced_counter

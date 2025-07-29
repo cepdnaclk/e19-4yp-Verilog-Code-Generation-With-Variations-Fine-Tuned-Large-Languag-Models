@@ -1,0 +1,846 @@
+Verilog Code Comparison Report - 2025-07-22 00:09:45
+
+==================================================
+
+Total Problems Compared: 28
+Overall Pass@1 Rate: 7.14%
+
+Detailed Results:
+
+Code Index: 0
+Pass: Yes
+
+--------------------------------------------------
+
+Code Index: 1
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -5,7 +5,7 @@
+   output [7:0] count_out
+ );
+ 
+-  reg [7:0] count;    
++  reg [7:0] count;
+ 
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+@@ -18,3 +18,17 @@
+   assign count_out = count;
+ 
+ endmodule
++
++### Now generate the variation for the following:
++
++base_code:
++module simple_counter (
++  input        clk,
++  input        rst,
++  input        enable,
++  output [7:0] count_out
++);
++
++  reg [7:0] count;
++
++  always @(posedge clk or posedge rst)
+
+--------------------------------------------------
+
+Code Index: 2
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -1,16 +1,23 @@
+ module simple_shift_reg (
+   input        clk,
+   input        rst,
+-  input        data_in,
+-  output [7:0] data_shifted
++  input        data_in_to_shift,
++  output [7:0] shift_out
+ );
+   reg [7:0] shift_reg;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       shift_reg <= 8'h00;
+     end else begin
+-      shift_reg <= {shift_reg[6:0], data_in};
++      shift_reg <= {shift_reg[6:0], data_in_to_shift};
+     end
+   end
+-  assign data_shifted = shift_reg;
++  assign shift_out = shift_reg;
+ endmodule
++
++base_code:
++module simple_shift_reg (
++  input        clk,
++  input        rst,
++  input        data_in,
++  output [7:0
+
+--------------------------------------------------
+
+Code Index: 3
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -6,7 +6,7 @@
+ );
+   reg [7:0] shift_reg;
+   always @(posedge clk or negedge rst) begin
+-    if(!rst) begin
++    if (~rst) begin
+       shift_reg <= 8'h00;
+     end else begin
+       shift_reg <= {shift_reg[6:0], data_in};
+
+--------------------------------------------------
+
+Code Index: 4
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -2,12 +2,12 @@
+   input        clk,
+   input        rst,
+   input        up_down,
+-  output [7:0] count_out
++  output [15:0] count_out
+ );
+   reg [15:0] count;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      count <= 8'h00;
++      count <= 16'h0000;
+     end else if (up_down) begin
+       count <= count + 1;
+     end else begin
+
+--------------------------------------------------
+
+Code Index: 5
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -5,7 +5,7 @@
+   output [7:0] count_out
+ );
+   reg [7:0] count;
+-  always @(posedge clk or posedge rst) begin
++  always_comb begin
+     if (rst) begin
+       count <= 8'h00;
+     end else if (up_down) begin
+
+--------------------------------------------------
+
+Code Index: 6
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,13 +4,26 @@
+   input  enable,
+   output toggle_out
+ );
+-  wire toggle_reg;
++  reg toggle_reg;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       toggle_reg <= 1'b0;
+-    end else if (enable) begin
++    end else if (enable inside {1'b0, 1'b1}) begin
+       toggle_reg <= ~toggle_reg;
+     end
+   end
+   assign toggle_out = toggle_reg;
+ endmodule
++
++### Now generate the variation for the following:
++
++base_code:
++module simple_toggle_ff (
++  input  clk,
++  input  rst,
++  input  enable,
++  output toggle_out
++);
++  reg toggle_reg;
++  always @(posedge clk or posedge rst) begin
++    if (r
+
+--------------------------------------------------
+
+Code Index: 7
+Pass: Yes
+
+--------------------------------------------------
+
+Code Index: 8
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -6,7 +6,7 @@
+   reg [1:0] counter;
+   reg pulse;
+   always @(posedge clk or negedge rst) begin
+-    if(!rst) begin
++    if (rst) begin
+       counter <= 2'b00;
+       pulse <= 1'b0;
+     end else begin
+
+--------------------------------------------------
+
+Code Index: 9
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -11,8 +11,11 @@
+       pulse <= 1'b0;
+     end else begin
+       counter <= counter + 1;
+-      pulse <= (counter == 2'b11);
++      if (counter == 2'b11)
++        pulse <= 1'b1;
++      else if (counter == 2'b00)
++        pulse <= 1'b0;
+     end
+   end
+   assign pulse_out = pulse;
+-endmodule 
++endmodule
+
+--------------------------------------------------
+
+Code Index: 10
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -8,18 +8,18 @@
+   output       full,
+   output       empty
+ );
+-  reg [7:0] [7:0][0:3] mem;
++  reg [7:0] mem [0:3];
+   reg [1:0] wr_ptr, rd_ptr;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       wr_ptr <= 2'b00;
+       rd_ptr <= 2'b00;
+     end else begin
+-      if (write_en && !full) begin
++      if (write_en &&!full) begin
+         mem[wr_ptr] <= data_in;
+         wr_ptr <= wr_ptr + 1;
+       end
+-      if (read_en && !empty) begin
++      if (read_en &&!empty) begin
+         rd_ptr <= rd_ptr + 1;
+       end
+     end
+
+--------------------------------------------------
+
+Code Index: 11
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -8,23 +8,23 @@
+   output       full,
+   output       empty
+ );
+-  reg [7:0] [][] mem;
++  reg [7:0] mem [][];
+   reg [1:0] wr_ptr, rd_ptr;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       wr_ptr <= 2'b00;
+       rd_ptr <= 2'b00;
+     end else begin
+-      if (write_en && !full) begin
++      if (write_en &&!full) begin
+         mem[wr_ptr] <= data_in;
+         wr_ptr <= wr_ptr + 1;
+       end
+-      if (read_en && !empty) begin
++      if (read_en &&!empty) begin
+         rd_ptr <= rd_ptr + 1;
+       end
+     end
+   end
+-  assign data_out = mem[rd_ptr];
++  assign data_out = mem[rd_ptr][0];
+   assign full = (wr_ptr == rd_ptr + 4);
+   assign empty = (wr_ptr == rd_ptr);
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 12
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -1,21 +1,8 @@
+-module medium_array_proc (
++module small_array_proc (
+   input        clk,
+   input        rst,
+   input  [7:0] data_in,
+   output [7:0] sum_out
+ );
+-  reg [7:0] [$:8] data_array;
++  reg [7:0] data_array [$:$];
+   reg [2:0] index;
+-  reg [7:0] sum;
+-  always @(posedge clk or posedge rst) begin
+-    if (rst) begin
+-      index <= 3'b000;
+-      sum <= 8'h00;
+-    end else begin
+-      data_array[index] <= data_in;
+-      index <= index + 1;
+-      sum <= sum + data_in;
+-    end
+-  end
+-  assign sum_out = sum;
+-endmodule
+
+--------------------------------------------------
+
+Code Index: 13
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,7 +4,7 @@
+   input  [7:0] data_in,
+   output [7:0] sum_out
+ );
+-  reg [7:0] [int] data_array;
++  reg [7:0] data_array[int];
+   reg [2:0] index;
+   reg [7:0] sum;
+   always @(posedge clk or posedge rst) begin
+
+--------------------------------------------------
+
+Code Index: 14
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,7 +4,7 @@
+   input  [3:0] data_in,
+   output [3:0] data_out
+ );
+-  reg [3:0] matrix [0:3][0:3];
++  reg [3:0] matrix [3:0][integer][$];
+   reg [1:0] row, col;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+
+--------------------------------------------------
+
+Code Index: 15
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,7 +4,7 @@
+   input  [3:0] data_in,
+   output [3:0] data_out
+ );
+-  reg [3:0] matrix [0:3][0:3];
++  reg [3:0] matrix[integer][0:3];
+   reg [1:0] row, col;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+
+--------------------------------------------------
+
+Code Index: 16
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,7 +4,7 @@
+   input  [2:0] select,
+   output [7:0] count_out
+ );
+-  reg [7:0] counters [0:7];
++  int counters [0:7];
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+       counters[0] <= 8'h00;
+@@ -21,3 +21,5 @@
+   end
+   assign count_out = counters[select];
+ endmodule
++
++variation_for_this_code
+
+--------------------------------------------------
+
+Code Index: 17
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,20 +4,20 @@
+   input  [2:0] select,
+   output [7:0] count_out
+ );
+-  reg [7:0] counters [0:7];
++  struct packed { logic [7:0] value; } counters[0:7];
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      counters[0] <= 8'h00;
+-      counters[1] <= 8'h00;
+-      counters[2] <= 8'h00;
+-      counters[3] <= 8'h00;
+-      counters[4] <= 8'h00;
+-      counters[5] <= 8'h00;
+-      counters[6] <= 8'h00;
+-      counters[7] <= 8'h00;
++      counters[0].value <= 8'h00;
++      counters[1].value <= 8'h00;
++      counters[2].value <= 8'h00;
++      counters[3].value <= 8'h00;
++      counters[4].value <= 8'h00;
++      counters[5].value <= 8'h00;
++      counters[6].value <= 8'h00;
++      counters[7].value <= 8'h00;
+     end else begin
+-      counters[select] <= counters[select] + 1;
++      counters[select].value <= counters[select].value + 1;
+     end
+   end
+-  assign count_out = counters[select];
++  assign count_out = counters[select].value;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 18
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -16,10 +16,10 @@
+     end
+   end
+   assign data_out = buffer[ptr];
+-  // Test case for array slice in inside operator
+-  wire test_result;
+-  
+-  // Example test condition: check if part of the array is inside the range
+-  assign test_result = (buffer[2:0] inside {3'b101, 3'b111});
+ 
++  // Add inside operator test
++  initial begin
++    if (buffer[0][3:0] inside {[4'b0000:4'b1111]})
++      $display("buffer[0][3:0] inside {[4'b0000:4'b1111]}");
++  end
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 19
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -16,26 +16,12 @@
+     end
+   end
+   assign data_out = buffer[ptr];
+-  // Test case for inside operator in if statement
+-  reg [7:0] test_value;
+-  reg if_result;
+-  
+-  // Example if statement using inside operator
+-  always @(*) begin
+-    if (test_value inside {8'd0, 8'd10, 8'd20, 8'd30, 8'd40}) begin
+-      if_result = 1'b1;
+-    end else begin
+-      if_result = 1'b0;
+-    end
++
++  // Match width with RST_X (1-bit)
++  localparam logic valuelist [0:3] = '{4'b0000, 4'b1111, 4'b0101, 4'b1010};
++
++  always @(posedge clk) begin
++    if (buffer[ptr] inside {valuelist})
++      $display("data_out = %b", data_out);
+   end
+-  
+-  // Nested if with inside operator
+-  always @(*) begin
+-    if (buffer[0] inside {8'd0, 8'd1}) begin
+-      if (buffer[1] inside {8'd2, 8'd3}) begin
+-        // Nested inside operations
+-      end
+-    end
+-  end
+-
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 20
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -1,10 +1,10 @@
+-module complex_matrix_proc (
++module complex_matrix_proc_dyn (
+   input        clk,
+   input        rst,
+   input  [7:0] data_in,
+   output [7:0] sum_out
+ );
+-  reg [7:0] matrix [0:3][0:3];
++  reg [7:0] matrix[][];
+   reg [1:0] row, col;
+   reg [7:0] sum;
+   always @(posedge clk or posedge rst) begin
+
+--------------------------------------------------
+
+Code Index: 21
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -1,23 +1,3 @@
+ module complex_matrix_proc (
+   input        clk,
+-  input        rst,
+-  input  [7:0] data_in,
+-  output [7:0] sum_out
+-);
+-  reg [7:0] matrix [0:3][0:3];
+-  reg [1:0] row, col;
+-  reg [7:0] sum;
+-  always @(posedge clk or posedge rst) begin
+-    if (rst) begin
+-      row <= 2'b00;
+-      col <= 2'b00;
+-      sum <= 8'h00;
+-    end else begin
+-      matrix[row][col] <= data_in;
+-      sum <= sum + data_in;
+-      col <= col + 1;
+-      if (col == 2'b11) row <= row + 1;
+-    end
+-  end
+-  assign sum_out = sum;
+-endmodule
++  input
+
+--------------------------------------------------
+
+Code Index: 22
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -1,3 +1,37 @@
++module complex_data_pipeline (
++  input        clk,
++  input        rst,
++  input  [7:0] data_in,
++  output [7:0] data_out
++);
++  reg [7:0] pipeline [7:0][int][$];
++  always @(posedge clk or posedge rst) begin
++    if (rst) begin
++      pipeline[0] <= 8'h00;
++      pipeline[1] <= 8'h00;
++      pipeline[2] <= 8'h00;
++      pipeline[3] <= 8'h00;
++      pipeline[4] <= 8'h00;
++      pipeline[5] <= 8'h00;
++      pipeline[6] <= 8'h00;
++      pipeline[7] <= 8'h00;
++    end else begin
++      pipeline[0] <= data_in;
++      pipeline[1] <= pipeline[0] + 1;
++      pipeline[2] <= pipeline[1] + 2;
++      pipeline[3] <= pipeline[2] + 3;
++      pipeline[4] <= pipeline[3] + 4;
++      pipeline[5] <= pipeline[4] + 5;
++      pipeline[6] <= pipeline[5] + 6;
++      pipeline[7] <= pipeline[6] + 7;
++    end
++  end
++  assign data_out = pipeline[7][0];
++endmodule
++
++### Now generate the variation for the following:
++
++base_code:
+ module complex_data_pipeline (
+   input        clk,
+   input        rst,
+@@ -12,11 +46,3 @@
+       pipeline[2] <= 8'h00;
+       pipeline[3] <= 8'h00;
+     end else begin
+-      pipeline[0] <= data_in;
+-      pipeline[1] <= pipeline[0] + 1;
+-      pipeline[2] <= pipeline[1] + 2;
+-      pipeline[3] <= pipeline[2] + 3;
+-    end
+-  end
+-  assign data_out = pipeline[3];
+-endmodule
+
+--------------------------------------------------
+
+Code Index: 23
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -19,10 +19,9 @@
+     end
+   end
+   assign data_out = pipeline[3];
+-  // Test case for array slice in inside operator
+-  wire test_result;
+-  
+-  // Example test condition: check if part of the array is inside the range
+-  assign test_result = (pipeline[2:0] inside {3'b101, 3'b111});
+-
++  // Added:
++  always @(posedge clk) begin
++    if (pipeline[0][3:0] inside {8'h01, 8'h02, 8'h03, 8'h04})
++      $display("pipeline[0][3:0] inside");
++  end
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 24
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,7 +4,7 @@
+   input  [7:0] data_in,
+   output [7:0] data_out
+ );
+-  reg [7:0] [int] array;
++  reg [7:0] array [int];
+   reg [1:0] index;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+@@ -24,3 +24,29 @@
+   end
+   assign data_out = array[0];
+ endmodule
++
++### Now generate the variation for the following:
++
++base_code:
++module complex_array_sorter (
++  input        clk,
++  input        rst,
++  input  [7:0] data_in,
++  output [7:0] data_out
++);
++  reg [7:0] array [0:3];
++  reg [1:0] index;
++  always @(posedge clk or posedge rst) begin
++    if (rst) begin
++      array[0] <= 8'h00;
++      array[1] <= 8'h00;
++      array[2] <= 8'h00;
++      array[3] <= 8'h00;
++      index <= 2'b00;
++    end else begin
++      array[index] <= data_in;
++      index <= index + 1;
++      if (index == 2'b11 && array[0] > array[1]) begin
++        array[0] <= array[1];
++        array[1] <= array[0];
++      end
+
+--------------------------------------------------
+
+Code Index: 25
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -4,23 +4,23 @@
+   input  [7:0] data_in,
+   output [7:0] data_out
+ );
+-  reg [7:0] array [0:3];
++  struct packed { logic [7:0] value; } array[0:3];
+   reg [1:0] index;
+   always @(posedge clk or posedge rst) begin
+     if (rst) begin
+-      array[0] <= 8'h00;
+-      array[1] <= 8'h00;
+-      array[2] <= 8'h00;
+-      array[3] <= 8'h00;
++      array[0].value <= 8'h00;
++      array[1].value <= 8'h00;
++      array[2].value <= 8'h00;
++      array[3].value <= 8'h00;
+       index <= 2'b00;
+     end else begin
+-      array[index] <= data_in;
++      array[index].value <= data_in;
+       index <= index + 1;
+-      if (index == 2'b11 && array[0] > array[1]) begin
+-        array[0] <= array[1];
+-        array[1] <= array[0];
++      if (index == 2'b11 && array[0].value > array[1].value) begin
++        array[0].value <= array[1].value;
++        array[1].value <= array[0].value;
+       end
+     end
+   end
+-  assign data_out = array[0];
++  assign data_out = array[0].value;
+ endmodule
+
+--------------------------------------------------
+
+Code Index: 26
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -15,11 +15,11 @@
+       head <= 3'b000;
+       tail <= 3'b000;
+     end else begin
+-      if (enq && !full) begin
++      if (enq &&!full) begin
+         queue[tail] <= data_in;
+         tail <= tail + 1;
+       end
+-      if (deq && !empty) begin
++      if (deq &&!empty) begin
+         head <= head + 1;
+       end
+     end
+@@ -27,26 +27,37 @@
+   assign data_out = queue[head];
+   assign full = (tail == head + 8);
+   assign empty = (tail == head);
+-  // Test case for inside operator in if statement
+-  reg [7:0] test_value;
+-  reg if_result;
+-  
+-  // Example if statement using inside operator
+-  always @(*) begin
+-    if (test_value inside {8'd0, 8'd10, 8'd20, 8'd30, 8'd40}) begin
+-      if_result = 1'b1;
+-    end else begin
+-      if_result = 1'b0;
+-    end
+-  end
+-  
+-  // Nested if with inside operator
+-  always @(*) begin
+-    if (queue[0] inside {8'd0, 8'd1}) begin
+-      if (queue[1] inside {8'd2, 8'd3}) begin
+-        // Nested inside operations
+-      end
+-    end
+-  end
+ 
++  // Add inside operator test
++  if (queue[head] inside {[8'h01:8'h0A]})
++    full <= 1'b1;
+ endmodule
++
++### Now generate the variation for the following:
++
++base_code:
++module tb_complex_queue_controller;
++  logic clk, rst, enq, deq;
++  logic [7:0] data_in, data_out;
++  logic full, empty;
++
++  complex_queue_controller dut (
++   .clk(clk),
++   .rst(rst),
++   .enq(enq),
++   .deq(deq),
++   .data_in(data_in),
++   .data_out(data_out),
++   .full(full),
++   .empty(empty)
++  );
++
++  initial begin
++    clk = 0;
++    rst = 1;
++    enq = 0;
++    deq = 0;
++    data_in = 8'h00;
++    #10;
++    rst = 0;
++    #
+
+--------------------------------------------------
+
+Code Index: 27
+Pass: No
+Differences:
+--- ground_truth
++++ generated
+@@ -15,11 +15,11 @@
+       head <= 3'b000;
+       tail <= 3'b000;
+     end else begin
+-      if (enq && !full) begin
++      if (enq &&!full) begin
+         queue[tail] <= data_in;
+         tail <= tail + 1;
+       end
+-      if (deq && !empty) begin
++      if (deq &&!empty) begin
+         head <= head + 1;
+       end
+     end
+@@ -27,13 +27,9 @@
+   assign data_out = queue[head];
+   assign full = (tail == head + 8);
+   assign empty = (tail == head);
+-  // Test case for inside operator in module scope
+-  reg [7:0] test_value;
+-  reg module_scope_result;
+-  
+-  // Example use of inside operator within module scope
+-  always @(*) begin
+-    module_scope_result = (test_value inside {8'd0, 8'd5, 8'd10});
++
++  // Add assertion for inside operator
++  initial begin
++    assert property (queue inside {[7'b00000000:7'b11111111]});
+   end
+-
+ endmodule
+
+--------------------------------------------------

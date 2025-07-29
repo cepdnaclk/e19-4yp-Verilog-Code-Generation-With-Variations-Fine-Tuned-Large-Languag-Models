@@ -1,0 +1,19 @@
+{
+  "task_name": "1_xform_reg_to_wire_2",
+  "complexity": "simple",
+  "xform_file": "codelama/1_xform_reg_to_wire_2.py",
+  "success": true,
+  "overall_score": 0.8149999999999998,
+  "scores": {
+    "syntactic_correctness": 1.0,
+    "semantic_correctness": 1.0,
+    "framework_compliance": 0.9999999999999999,
+    "code_style": 0.7,
+    "robustness": 1.0,
+    "maintainability": 0.7,
+    "innovation": 0.5,
+    "functional_correctness": 0.5
+  },
+  "errors": [],
+  "execution_time": 0.0
+}

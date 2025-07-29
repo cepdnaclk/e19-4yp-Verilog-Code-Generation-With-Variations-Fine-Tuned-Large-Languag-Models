@@ -1,6 +1,6 @@
 {
   "task_name": "module_name",
-  "generated_file": "codelama/2_simple_counter_renamed_f.v",
+  "generated_file": "2_simple_counter_renamed_f_2.v",
   "ground_truth_file": "2_simple_counter_renamed.v",
   "is_identical": true,
   "pass_at_1": 1.0,

@@ -1,0 +1,1 @@
+module ALU ( input [7:0] a, b, input pass, add,

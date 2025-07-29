@@ -1,0 +1,505 @@
+- code: |
+    module simple_counter (
+      input        clk,
+      input        rst,
+      input        enable,
+      output [7:0] count_out
+    );
+    
+      wire [7:0] count;
+    
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          count <= 8'h00;
+        end else if (enable) begin
+          count <= count + 1;
+        end
+      end
+    
+      assign count_out = count;
+    
+    endmodule
+
+- code: |
+    module simple_counter (
+      input        clk,
+      input        rst,
+      input        enable,
+      output [7:0] count_out
+    );
+    
+      reg [7:0] count;
+    
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          count <= 8'h00;
+        end else if (enable) begin
+          count <= count + 1;
+          repeat (8) begin
+            if (count > 8'h7F) begin
+              count <= 8'h00;
+            end
+          end
+        end
+      end
+    
+      assign count_out = count;
+    
+    endmodule
+
+- code: |
+    module simple_shift_reg (
+      input        clk,
+      input        rst,
+      input        data_in,
+      output [7:0] data_shifted
+    );
+      reg [7:0] shift_reg;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          shift_reg <= 8'h00;
+        end else begin
+
+- code: |
+    module simple_shift_reg (
+      input        clk,
+      input        rst,
+      input        data_in,
+      output [7:0] shift_out
+    );
+      reg [7:0] shift_reg;
+      always @(posedge clk or negedge rst) begin
+        if (rst) begin
+
+- code: |
+    module simple_updown_counter (
+      input        clk,
+      input        rst,
+      input        up_down,
+      output [7:0] count_
+
+- code: |
+    module advanced_updown_counter (
+      input        clk,
+      input        rst,
+      input        up_down,
+
+- code: |
+    module simple_toggle_ff (
+      input  clk,
+      input  rst,
+      input  enable,
+      output toggle_
+
+- code: |
+    module simple_toggle_ff (
+      input  clk,
+      input  rst,
+      input  enable,
+      output flip_out
+    );
+      reg toggle_reg;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          toggle_reg <= 1'b0;
+        end else if (enable) begin
+          toggle_reg <= ~toggle_reg;
+        end
+      end
+      assign flip_out = toggle_reg;
+    endmodule
+    
+- code: |
+    module simple_pulse_gen (
+      input  clk,
+      input  rst,
+      output pulse_out
+    );
+      reg [1:0] counter;
+      reg pulse;
+      always @(posedge clk or negedge rst) begin
+        if (!rst) begin
+          counter <= 2'b00;
+          pulse <= 1'
+
+- code: |
+    module simple_pulse_gen (
+      input  clk,
+      input  rst,
+      output logic pulse_out
+    );
+      logic [1:0] counter;
+      reg pulse;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          counter <= 2'b00;
+          pulse <= 1'b0;
+        end else begin
+          counter <= counter + 1;
+          pulse <= (counter == 2'b11);
+        end
+      end
+      assign pulse_out = pulse;
+    endmodule
+    
+
+- code: |
+    module medium_fifo (
+      input        clk,
+      input        rst,
+      input        write_en,
+      input        read_en,
+      input  [7:0] data_in,
+      output [7:0] data_out,
+      output       full,
+      output       empty
+    );
+      reg [7:0] mem [0:3];
+      reg [1:0] wr_ptr, rd_ptr;
+      logic [7:0] packed_array [3:0];
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          wr_ptr <= 2'b00;
+
+- code: |
+    module medium_fifo (
+      input        clk,
+      input        r
+
+- code: |
+    module medium_array_proc (
+      input        clk,
+      input        rst,
+      input  [7:0] data_in,
+      output [7:0] sum_out
+    );
+      reg [7:0] data_array [$:7];
+      reg [2:0] index;
+      reg [7:0] sum;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          index <= 3'b000;
+          sum <= 8'h00;
+        end else begin
+          data_array[index] <= data_in;
+          index <= index + 1;
+          sum <= sum + data_in;
+        end
+      end
+      assign sum_out = sum;
+    endmodule
+
+- code: |
+    module medium_array_proc (
+      input        clk,
+      input        rst,
+      input  [7:0] data_in,
+      output [7:0] sum_out
+    );
+      reg [7:0] data_array [int];
+      reg [2:0] index;
+      reg [7:0] sum;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          index <= 3'b000;
+          sum <= 8'h00;
+        end else begin
+          data_array[index] <= data_in;
+          index <= index + 1;
+          sum <= sum + data_in;
+        end
+      end
+      assign sum_out = sum;
+    endmodule
+    
+- code: |
+    module medium_shift_matrix (
+      input        clk,
+      input        rst,
+      input  [3:0] data_in,
+      output [3:0] data_out
+    );
+      reg [3:0] matrix [3:0][integer][$];
+      reg [1:0] row, col;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          row <= 2'b00;
+          col <= 2'b00;
+        end else begin
+          matrix[row][col] <= data_in;
+          col <= col + 1;
+          if (col == 2'b11) row <= row + 1;
+        end
+      end
+      assign data_out = matrix[3][3][3];
+    endmodule
+    
+
+- code: |
+    module medium_shift_matrix (
+      input        clk,
+      input        rst,
+      input  [3:0] data_in,
+      output [3:0] data_out
+    );
+      reg [3:0] matrix [0:3][0:3];
+      reg [1:0] row, col;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          row <= 2'b00;
+          col <= 2'b00;
+        end else begin
+          matrix[row][col] <= data_in;
+          col <= col + 1;
+          if (col == 2'b11) row <= row + 1;
+        end
+      end
+      assign data_out = matrix[3][3];
+    endmodule
+    
+- code: |
+    module medium_counter_array (
+      input        clk,
+      input        rst,
+      input  [2:0] select,
+      output [7:0] count_out
+    );
+      int counters [0:7];
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          counters[0] <= 8'h00;
+          counters[1] <= 8'h00;
+          counters[2] <= 8'h00;
+          counters[3] <= 8'h00;
+          counters[4] <= 8'h00;
+          counters[5] <= 8'h00;
+          counters[6] <= 8'h00;
+          counters[7] <= 8'h00;
+        end else begin
+          counters[select] <= counters[select] + 1;
+        end
+      end
+      assign count_out = counters[select];
+    endmodule
+    
+- code: |
+    module medium_counter_array (
+      input        clk,
+      input        rst,
+      input  [2:0] select,
+      output [7:0] count_out
+    );
+      struct packed { logic [7:0] value; } counters [0:7];
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          counters[0].value <= 8'h00;
+          counters[1].value <= 8'h00;
+          counters[2].value <= 8'h00;
+          counters[3].value <= 8'h00;
+          counters[4].value <= 8'h00;
+          counters[5].value <= 8'h00;
+          counters[6].value <= 8'h00;
+          counters[7].value <= 8'h00;
+        end else begin
+          counters[select].value <= counters[select].value + 1;
+        end
+      end
+      assign count_out = counters[select].value;
+    endmodule
+    
+- code: |
+    module medium_data_buffer (
+      input        clk,
+      input        rst,
+      input        write_en,
+      input  [7:0] data_in,
+      output [7:0] data_out
+    );
+      reg [7:0] buffer [0:3];
+      reg [1:0] ptr;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          ptr <= 2'b00;
+        end else if (write_en) begin
+          buffer[ptr] <= data_in;
+          ptr <= ptr + 1;
+        end
+      end
+      assign data_out = buffer[ptr];
+      // Add an `inside` operator test for a slice of `buffer`
+      initial begin
+        if (buffer[0][3:0] inside {4'b0000, 4'b0001, 4'b0010, 4'b0011, 4'b0100, 4'b0101, 4'b01
+
+- code: |
+    module tb_TOP1();
+        reg CLK, RST_X;
+
+- code: |
+    module complex_matrix_proc (
+      input        clk,
+      input        rst,
+      input  [7:0] data_in,
+      output [7:0] sum_out
+    );
+      reg [7:0] matrix [][] ;
+      reg [1:0] row, col;
+      reg [7:0] sum;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          row <= 2'b00;
+          col <= 2'b0
+
+- code: |
+    module complex_matrix_proc (
+      input        clk,
+      input        rst,
+      input  [7:0] data_in,
+      output [7:0] sum_out
+    );
+      reg [7:0] matrix [0:3][0:3];
+      reg [1:0] row, col;
+      reg [7:0] sum;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          row <= 2'b00;
+          col <= 2'b00;
+          sum <= 8'h00;
+        end else begin
+          matrix[row][col] <= data_in;
+          sum <= sum + data_in;
+          col <= col + 1;
+          if (col == 2'b11) row <= row + 1;
+        end
+      end
+
+- code: |
+    module complex_data_pipeline (
+      input        clk,
+      input
+
+- code: |
+    module complex_data_pipeline (
+      input        clk,
+      input
+
+- code: |
+    module complex_array_sorter (
+      input        clk,
+      input        rst,
+      input  [7:0] data_in,
+      output [7:0] data_out
+    );
+      reg [7:0] array [time];
+      reg [1:0] index;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          array[0] <= 8'h00;
+          array[1] <= 8'h00;
+          array[2] <= 8'h00;
+          array[3] <= 8'h00;
+          index <= 2'b00;
+        end else begin
+          array[index] <= data_in;
+          index <= index + 1;
+          if (index == 2'b11 && array[0] > array[1]) begin
+            array[0] <= array[1];
+            array[1] <= array[0];
+          end
+        end
+      end
+      assign data_out = array[0];
+    endmodule
+
+- code: |
+    module complex_array_sorter (
+      input        clk,
+      input        rst,
+      input  [7:0] data_in,
+      output [7:0] data_out
+    );
+      logic [7:0] array [0:3];
+      reg [1:0] index;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          array[0] <= 8'h00;
+          array[1] <= 8'h00;
+          array[2] <= 8'h00;
+          array[3] <= 8'h00;
+          index <= 2'b00;
+        end else begin
+          array[index] <= data_in;
+          index <= index + 1;
+          if (index == 2'b11 && array[0] > array[1]) begin
+            array[0] <= array[1];
+            array[1] <= array[0];
+          end
+        end
+      end
+      assign data_out = array[0];
+    endmodule
+
+
+- code: |
+    module complex_queue_controller (
+      input        clk,
+      input        rst,
+      input        enq,
+      input        deq,
+      input  [7:0] data_in,
+      output [7:0] data_out,
+      output       full,
+      output       empty
+    );
+      reg [7:0] queue [0:7];
+      reg [2:0] head, tail;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          head <= 3'b000;
+          tail <= 3'b000;
+        end else begin
+          if (enq &&!full) begin
+            queue[tail] <= data_in;
+            tail <= tail + 1;
+          end
+          if (deq &&!empty) begin
+            head <= head + 1;
+          end
+        end
+      end
+      assign data_out = queue[head];
+      assign full = (tail
+
+- code: |
+    module complex_queue_controller (
+      input        clk,
+      input        rst,
+      input        enq,
+      input        deq,
+      input  [7:0] data_in,
+      output [7:0] data_out,
+      output       full,
+      output       empty
+    );
+      reg [7:0] queue [0:7];
+      reg [2:0] head, tail;
+      always @(posedge clk or posedge rst) begin
+        if (rst) begin
+          head <= 3'b000;
+          tail <= 3'b000;
+        end else begin
+          if (enq &&!full) begin
+            queue[tail] <= data_in;
+            tail <= tail + 1;
+          end
+          if (deq &&!empty) begin
+            head <= head + 1;
+          end
+        end
+      end
+      assign data_out = queue[head];
+      assign full = (tail == head + 8);
+      assign empty = (tail == head);
+    
+      // Assertion to check if queue is inside a valid range
+      assert property (queue inside {[0:255]});
+    endmodule
